@@ -16,7 +16,8 @@ use App\Http\Middleware\AuthUser;
 
 
 Route::get('/', [JobListingController::class, 'index']);
-//->middleware(AuthUser::class, 'handle');
+//->middleware(['auth', 'employer']);
+//  ->middleware(AuthUser::class, 'handle');
 Route::resource('job-listings', JobListingController::class);
 
 Route::resource('/employer', JobListingsEmployer::class);
