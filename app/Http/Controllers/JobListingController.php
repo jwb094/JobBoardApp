@@ -4,20 +4,41 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\JobListings;
+use App\Models\Category;
 
 class JobListingController extends Controller
 {
+
+    protected JobListings $jobListings;
+    protected Category $categories;
+    public function __construct(JobListings $jobListingsModel, Category $categoryModel)
+    {
+        $this->jobListings = $jobListingsModel;
+        $this->categories = $categoryModel;
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
 
-        //$query = JobListings::getLatestJobs();
+        $query = $this->jobListings->getLatestJobs();
 
+        //if search
+        if (isset($request)) {
+            $query = $this->jobListings->filterSearch($query, $request);
+        }
 
-        return view('home');
+        //dd($query);
+        //default loading homepage
+        if (empty($request)) {
+            $query->take(10);
+        }
+
+        $jobListings = $query;
+
+        return view('home', [$jobListings]);
     }
 
     /**
@@ -26,6 +47,8 @@ class JobListingController extends Controller
     public function create()
     {
         //
+        $categories = $this->categories::all();
+        return view('job_listings.create', compact('categories'));
     }
 
     /**
@@ -34,6 +57,8 @@ class JobListingController extends Controller
     public function store(Request $request)
     {
         //
+
+        return view('job_listings.dashboard');
     }
 
     /**
@@ -43,8 +68,9 @@ class JobListingController extends Controller
     {
         //
 
-        //$jobDesc = JobListing::findOrFail($id);
-        //return view('job',compact('jobDesc'))
+        $jobDesc = $this->jobListings::findOrFail($id);
+
+        return view('job_listings.dashboard', compact('jobDesc'));
     }
 
     /**
@@ -53,6 +79,9 @@ class JobListingController extends Controller
     public function edit(string $id)
     {
         //
+        $jobDesc = $this->jobListings::findOrFail($id);
+        $categories = $this->categories::all();
+        return view('job', compact($jobDesc,  $categories));
     }
 
     /**
@@ -61,7 +90,8 @@ class JobListingController extends Controller
     public function update(Request $request, string $id)
     {
         //
-        return redirect('/dashboard');
+
+        return view('job_listings.dashboard', compact('jobDesc'));
     }
 
     /**
@@ -70,7 +100,8 @@ class JobListingController extends Controller
     public function destroy(string $id)
     {
         //
-
+        $jobDesc = $this->jobListings::find($id);
+        $jobDesc->delete();
         return redirect('/dashboard');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\JobListingsUsers;
 
 class JobListingsEmployer extends Controller
 {
@@ -44,6 +45,7 @@ class JobListingsEmployer extends Controller
     public function edit(string $id)
     {
         //
+        $user = $this->jobListingsUsers::findOrFail($id);
     }
 
     /**
@@ -60,5 +62,9 @@ class JobListingsEmployer extends Controller
     public function destroy(string $id)
     {
         //
+        $user = $this->jobListingsUsers::find($id);
+        $user->delete();
+        //need to delete session
+        return view('home');
     }
 }

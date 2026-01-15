@@ -3,15 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\JobListingsUsers;
 
 class JobListingsUser extends Controller
 {
+
+    protected JobListingsUsers $jobListingsUsers;
+    public function __construct(JobListingsUsers $JobListingsUsersModel)
+    {
+        $this->jobListingsUsers = $JobListingsUsersModel;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //
+        //$user = $this->jobListingsUsers::findOrFail()
+
+        return view('user.dashboard');
     }
 
     /**
@@ -36,6 +46,8 @@ class JobListingsUser extends Controller
     public function show(string $id)
     {
         //
+
+        return view('user.show');
     }
 
     /**
@@ -44,6 +56,8 @@ class JobListingsUser extends Controller
     public function edit(string $id)
     {
         //
+        $user = $this->jobListingsUsers::findOrFail($id);
+        return view('user.edit', $user);
     }
 
     /**
@@ -60,5 +74,9 @@ class JobListingsUser extends Controller
     public function destroy(string $id)
     {
         //
+        $user = $this->jobListingsUsers::find($id);
+        $user->delete();
+        //need to delete session
+        return view('home');
     }
 }
