@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\JobListings;
 
 class JobListingController extends Controller
 {
@@ -12,6 +13,9 @@ class JobListingController extends Controller
     public function index()
     {
         //
+
+        //$query = JobListings::getLatestJobs();
+
 
         return view('home');
     }
@@ -38,6 +42,9 @@ class JobListingController extends Controller
     public function show(string $id)
     {
         //
+
+        //$jobDesc = JobListing::findOrFail($id);
+        //return view('job',compact('jobDesc'))
     }
 
     /**
@@ -54,6 +61,7 @@ class JobListingController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        return redirect('/dashboard');
     }
 
     /**
@@ -62,5 +70,7 @@ class JobListingController extends Controller
     public function destroy(string $id)
     {
         //
+
+        return redirect('/dashboard');
     }
 }
