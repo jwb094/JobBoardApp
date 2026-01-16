@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Applications;
 
 
-class JobListings extends Model
+class JobListing extends Model
 {
     /** @use HasFactory<\Database\Factories\JobsListingsFactory> */
     use hasFactory;

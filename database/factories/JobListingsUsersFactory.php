@@ -3,11 +3,11 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\JobListingsUsers;
+use App\Models\JobListingsUser;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\JobListingsUsers>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\JobListingsUser>
  */
 class JobListingsUsersFactory extends Factory
 {
@@ -16,7 +16,7 @@ class JobListingsUsersFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    protected $model = JobListingsUsers::class;
+    protected $model = JobListingsUser::class;
     public function definition(): array
     {
         return [

@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SavedJobListings extends Model
+class SavedJobListing extends Model
 {
     use HasFactory;
 
@@ -15,11 +16,11 @@ class SavedJobListings extends Model
 
     public function user()
     {
-        return $this->belongsTo(JobListingsUsers::class);
+        return $this->belongsTo(JobListingsUser::class);
     }
 
     public function jobListing()
     {
-        return $this->belongsTo(JobListings::class);
+        return $this->belongsTo(JobListing::class);
     }
 }

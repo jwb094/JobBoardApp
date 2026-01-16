@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Applications extends Model
+class Application extends Model
 {
+    /** @use HasFactory<\Database\Factories\> */
+    use HasFactory;
     protected $fillable = [
         'job_listing_id',
         'user_id',
@@ -16,11 +19,11 @@ class Applications extends Model
 
     public function jobListing()
     {
-        return $this->belongsTo(JobListings::class);
+        return $this->belongsTo(JobListing::class);
     }
 
     public function applicant()
     {
-        return $this->belongsTo(JobListingsUsers::class, 'job_listings_user_id');
+        return $this->belongsTo(JobListingsUser::class, 'job_listings_user_id');
     }
 }
