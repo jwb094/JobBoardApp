@@ -5,11 +5,16 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Auth;
 use App\Models\JobListingsUser;
 
-class AuthUser
+class IsUser
 {
+    protected JobListingsUser $JobListingsUser;
+    public function __construct(JobListingsUser $jobListingsUserModel)
+
+    {
+        $this->JobListingsUser = $jobListingsUserModel;
+    }
     /**
      * Handle an incoming request.
      *
@@ -17,11 +22,13 @@ class AuthUser
      */
     public function handle(Request $request, Closure $next): Response
     {
+        dd($this->JobListingsUser->isApplicant());
 
-        if (!auth()->check() || !auth()->user()->isEmployer()) {
-            abort(403, 'Only employers can access this resource.');
+
+
+        if (!auth()->check() || $this->JobListingsUser->isApplicant()) {
+            abort(403, 'User access only.');
         }
-
         return $next($request);
     }
 }
