@@ -8,6 +8,8 @@ use App\Http\Controllers\JobListingsUser;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\SavedJobListingController;
 use App\Http\Middleware\AuthUser;
+use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\IsUser;
 
 
 // Route::get('/', function () {
@@ -16,12 +18,36 @@ use App\Http\Middleware\AuthUser;
 
 
 Route::get('/', [JobListingController::class, 'index']);
+Route::get('/job/{id}', [JobListingController::class, 'show']);
+
+Route::resource('/user/login', JobListingsUser::class);
+//->middleware(IsUser::class);
+Route::resource('/saved-job', SavedJobListingController::class);
+Route::resource('/user/dashboard', JobListingsEmployer::class);
+Route::resource('/user/new', JobListingsEmployer::class);
+Route::resource('/user/save', JobListingsEmployer::class);
+Route::resource('/user/delete', JobListingsEmployer::class);
+Route::resource('/user/edit', JobListingsEmployer::class);
+
+// Route::get('/', [JobListingController::class, 'index']);
+// Route::get('/', [JobListingController::class, 'index']);
+
 //->middleware(['auth', 'employer']);
 //  ->middleware(AuthUser::class, 'handle');
-Route::resource('job-listings', JobListingController::class);
+//Route::resource('job-listings', JobListingController::class);
 
-Route::resource('/employer', JobListingsEmployer::class);
-Route::resource('/admin', JobListingsAdmin::class);
+Route::resource('/employer/login', JobListingsEmployer::class);
+Route::resource('/employer/dashboard', JobListingsEmployer::class);
+Route::resource('/employer/new', JobListingsEmployer::class);
+Route::resource('/employer/save', JobListingsEmployer::class);
+Route::resource('/employer/delete', JobListingsEmployer::class);
+Route::resource('/employer/edit', JobListingsEmployer::class);
+//->middleware(AuthUser::class, 'handle');
+Route::resource('/admin/login', JobListingsAdmin::class);
+Route::resource('/admin/dashboard', JobListingsEmployer::class);
+Route::resource('/admin/new', JobListingsAdmin::class);
+Route::resource('/admin/save', JobListingsAdmin::class);
+Route::resource('/admin/delete', JobListingsAdmin::class);
+Route::resource('/admin/edit', JobListingsAdmin::class);
+//->middleware(AuthUser::class, 'checkAdmin');
 Route::resource('/application', ApplicationController::class);
-Route::resource('/user', JobListingsUser::class);
-Route::resource('/saved-job', SavedJobListingController::class);
