@@ -23,7 +23,7 @@ class JobListingSeeder extends Seeder
 
         // 3️⃣ Job Listings (Employers + Categories must exist)
         $JobListing = JobListing::factory()
-            ->count(1)
+            ->count(60)
             ->create();
     }
 }
