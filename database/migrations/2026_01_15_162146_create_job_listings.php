@@ -11,8 +11,8 @@ return new class extends Migration {
             $table->id();
 
             // Employer
-            $table->foreignId('user_id')
-                ->constrained()
+            $table->foreignId('job_listings_users_user_id')
+                ->constrained('job_listings_users')
                 ->cascadeOnDelete();
 
             $table->foreignId('category_id')
