@@ -3,9 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\JobListingsUser;
 
 class JobListingsAdmin extends Controller
 {
+
+    protected JobListingsUser $JobListingsUser;
+    public function __construct(JobListingsUser $jobListingsUserModel)
+
+    {
+        $this->JobListingsUser = $jobListingsUserModel;
+    }
     /**
      * Display a listing of the resource.
      */

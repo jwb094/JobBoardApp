@@ -3,11 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\JobListingsUsers;
+use App\Models\JobListingsUser;
 
 class JobListingsEmployer extends Controller
 {
-    /**
+
+    protected JobListingsUser $JobListingsUser;
+    public function __construct(JobListingsUser $jobListingsUserModel)
+    {
+        $this->JobListingsUser = $jobListingsUserModel;
+    }
+
+    /** 
      * Display a listing of the resource.
      */
     public function index()
@@ -45,7 +52,7 @@ class JobListingsEmployer extends Controller
     public function edit(string $id)
     {
         //
-        $user = $this->jobListingsUsers::findOrFail($id);
+        $user = $this->JobListingsUser::findOrFail($id);
     }
 
     /**
@@ -62,7 +69,7 @@ class JobListingsEmployer extends Controller
     public function destroy(string $id)
     {
         //
-        $user = $this->jobListingsUsers::find($id);
+        $user = $this->JobListingsUser::find($id);
         $user->delete();
         //need to delete session
         return view('home');

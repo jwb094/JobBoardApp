@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\JobListings;
+use App\Models\JobListing;
 use App\Models\Category;
 
 class JobListingController extends Controller
 {
 
-    protected JobListings $jobListings;
+    protected JobListing $jobListing;
     protected Category $categories;
-    public function __construct(JobListings $jobListingsModel, Category $categoryModel)
+    public function __construct(JobListing $jobListingsModel, Category $categoryModel)
     {
-        $this->jobListings = $jobListingsModel;
+        $this->jobListing = $jobListingsModel;
         $this->categories = $categoryModel;
     }
 
@@ -23,21 +23,21 @@ class JobListingController extends Controller
     public function index(Request $request)
     {
 
-        $query = $this->jobListings->getLatestJobs();
+        $query = JobListing::with('category', 'employer')->where('status', 'open');
 
-        //if search
-        if (isset($request)) {
-            $query = $this->jobListings->filterSearch($query, $request);
+        if ($request->search) {
+            // dd($request->search);
+            $query->Where('title', 'like', '%' . $request->search . '%');
         }
 
-        //dd($query);
-        //default loading homepage
-        if (empty($request)) {
-            $query->take(10);
+        if ($request->category_id) {
+            $query->orWhere('category_id', $request->category_id);
         }
 
-        $jobListings = $query;
 
+        $jobListings = $query->latest()->paginate(10);
+
+        dd($jobListings);
         return view('home', [$jobListings]);
     }
 
@@ -66,11 +66,10 @@ class JobListingController extends Controller
      */
     public function show(string $id)
     {
-        //
 
-        $jobDesc = $this->jobListings::findOrFail($id);
+        $job = $this->jobListing::findOrFail($id);
 
-        return view('job_listings.dashboard', compact('jobDesc'));
+        return view('job_listings.jobpage', ['job' => $job]);
     }
 
     /**
@@ -79,9 +78,9 @@ class JobListingController extends Controller
     public function edit(string $id)
     {
         //
-        $jobDesc = $this->jobListings::findOrFail($id);
+        $job = $this->jobListing::findOrFail($id);
         $categories = $this->categories::all();
-        return view('job', compact($jobDesc,  $categories));
+        return view('job', ['job' => $job,  'categories' => $categories]);
     }
 
     /**
@@ -100,7 +99,7 @@ class JobListingController extends Controller
     public function destroy(string $id)
     {
         //
-        $jobDesc = $this->jobListings::find($id);
+        $jobDesc = $this->jobListing::find($id);
         $jobDesc->delete();
         return redirect('/dashboard');
     }

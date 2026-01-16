@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\JobListingsUsers;
+use App\Models\JobListingsUser as JLUser;
 
 class JobListingsUser extends Controller
 {
 
-    protected JobListingsUsers $jobListingsUsers;
-    public function __construct(JobListingsUsers $JobListingsUsersModel)
+    protected JLUser $JobListingsUser;
+    public function __construct(JLUser $jobListingsUserModel)
     {
-        $this->jobListingsUsers = $JobListingsUsersModel;
+        $this->JobListingsUser = $jobListingsUserModel;
     }
     /**
      * Display a listing of the resource.
