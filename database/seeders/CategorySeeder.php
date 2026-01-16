@@ -13,10 +13,10 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-
+        Category::truncate();
         // // 2️⃣ Categories
         $categories = Category::factory()
-            ->count(10)
+            ->count(20)
             ->create();
     }
 }
