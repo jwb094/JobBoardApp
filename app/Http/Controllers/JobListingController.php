@@ -23,23 +23,27 @@ class JobListingController extends Controller
      */
     public function index(Request $request)
     {
+        $categories = $this->categories::all();
+        //dd($request->search);
+        $query = JobListing::with('category', 'employer')
+            ->where('status', 'open');
 
-        $query = JobListing::with('category', 'employer')->where('status', 'open');
-
-        if ($request->search) {
+        if (!empty($request->search)) {
             // dd($request->search);
-            $query->Where('title', 'like', '%' . $request->search . '%');
+            $query->when($request->search, fn($q) => $q->orWhere('title', $request->search));
+            // $query->Where('title', 'like', '%' . $request->search . '%');
         }
 
-        if ($request->category_id) {
-            $query->orWhere('category_id', $request->category_id);
+        if ($request->category) {
+            // $query->orWhere('category_id', 'like', '%' . $request->category_id . '%');
+            $query->when($request->category, fn($q) => $q->where('category_id', $request->category));
         }
 
 
         $jobListings = $query->latest()->paginate(10);
 
         //dd($jobListings);
-        return view('home', [$jobListings]);
+        return view('home', ['categories' => $categories, 'jobListings' => $jobListings]);
     }
 
     /**
@@ -49,7 +53,7 @@ class JobListingController extends Controller
     {
         //
         $categories = $this->categories::all();
-        return view('job_listings.create', compact('categories'));
+        return view('joblistings.create', compact('categories'));
     }
 
     /**
@@ -88,7 +92,7 @@ class JobListingController extends Controller
 
         $job = $this->jobListing::findOrFail($id);
 
-        return view('job_listings.jobpage', ['job' => $job]);
+        return view('joblistings.jobpage', ['job' => $job]);
     }
 
     /**
