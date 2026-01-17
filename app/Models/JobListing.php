@@ -19,6 +19,8 @@ class JobListing extends Model
         'title',
         'slug',
         'description',
+        'skillset_About',
+        'benefits',
         'location',
         'job_type',
         'salary_min',
@@ -33,7 +35,7 @@ class JobListing extends Model
 
     public function employer()
     {
-        return $this->belongsTo(JobListingsUsers::class, 'job_listings_user_id');
+        return $this->belongsTo(JobListingsUser::class, 'job_listings_user_id');
     }
 
     public function category()
@@ -43,7 +45,7 @@ class JobListing extends Model
 
     public function applications()
     {
-        return $this->hasMany(Applications::class);
+        return $this->hasMany(Application::class);
     }
 
 
@@ -51,7 +53,7 @@ class JobListing extends Model
     {
 
 
-        return $this->where('status', 'open');;
+        return $this::with('category', 'employer')->where('status', 'open')->orderBy('created_by', 'ASC');
     }
 
 
