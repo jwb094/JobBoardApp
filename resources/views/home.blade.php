@@ -58,7 +58,7 @@
                 {{-- <span class="bg-brand-softer border border-brand-subtle text-fg-brand-strong text-xs font-medium px-1.5 py-0.5 rounded-sm">4.8 out of 5</span> --}}
                 <h3 class="mb-3 text-2xl font-semibold tracking-tight text-heading leading-8">{{ $jobListing->title }}</h3>
                 <h6>{{ $jobListing->category->name }} | {{ $jobListing->category->id }}</h6>
-                <span class="bg-success-soft text-fg-success-strong text-xs font-medium px-1.5 py-0.5 rounded bg-green-300">£{{ $jobListing->salary_min }} - £{{ $jobListing->salary_max }}</span>
+                <i class="fa-solid fa-money-bill"></i><span class="bg-success-soft text-fg-success-strong text-xs font-medium px-1.5 py-0.5 rounded bg-green-300">£{{ $jobListing->salary_min }} - £{{ $jobListing->salary_max }}</span>
                 <p class="text-body">{{ $jobListing->job_type }}</p>
                 <p class="text-body">{{ $jobListing->location }}</p>
             </a>
