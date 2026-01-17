@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\JobListing;
 use App\Models\Category;
+use Illuminate\Support\Str;
 
 class JobListingController extends Controller
 {
@@ -37,7 +38,7 @@ class JobListingController extends Controller
 
         $jobListings = $query->latest()->paginate(10);
 
-        dd($jobListings);
+        //dd($jobListings);
         return view('home', [$jobListings]);
     }
 
@@ -57,6 +58,24 @@ class JobListingController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->validate([
+            'category_id'   => 'required|exists:categories,id',
+            'title'         => 'required|string|max:255',
+            'description'   => 'required|string',
+            'skillset_About' => 'required|string',
+            'benefits'      => 'required|string',
+            'location'      => 'required|string',
+            'job_type'      => 'required',
+            'salary_min'    => 'nullable|integer',
+            'salary_max'    => 'nullable|integer',
+            'expires_at'    => 'nullable|date',
+        ]);
+
+        $data['user_id'] = auth()->id();
+        $data['slug'] = Str::slug($data['title']);
+
+
+        JobListing::create($data);
 
         return view('job_listings.dashboard');
     }
@@ -89,6 +108,19 @@ class JobListingController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $data = $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'title'       => 'required|string|max:255',
+            'description'   => 'required|string',
+            'skillset_About' => 'required|string',
+            'benefits'      => 'required|string',
+            'location'    => 'required|string',
+            'job_type'    => 'required',
+            'salary_min'  => 'nullable|integer',
+            'salary_max'  => 'nullable|integer',
+            'expires_at'  => 'nullable|date',
+        ]);
+
 
         return view('job_listings.dashboard', compact('jobDesc'));
     }
