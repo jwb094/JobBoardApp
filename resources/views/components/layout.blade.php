@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="{{ asset('assets/app.css') }}">
     <link href=" {{ asset('css/mycss.css') }}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+
     <!-- Styles / Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
