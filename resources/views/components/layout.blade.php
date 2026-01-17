@@ -10,6 +10,7 @@
     {{-- <link rel="stylesheet" href="{{ URL::asset('resources/css/app.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('resources/css/main.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/app.css') }}">
     <link href=" {{ asset('css/mycss.css') }}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Styles / Scripts -->
