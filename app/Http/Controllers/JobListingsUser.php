@@ -38,6 +38,19 @@ class JobListingsUser extends Controller
     public function store(Request $request)
     {
         //
+
+        $data = $request->validate([
+            'first_name'   => 'required|exists:categories,id',
+            'last_name'         => 'required|string|max:255',
+            'email'   => 'required',
+            'password' => 'required',
+        ]);
+
+        $data['user_id'] = auth()->id();
+        $data['slug'] = Str::slug($data['title']);
+
+
+        $this->JobListingsUser::create($data);
     }
 
     /**
@@ -56,7 +69,7 @@ class JobListingsUser extends Controller
     public function edit(string $id)
     {
         //
-        $user = $this->jobListingsUsers::findOrFail($id);
+        $user = $this->JobListingsUser::findOrFail($id);
         return view('user.edit', $user);
     }
 
@@ -74,7 +87,7 @@ class JobListingsUser extends Controller
     public function destroy(string $id)
     {
         //
-        $user = $this->jobListingsUsers::find($id);
+        $user = $this->JobListingsUser::find($id);
         $user->delete();
         //need to delete session
         return view('home');
