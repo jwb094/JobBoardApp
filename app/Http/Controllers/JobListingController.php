@@ -52,7 +52,7 @@ class JobListingController extends Controller
     public function create()
     {
         //
-        $categories = $this->categories::all();
+        $categories = $this->categories::with('category')::all();
         return view('joblistings.create', compact('categories'));
     }
 
