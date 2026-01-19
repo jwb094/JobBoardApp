@@ -22,10 +22,6 @@ class IsUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        dd($this->JobListingsUser->isApplicant());
-
-
-
         if (!auth()->check() || $this->JobListingsUser->isApplicant()) {
             abort(403, 'User access only.');
         }
