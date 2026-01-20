@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('job_listings_users', function (Blueprint $table) {
 
-            $table->string('password_hash');
+            $table->string('password_hash')->nullable();
         });
     }
 
