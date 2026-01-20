@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\JobListingsUser as JLUser;
+use App\Models\SavedJob;
+use App\Models\Application;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
@@ -12,9 +14,13 @@ class JobListingsUser extends Controller
 {
 
     protected JLUser $JobListingsUser;
-    public function __construct(JLUser $jobListingsUserModel)
+    protected SavedJob $savedJobListing;
+    protected Application $application;
+    public function __construct(JLUser $jobListingsUserModel, SavedJob $savedJobListingModel, Application $applicationModel)
     {
         $this->JobListingsUser = $jobListingsUserModel;
+        $this->savedJobListing = $savedJobListingModel;
+        $this->application = $applicationModel;
     }
     /**
      * Display a listing of the resource.
@@ -22,13 +28,31 @@ class JobListingsUser extends Controller
     public function index()
     {
         $user = [];
+        $userSavedJobsCount = 0;
+        $userApplicationsCount = 0;
         //
         if (auth()->user()) {
             $user = auth()->user();
         }
-        //dd($user);
-        return view('user.dashboard', ['user' => $user]);
+
+
+        if ($user) {
+            $userSavedJobsCount =  $this->savedJobListing::where('user_id', '=', $user->id)->count();
+            $userApplicationsCount =    $this->application::where('user_id', '=', $user->id)->count();
+        }
+        return view(
+            'user.dashboard',
+            [
+                'user' => $user,
+                'savedJobsCount' => $userSavedJobsCount,
+                'savedApplicationsCount' => $userApplicationsCount
+            ]
+        );
     }
+
+    public function applications($id) {}
+    public function savedjobs($id) {}
+    public function documents($id) {}
 
     /**
      * Show the form for creating a new resource.
@@ -83,7 +107,8 @@ class JobListingsUser extends Controller
 
         // $data['user_id'] = auth()->id();
         // $data['slug'] = Str::slug($data['title']);
-        $data['password'] = Hash::make($request->password);
+        //$data['password'] = Hash::make($request->password);
+        $data['password_hash'] = Hash::make($request->password);
         $data['role'] = 'applicant';
         //dd($data);
 
@@ -117,7 +142,8 @@ class JobListingsUser extends Controller
     {
         //
         $user = $this->JobListingsUser::findOrFail($id);
-        return view('user.edit', $user);
+        // dd($user);
+        return view('user.update', ['user' => $user]);
     }
 
     /**
@@ -126,6 +152,24 @@ class JobListingsUser extends Controller
     public function update(Request $request, string $id)
     {
         //
+
+        $data = $request->validate([
+            'first_name'   => 'required|',
+            'last_name'    => 'required|string|max:255',
+            'email'   => 'required',
+            'password' => 'required',
+        ]);
+
+        $data['password_hash'] = Hash::make($request->password);
+        $data['role'] = 'applicant';
+
+        $updatedUser =    $this->JobListingsUser::where('id', $id)->update($data);
+
+        if (!$updatedUser) {
+            return redirect(route('user-update-page'))->with('success', false)->with('message', false)->with(compact($data));
+        }
+
+        return  redirect(route('user.dashboard'))->with('success', true);
     }
 
     /**
