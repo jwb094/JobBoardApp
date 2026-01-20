@@ -22,12 +22,20 @@ Route::get('/job/{id}/{slug}', [JobListingController::class, 'show']);
 
 //Route::resource('/user', JobListingsUser::class);
 
-Route::get('/user/signin', [JobListingsUser::class, 'signin']);
+Route::get('/user/signin', [JobListingsUser::class, 'signin'])->name('user-login-page');
 Route::post('/user/login', [JobListingsUser::class, 'login']);
 Route::get('/user/register', [JobListingsUser::class, 'register']);
 Route::post('/user/create', [JobListingsUser::class, 'store']);
 Route::get('/user/logout', [JobListingsUser::class, 'logout'])->name('logout')->middleware(IsUser::class);
 Route::get('/user/dashboard', [JobListingsUser::class, 'index'])->name('user.dashboard')->middleware(IsUser::class);
+Route::get('/user/dashboard', [JobListingsUser::class, 'index'])->name('user.dashboard')->middleware(IsUser::class);
+Route::get('/user/{id}/applications', [JobListingsUser::class, 'applications'])->name('user.applications')->middleware(IsUser::class);
+Route::get('/user/{id}/savedjobs', [JobListingsUser::class, 'savedjobs'])->name('user.savedjobs')->middleware(IsUser::class);
+Route::get('/user/{id}/documents', [JobListingsUser::class, 'documents'])->name('user.documents')->middleware(IsUser::class);
+
+
+Route::get('/user/edit/{user_id}', [JobListingsUser::class, 'edit'])->name('user-update-page');
+Route::post('/user/update/{user_id}', [JobListingsUser::class, 'update'])->name('user-update');
 /*
 //->middleware(IsUser::class);
 Route::resource('/saved-job', SavedJobListingController::class);
