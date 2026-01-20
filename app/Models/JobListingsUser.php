@@ -16,13 +16,14 @@ class JobListingsUser  extends Authenticatable
         "last_name",
         "email",
         "password",
+        "password_hash",
         "role"
     ];
 
 
     public function savedJobListings()
     {
-        return $this->hasMany(SavedJobListing::class);
+        return $this->hasMany(SavedJob::class);
     }
 
     // Optional shortcut
