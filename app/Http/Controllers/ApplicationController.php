@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\JobListing;
+use App\Models\JobListingsUser;
 
 class ApplicationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected JobListing $jobListing;
+    protected JobListingsUser $jobListingsUser;
+    public function __construct(JobListing $jobListingModel, JobListingsUser $jobListingsUserModel)
     {
-        //
+
+        $this->jobListing = $jobListingModel;
+        $this->jobListingsUser = $jobListingsUserModel;
     }
 
     /**
@@ -21,44 +24,34 @@ class ApplicationController extends Controller
     {
         //
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Request $request, JobListing $jobListing)
     {
-        //
-    }
+        if (!auth()->user()->isApplicant()) {
+            abort(403);
+        }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        // $request->validate([
+        //     'resume' => 'required|file|mimes:pdf,doc,docx|max:2048',
+        //     'cover_letter' => 'nullable|string',
+        // ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        // if ($jobListing->applications()
+        //     ->where('user_id', auth()->id())
+        //     ->exists()
+        // ) {
+        //     return back()->with('error', 'You already applied.');
+        // }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+        // $resumePath = $request->file('resume')
+        //     ->store('resumes', 'public');
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        // Application::create([
+        //     'job_listing_id' => $jobListing->id,
+        //     'user_id'        => auth()->id(),
+        //     'resume_path'    => $resumePath,
+        //     'cover_letter'   => $request->cover_letter,
+        // ]);
+
+        // return back()->with('success', 'Application submitted.');
     }
 }
