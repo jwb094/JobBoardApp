@@ -76,10 +76,13 @@
                     {{ $job->benefits }}
                 </div>
                 <div class="mx-auto mb-6 max-w-3xl space-y-6 md:mb-12">
-                    <a href="">Apply</a>
-                    {{-- <p class="text-base font-normal text-gray-500 dark:text-gray-400">Connectivity includes two Thunderbolt / USB 4 ports and two USB 3 ports (all with a USB-C connector), a 3.5 mm headphone jack conveniently mounted on the left edge of the display, Wi-Fi 6 (802.11ax), and Bluetooth 5.0.</p>
+                    @if (!empty($user))
+                    <a href="/job/{{ $user->id}}/{{  $job->slug}}/apply">Apply</a>
+                    @endif
+                    @if (empty($user))
+                    <p>Please <a class="text-blue-500" href="{{  route('user-login-page')}}">login</a> Or <a class="text-blue-500" href=" {{  route('user-register-page')}}">Sign up</a> to apply</p>
+                    @endif
 
-                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">A-Grade/CR: iMacs are in 9/10 Cosmetic Condition and are 100% Fully Functional. iMacs will be shipped in generic packaging and will contain generic accessories. 90 Days Seller Warranty Included. iMacs may show signs of wear like scratches, scuffs and minor dents.</p>--}}
                 </div>
             </div>
         </div>
