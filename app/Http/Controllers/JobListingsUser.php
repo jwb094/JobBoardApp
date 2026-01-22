@@ -50,9 +50,20 @@ class JobListingsUser extends Controller
         );
     }
 
-    public function applications($id) {}
-    public function savedjobs($id) {}
-    public function documents($id) {}
+    public function applications($id)
+    {
+        return view('user.applications');
+    }
+    public function savedjobs($id)
+    {
+        return view('user.savedjobs');
+    }
+
+    public function documents($id)
+    {
+
+        return view('user.user-documents');
+    }
 
     /**
      * Show the form for creating a new resource.
