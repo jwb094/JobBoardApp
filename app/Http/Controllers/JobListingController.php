@@ -19,7 +19,7 @@ class JobListingController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of Job & filtered Search Jobs.
      */
     public function index(Request $request)
     {
@@ -47,11 +47,10 @@ class JobListingController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new Job.
      */
     public function create()
     {
-        //
         $categories = $this->categories::with('category')::all();
         return view('joblistings.create', compact('categories'));
     }
@@ -61,7 +60,6 @@ class JobListingController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $data = $request->validate([
             'category_id'   => 'required|exists:categories,id',
             'title'         => 'required|string|max:255',
@@ -89,25 +87,29 @@ class JobListingController extends Controller
      */
     public function show(string $id)
     {
-
+        //
+        $user = [];
+        if (auth()->user()) {
+            $user = auth()->user();
+        }
         $job = $this->jobListing::findOrFail($id);
-
-        return view('joblistings.jobpage', ['job' => $job]);
+        // dd($user);
+        return view('joblistings.jobpage', ['job' => $job, 'user' => $user]);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show Job Details
      */
     public function edit(string $id)
     {
-        //
+
         $job = $this->jobListing::findOrFail($id);
         $categories = $this->categories::all();
         return view('job', ['job' => $job,  'categories' => $categories]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a Job Details.
      */
     public function update(Request $request, string $id)
     {
@@ -115,6 +117,8 @@ class JobListingController extends Controller
         $data = $request->validate([
             'category_id' => 'required|exists:categories,id',
             'title'       => 'required|string|max:255',
+            'company_background'       => 'required|string',
+            'address'       => 'required|string',
             'description'   => 'required|string',
             'skillset_About' => 'required|string',
             'benefits'      => 'required|string',
@@ -130,7 +134,7 @@ class JobListingController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove A Job.
      */
     public function destroy(string $id)
     {
@@ -138,5 +142,21 @@ class JobListingController extends Controller
         $jobDesc = $this->jobListing::find($id);
         $jobDesc->delete();
         return redirect('/dashboard');
+    }
+
+    /**
+     * Show Job Application form page
+     */
+    public function apply($id)
+    {
+        //
+        $user = [];
+        if (auth()->user()) {
+            $user = auth()->user();
+        }
+
+        $job = $this->jobListing::findOrFail($id);
+
+        return view('joblistings.job_application_form', ['job' => $job, 'user' => $user]);
     }
 }
