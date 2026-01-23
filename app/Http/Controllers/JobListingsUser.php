@@ -119,7 +119,7 @@ class JobListingsUser extends Controller
         // $data['user_id'] = auth()->id();
         // $data['slug'] = Str::slug($data['title']);
         //$data['password'] = Hash::make($request->password);
-        $data['password_hash'] = Hash::make($request->password);
+        $data['password'] = Hash::make($request->password);
         $data['role'] = 'applicant';
         //dd($data);
 
@@ -171,7 +171,7 @@ class JobListingsUser extends Controller
             'password' => 'required',
         ]);
 
-        $data['password_hash'] = Hash::make($request->password);
+        $data['password'] = Hash::make($request->password);
         $data['role'] = 'applicant';
 
         $updatedUser =    $this->JobListingsUser::where('id', $id)->update($data);
