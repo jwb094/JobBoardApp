@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\JobListing;
 use App\Models\Category;
+use App\Models\SavedJob;
 use Illuminate\Support\Str;
 
 class JobListingController extends Controller
@@ -12,10 +13,13 @@ class JobListingController extends Controller
 
     protected JobListing $jobListing;
     protected Category $categories;
-    public function __construct(JobListing $jobListingsModel, Category $categoryModel)
+
+    protected SavedJob $savedJob;
+    public function __construct(JobListing $jobListingsModel, Category $categoryModel, SavedJob $savedJobModel)
     {
         $this->jobListing = $jobListingsModel;
         $this->categories = $categoryModel;
+        $this->savedJob = $savedJobModel;
     }
 
     /**
@@ -93,8 +97,15 @@ class JobListingController extends Controller
             $user = auth()->user();
         }
         $job = $this->jobListing::findOrFail($id);
-        // dd($user);
-        return view('joblistings.jobpage', ['job' => $job, 'user' => $user]);
+
+        $savedJobExists = $this->savedJob::where('user_id', $user->id)
+            ->where('job_id', $job->id)
+            ->exists();
+
+
+
+        //dd($savedJobExists);
+        return view('joblistings.jobpage', ['job' => $job, 'user' => $user, 'savedJobExists' => $savedJobExists]);
     }
 
     /**
