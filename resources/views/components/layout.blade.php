@@ -36,3 +36,4 @@
     @include('include.footer')
 </body>
 </html>
+@stack('other-scripts')
