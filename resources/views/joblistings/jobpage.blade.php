@@ -1,29 +1,38 @@
 <x-layout>
+    @push('head')
+    <!-- Styles -->
+    <link href="{{ asset('css/pizza.css') }}" rel="stylesheet">
+    <!-- Scripts -->
+    <script src="{{ asset('js/components/pizza.js')}}"></script>
+    @endpush
     @section('title',$job->title ." Job Page")
     @section('content')
     <section class="bg-white dark:bg-gray-300 text-black">
         <div class="pt-24 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
             <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">{{ $job->title }}</h1>
 
-            <ul class="flex flex-col | gap-y-4 | mx-20">
-                <li class="flex flex-row | items-center | gap-x-1">
+            <ul class="flex flex-col | gap-y-4 | mx-4 md:mx-52">
+                <li class="flex flex-row | justify-start md:items-center | gap-x-1">
                     <i class="fa-solid fa-star"></i>
-                    <p class="text-body">{{ $job->category->name }}</p>
+                    <p class="text-2xl  text-body">{{ $job->category->name }}</p>
                 </li>
-                <li class="flex flex-row | items-center | gap-x-1"><i class="fa-regular fa-clock"></i>
-                    <p class="text-body">{{ $job->job_type }}</p>
+                <li class="flex flex-row |justify-start md:items-center | gap-x-1"><i class="fa-regular fa-clock"></i>
+                    <p class="text-2xl  text-body">{{ $job->job_type }}</p>
                 </li>
-                <li class="flex flex-row | mt-1 | items-center | gap-x-1"> <i class="fa-solid fa-money-bill"></i><span class="bg-success-soft text-fg-success-strong text-xs font-medium px-1.5 py-0.5 rounded bg-green-300">£{{ $job->salary_min }} - £{{ $job->salary_max }}</span></li>
-                <li class="flex flex-row | mt-1 | items-center | gap-x-1"> <i class="fa-solid fa-location-arrow"></i>
-                    <p class="text-body">{{ $job->location }}</p>
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | "> <i class="fa-solid fa-money-bill"></i><span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">£{{ $job->salary_min }} - £{{ $job->salary_max }}</span></li>
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1"> <i class="fa-solid fa-location-arrow"></i>
+                    <p class="text-2xl text-body">{{ $job->location }}</p>
                 </li>
-                <li class="flex flex-row | mt-1 | items-center | gap-x-1">
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1">
                     <i class="fa-solid fa-calendar"></i>
-                    <p class="text-body">Job Posted :{{ $job->created_at->format('d.m.Y')}}</p>
+                    <p class="text-2xl  text-body">Job Posted :{{ $job->created_at->format('d.m.Y')}}</p>
                 </li>
 
                 <li class="flex flex-row | mt-1 | justify-end | gap-x-1">
-                    bookmark
+                    <button class="bookmark-job-button" @if (empty(auth()->id())) disabled @endif @if (!empty(auth()->id())) data-user="{{ auth()->id()  }}" @endif data-job-id=" {{ $job->id }} " data-token="{{ csrf_token() }}">
+                        <i class="bookmark | text-3xl |  @if (!empty($savedJobExists)) fa-solid @else fa-regular @endif fa-bookmark    |"></i>
+                    </button>
+                    <p class="bookmark-message"></p>
                 </li>
             </ul>
         </div>
@@ -88,4 +97,15 @@
         </div>
     </section>
     @endsection
+    @push('other-scripts')
+    <script>
+        console.log('do something in js')
+
+    </script>
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
+    <script src="{{ URL::asset('js/bookmark-job.js') }}"></script>
+    @endpush
 </x-layout>
+{{-- @section('footer-scripts')
+@include('scripts.bookmark-job')
+@endsection --}}
