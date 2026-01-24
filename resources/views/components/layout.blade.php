@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ URL::asset('resources/css/main.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/app.css') }}">
-    <link href=" {{ asset('css/mycss.css') }}" rel="stylesheet">
+    <link href=" {{ URL::asset('css/mycss.css') }}" rel="stylesheet">
     {{-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script> --}}
