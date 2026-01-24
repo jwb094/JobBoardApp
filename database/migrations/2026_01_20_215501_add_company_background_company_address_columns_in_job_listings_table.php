@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('company_background_info')->nullable();
             $table->string('address')->nullable();
-            $table->string(column: 'post_code')->nullable();
+            $table->string('post_code')->nullable();
         });
     }
 
