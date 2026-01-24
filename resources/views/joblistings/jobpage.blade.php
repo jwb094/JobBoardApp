@@ -1,10 +1,5 @@
 <x-layout>
-    @push('head')
-    <!-- Styles -->
-    <link href="{{ asset('css/pizza.css') }}" rel="stylesheet">
-    <!-- Scripts -->
-    <script src="{{ asset('js/components/pizza.js')}}"></script>
-    @endpush
+
     @section('title',$job->title ." Job Page")
     @section('content')
     <section class="bg-white dark:bg-gray-300 text-black">
