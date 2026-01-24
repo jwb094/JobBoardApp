@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('job_listings', function (Blueprint $table) {
-            $table->string('company background_info')->nullable();
+            $table->string('city')->nullable();
+            $table->string('company_background_info')->nullable();
             $table->string('address')->nullable();
+            $table->string(column: 'post_code')->nullable();
         });
     }
 
