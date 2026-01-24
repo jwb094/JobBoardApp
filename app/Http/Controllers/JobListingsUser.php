@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\JobListingsUser as JLUser;
 use App\Models\SavedJob;
 use App\Models\Application;
+use App\Models\JobListing;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
@@ -16,11 +17,14 @@ class JobListingsUser extends Controller
     protected JLUser $JobListingsUser;
     protected SavedJob $savedJobListing;
     protected Application $application;
-    public function __construct(JLUser $jobListingsUserModel, SavedJob $savedJobListingModel, Application $applicationModel)
+
+    protected JobListing $jobListing;
+    public function __construct(JLUser $jobListingsUserModel, SavedJob $savedJobListingModel, Application $applicationModel, JobListing $jobListingModel)
     {
         $this->JobListingsUser = $jobListingsUserModel;
         $this->savedJobListing = $savedJobListingModel;
         $this->application = $applicationModel;
+        $this->jobListing = $jobListingModel;
     }
     /**
      * Display a listing of the resource.
@@ -40,6 +44,8 @@ class JobListingsUser extends Controller
             $userSavedJobsCount =  $this->savedJobListing::where('user_id', '=', $user->id)->count();
             $userApplicationsCount =    $this->application::where('user_id', '=', $user->id)->count();
         }
+
+        //dd($userSavedJobsCount);
         return view(
             'user.dashboard',
             [
@@ -56,7 +62,13 @@ class JobListingsUser extends Controller
     }
     public function savedjobs($id)
     {
-        return view('user.savedjobs');
+        $savedJobs = [];
+        $savedJobList = $this->savedJobListing::where('user_id', $id)->get();
+
+        foreach ($savedJobList as $key => $value) {
+            $savedJobs[] = $this->jobListing::where('id', $value->job_id)->first();
+        }
+        return view('user.savedjobs', ['savedJobList' => $savedJobs]);
     }
 
     public function documents($id)
