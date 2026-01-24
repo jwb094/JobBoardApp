@@ -46,7 +46,7 @@
                             <p class=" font-normal text-body mb-4">You curretly haven't applied anywhere get started</p>
                             @endif
                             @if ($savedJobsCount > 0)
-                            <p class=" font-normal text-body mb-4"> You have {{ $savedApplicationsCount }} saved Job roles</p>
+                            <p class=" font-normal text-body mb-4"> You have {{ $savedJobsCount }} saved Job roles</p>
                             @endif
                             @if ($savedJobsCount > 0)
                             <a href="/user/{{ $user->id }}/savedjobs" class="text-fg-brand hover:underline font-medium text-lg inline-flex items-center">View your saved Jobs
