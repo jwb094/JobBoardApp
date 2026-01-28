@@ -10,6 +10,7 @@ use App\Models\Application;
 use App\Models\JobListing;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class JobListingsUser extends Controller
 {
@@ -58,7 +59,14 @@ class JobListingsUser extends Controller
 
     public function applications($id)
     {
-        return view('user.applications');
+        $user = [];
+
+        if (auth()->user()) {
+            $user = auth()->user();
+        }
+
+
+        return view('user.applications', ['user' => $user]);
     }
     public function savedjobs($id)
     {
@@ -73,8 +81,13 @@ class JobListingsUser extends Controller
 
     public function documents($id)
     {
+        $user = [];
 
-        return view('user.user-documents');
+        if (auth()->user()) {
+            $user = auth()->user();
+        }
+
+        return view('user.user-documents', ['user' => $user]);
     }
 
     /**
@@ -115,7 +128,7 @@ class JobListingsUser extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new user applicant record
      */
     public function store(Request $request)
     {
@@ -143,6 +156,48 @@ class JobListingsUser extends Controller
         return  redirect('/user/signin')->with('status', true)->with('message', "Registration successfully");;
     }
 
+
+    /**
+     * Store documents.
+     */
+    public function store_documents(Request $request)
+    {
+
+        //Create a folder for User applicant to store documents
+        $path = public_path('uploads/' . auth()->user()->first_name . '-' . auth()->user()->last_name);
+
+        if (!Storage::exists($path)) {
+
+            Storage::makeDirectory($path, 0777, true, true);
+        }
+
+        //Validate input fields
+        $data = $request->validate([
+            'cover_letter' => 'file|mimes:pdf,doc,docx|max:2048',
+            'cv' => 'file|mimes:pdf,doc,docx|max:2048',
+            'portfolio_link' => 'nullable|string',
+        ]);
+
+        //Capture the files and upload to DIR
+        $cover_letter = $request->file('cover_letter');
+        $cv = $request->file('cv');
+
+        $request->cover_letter->move($path, $cover_letter->getClientOriginalName());
+        $request->cv->move($path, $cv->getClientOriginalName());
+
+
+        $data['cover_letter'] = $cover_letter->getClientOriginalName();
+        $data['cv'] = $cv->getClientOriginalName();
+
+        //update USer Applicant record with documents 
+        $updatedUserDocuments =    $this->JobListingsUser::where('id', auth()->user()->id)->update($data);
+
+        if (!$updatedUserDocuments) {
+            return redirect(route('user.documents'))->with('success', false)->with('message', "uploads Documents failed")->with(compact($data));
+        }
+
+        return  redirect(route('user.dashboard'))->with('success', true)->with('message', "documents  uploaded succesfully");
+    }
     /**
      * Sign in Page
      */
