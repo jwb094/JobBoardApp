@@ -93,14 +93,18 @@ class JobListingController extends Controller
     {
         //
         $user = [];
+        $savedJobExists = [];
         if (auth()->user()) {
             $user = auth()->user();
         }
         $job = $this->jobListing::findOrFail($id);
 
-        $savedJobExists = $this->savedJob::where('user_id', $user->id)
-            ->where('job_id', $job->id)
-            ->exists();
+        if (!empty($user)) {
+            $savedJobExists = $this->savedJob::where('user_id', $user->id)
+                ->where('job_id', $job->id)
+                ->exists();
+        }
+
 
 
 
