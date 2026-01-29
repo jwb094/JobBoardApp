@@ -1,5 +1,5 @@
 <x-layout>
-    @section('title'," Applicant Registeration")
+    @section('title'," Applicant Login")
     @section('content')
 
     <div class="bg-white ">
