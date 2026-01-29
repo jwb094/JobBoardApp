@@ -19,7 +19,7 @@ use App\Http\Middleware\IsUser;
 
 Route::get('/', [JobListingController::class, 'index'])->name('home');
 Route::get('/job/{id}/{slug}', [JobListingController::class, 'show']);
-Route::get('/job/{id}/{slug}/apply', [JobListingController::class, 'apply']);
+Route::get('/job/{id}/{slug}/apply', [JobListingController::class, 'apply'])->middleware(IsUser::class);
 
 //Route::resource('/user', JobListingsUser::class);
 
@@ -33,12 +33,17 @@ Route::get('/user/dashboard', [JobListingsUser::class, 'index'])->name('user.das
 Route::get('/user/{id}/applications', [JobListingsUser::class, 'applications'])->name('user.applications')->middleware(IsUser::class);
 Route::get('/user/{id}/savedjobs', [JobListingsUser::class, 'savedjobs'])->name('user.savedjobs')->middleware(IsUser::class);
 Route::get('/user/{id}/documents', [JobListingsUser::class, 'documents'])->name('user.documents')->middleware(IsUser::class);
+Route::get('/user/{id}/savedjobs', [JobListingsUser::class, 'savedjobs'])->name('user.savedjobs')->middleware(IsUser::class);
+Route::post('/user/{id}/store_documents', [JobListingsUser::class, 'store_documents'])->name('user.store_documents')->middleware(IsUser::class);
 
 
-Route::get('/user/edit/{user_id}', [JobListingsUser::class, 'edit'])->name('user-update-page');
-Route::post('/user/update/{user_id}', [JobListingsUser::class, 'update'])->name('user-update');
+
+Route::get('/user/edit/{user_id}', [JobListingsUser::class, 'edit'])->name('user-update-page')->middleware(IsUser::class);
+Route::post('/user/update/{user_id}', [JobListingsUser::class, 'update'])->name('user-update')->middleware(IsUser::class);
 
 Route::post('/job/update_wishlist', [SavedJobListingController::class, 'update'])->middleware(IsUser::class);
+
+Route::post('/job/sumbit_application/{job_id}/{user_id}', [ApplicationController::class, 'store'])->middleware(IsUser::class);
 /*
 //->middleware(IsUser::class);
 Route::resource('/saved-job', SavedJobListingController::class);
