@@ -24,7 +24,7 @@
             </ul>
         </div>
     </section>
-    <section class="bg-white py-8 antialiased dark:bg-gray-300 md:py-16 text-black">
+    <section class="bg-white py-8 antialiased dark:bg-gray-300 md:py-8 text-black">
 
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
 
@@ -45,25 +45,50 @@
             </div>
         </div>
     </section>
-    <section class="bg-white py-8 antialiased dark:bg-gray-300 md:py-16 text-black">
-        <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+    <section class="bg-white py-8 antialiased dark:bg-gray-300 md:py-8 text-black">
+        <form action="/job/sumbit_application/{{ $job->id }}/{{ $user->id }}" method="POST">
+            @csrf
+            <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
 
-            <div class="mx-auto max-w-5xl">
-                <h2 class="md:mx-16">Documents</h2>
-                <ul class="flex flex-col | gap-y-4 | mx-20">
-                    <li class="flex flex-row | items-center | gap-x-1">
-                        <i class="fa-solid fa-star"></i>
-                        <p class="text-body"> CV</p>
-                        <input type="file" name="CV" id="">
-                    </li>
-                    <li class="flex flex-row | items-center | gap-x-1"><i class="fa-regular fa-clock"></i>
-                        <p class="text-body">Cover Letter</p>
-                        <input type="file" name="Cover LEtter" id="">
-                    </li>
+                <div class="mx-auto max-w-5xl">
+                    <h2 class="md:mx-16 md:my-6">Documents</h2>
+                    <ul class="flex flex-col | gap-y-4 | mx-20">
+                        <li class="flex flex-row | items-center | gap-x-1"><i class="fa-regular fa-clock"></i>
+                            <p class="text-body">Cover Letter :</p>
 
-                </ul>
+                            <input type="text" name="cover_letter" id="" value="{{ $user->cover_letter  }}">
+                            {{-- <span>{{ $user->cover_letter  }}</span> --}}
+                            {{-- @if (!empty($user)) --}}
+                            {{-- <input type="file" name="CV" id="" @if (!empty($user->cv)) value="{{ $user->cv }}" @endif> --}}
+                            {{-- @endif --}}
+                        </li>
+                        <li class="flex flex-row | items-center | gap-x-1">
+                            <i class="fa-solid fa-star"></i>
+                            <p class="text-body"> CV :</p>
+                            <input type="text" name="resume_path" id="" value="{{ $user->cv  }}">
+                            {{-- <span>{{ $user->cv }} </span> --}}
+                            {{-- <input type="file" name="CV" id="" @if (!empty($user->cv)) value="{{ $user->cv }}" @endif> --}}
+
+                            {{-- @if (!empty($user)) --}}
+                            {{-- <input type="file" name="CV" id="" @if (!empty($user->cv)) value="{{ $user->cv }}" @endif> --}}
+                            {{-- @endif --}}
+
+                        </li>
+
+
+                    </ul>
+                    <button type="submit" class="w-56 | mt-6 mx-20 | text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5" href="/job/{{ $user->id}}/{{  $job->slug}}/apply">Apply</a>
+                </div>
+
+
             </div>
-        </div>
+            {{-- <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+                <div class="mx-auto max-w-5xl">
+
+                    <button type="submit" class="w-56 | mt-6 | text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5" href="/job/{{ $user->id}}/{{ $job->slug}}/apply">Apply</a>
+            </div>
+            </div> --}}
+        </form>
     </section>
     @endsection
 </x-layout>
