@@ -53,11 +53,12 @@ class ApplicationController extends Controller
         //dd($path);
 
         $data = $request->validate([
+            'job_id' => 'required|exists:job_listings,id',
             'resume_path' => 'required',
             'cover_letter' => 'required',
         ]);
 
-        // dd($request);
+        // 
 
         //create datas array for sql query
         $data['job_id'] = $job_id;
@@ -66,22 +67,14 @@ class ApplicationController extends Controller
         $data['cover_letter'] = $path . '/' . $data['cover_letter'];
         $data['status'] = 'Received/Submitted';
 
-        //dd($data);
 
         $updatedUserDocuments = $this->application::create($data);
-        //     'job_listing_id' => $jobListing->id,
-        //     'user_id'        => auth()->id(),
-        //     'resume_path'    => $resumePath,
-        //     'cover_letter'   => $request->cover_letter,
-        // ]);
-
-        // return back()->with('success', 'Application submitted.');
 
 
         if (!$updatedUserDocuments->id) {
             return redirect(route('user.documents'))->with('success', false)->with('message', "uploads Documents failed")->with(compact($data));
         }
 
-        return  redirect(route('user.dashboard'))->with('success', true)->with('message', "documents  uploaded succesfully");
+        return  redirect(route('user.dashboard'))->with('success', true)->with('message', "You have successfully completed your applicztion");
     }
 }
