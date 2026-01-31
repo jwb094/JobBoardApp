@@ -49,6 +49,7 @@
         <form action="/job/sumbit_application/{{ $job->id }}/{{ $user->id }}" method="POST">
             @csrf
             <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+                <input type="hidden" name="job_id" value="{{ $job->id }}">
 
                 <div class="mx-auto max-w-5xl">
                     <h2 class="md:mx-16 md:my-6">Documents</h2>
