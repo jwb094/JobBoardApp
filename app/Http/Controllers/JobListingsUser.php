@@ -65,8 +65,9 @@ class JobListingsUser extends Controller
             $user = auth()->user();
         }
 
-
-        return view('user.applications', ['user' => $user]);
+        $userApplications =    $this->application::with('jobListing')->where('user_id', $user->id)->get();
+        //dd($userApplications[0]->jobListing);
+        return view('user.applications', ['user' => $user, 'userApplications' => $userApplications]);
     }
     public function savedjobs($id)
     {
