@@ -10,7 +10,7 @@ class Application extends Model
     /** @use HasFactory<\Database\Factories\> */
     use HasFactory;
     protected $fillable = [
-        'job_listing_id',
+        'job_id',
         'user_id',
         'resume_path',
         'cover_letter',
