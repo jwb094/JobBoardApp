@@ -29,7 +29,7 @@ Route::get('/user/register', [JobListingsUser::class, 'register'])->name('user-r
 Route::post('/user/create', [JobListingsUser::class, 'store']);
 Route::get('/user/logout', [JobListingsUser::class, 'logout'])->name('logout')->middleware(IsUser::class);
 Route::get('/user/dashboard', [JobListingsUser::class, 'index'])->name('user.dashboard')->middleware(IsUser::class);
-Route::get('/user/dashboard', [JobListingsUser::class, 'index'])->name('user.dashboard')->middleware(IsUser::class);
+//Route::get('/user/dashboard', [JobListingsUser::class, 'index'])->name('user.dashboard')->middleware(IsUser::class);
 Route::get('/user/{id}/applications', [JobListingsUser::class, 'applications'])->name('user.applications')->middleware(IsUser::class);
 Route::get('/user/{id}/savedjobs', [JobListingsUser::class, 'savedjobs'])->name('user.savedjobs')->middleware(IsUser::class);
 Route::get('/user/{id}/documents', [JobListingsUser::class, 'documents'])->name('user.documents')->middleware(IsUser::class);
@@ -40,10 +40,18 @@ Route::post('/user/{id}/store_documents', [JobListingsUser::class, 'store_docume
 
 Route::get('/user/edit/{user_id}', [JobListingsUser::class, 'edit'])->name('user-update-page')->middleware(IsUser::class);
 Route::post('/user/update/{user_id}', [JobListingsUser::class, 'update'])->name('user-update')->middleware(IsUser::class);
-
 Route::post('/job/update_wishlist', [SavedJobListingController::class, 'update'])->middleware(IsUser::class);
-
 Route::post('/job/sumbit_application/{job_id}/{user_id}', [ApplicationController::class, 'store'])->middleware(IsUser::class);
+
+
+
+
+Route::post('/employer/signin', [JobListingsEmployer::class, 'signin'])->name('employer.login.page');
+Route::get('/employer/login', [JobListingsEmployer::class, 'login'])->name('employer.register.page');
+Route::get('/employer/register', [JobListingsEmployer::class, 'register'])->name('employer.register.page');
+Route::get('/employer/logout', [JobListingsEmployer::class, 'logout'])->name('logout')->middleware(AuthUser::class);
+Route::post('/user/create', [JobListingsEmployer::class, 'store']);
+
 /*
 //->middleware(IsUser::class);
 Route::resource('/saved-job', SavedJobListingController::class);
