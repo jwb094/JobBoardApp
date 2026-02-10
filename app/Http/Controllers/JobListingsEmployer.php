@@ -74,4 +74,18 @@ class JobListingsEmployer extends Controller
         //need to delete session
         return view('home');
     }
+
+    public function register()
+    {
+        return view('employer.register');
+    }
+
+
+    /**
+     * Sign in Page
+     */
+    public function signin()
+    {
+        return view('employer.login');
+    }
 }
