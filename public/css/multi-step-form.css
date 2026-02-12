@@ -1,0 +1,80 @@
+section#form-container {
+    background-color: #fff;
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #cdf5664c;
+    width: 100%;
+    /* max-width: 500px; */
+}
+
+
+#steps-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    position: relative;
+
+}
+
+#steps-bar::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #DDDDDD;
+    z-index: 0;
+}
+
+.step-indicator {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #DDDDDD;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+    font-weight: bold;
+    z-index: 1;
+    position: relative;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+
+.step-indicator.active {
+    background-color: blue;
+}
+
+
+.step-indicator.completed {
+    background-color: green;
+}
+
+.step {
+    display: none;
+}
+
+.step.active {
+    display: block;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.buttons button {
+    gap: 1rem;
+}
+
+.buttons button[disabled] {
+    background-color: #FE9D7A;
+    cursor: not-allowed;
+}
+
+
+.buttons button:hover:not([disabled]) {
+    background-color: #00000033;
+}
