@@ -17,7 +17,8 @@ class JobListingsUser  extends Authenticatable
         "email",
         "password",
         "password_hash",
-        "role"
+        "role",
+        "company_id"
     ];
 
 

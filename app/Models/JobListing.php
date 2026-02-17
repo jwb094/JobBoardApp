@@ -71,4 +71,9 @@ class JobListing extends Model
         // dd(DB::getQueryLog());
         return $query->paginate(10);
     }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }
