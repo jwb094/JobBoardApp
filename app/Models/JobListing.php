@@ -14,11 +14,12 @@ class JobListing extends Model
     /** @use HasFactory<\Database\Factories\JobsListingsFactory> */
     use hasFactory;
     protected $fillable = [
-        'job_listings_user_id',
+        'user_id',
         'category_id',
         'title',
         'slug',
         'description',
+        'company_background_info',
         'skillset_About',
         'benefits',
         'location',
@@ -27,6 +28,10 @@ class JobListing extends Model
         'salary_max',
         'status',
         'expires_at',
+        'post_code',
+        'address',
+        'company_id',
+        'city',
     ];
 
     protected $casts = [
