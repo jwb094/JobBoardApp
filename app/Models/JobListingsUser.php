@@ -21,7 +21,10 @@ class JobListingsUser  extends Authenticatable
         "company_id"
     ];
 
-
+    public function jobListings()
+    {
+        return $this->hasMany(JobListing::class);
+    }
     public function savedJobListings()
     {
         return $this->hasMany(SavedJob::class);
