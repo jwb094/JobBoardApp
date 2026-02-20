@@ -113,7 +113,7 @@ class JobListingsUser extends Controller
             return redirect()->intended(route('user.dashboard'))->with('success', "You have successfully logged in");
         }
 
-        return  redirect('/user/signin')->with('status', true)->with('message', "Registration successfully");;
+        return  redirect('/user/signin')->with('status', true)->with('message', "Registration unsuccessfully");;
     }
 
     /**
