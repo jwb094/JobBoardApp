@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class JobListingsUser  extends Authenticatable
 {
+    //protected $table = 'job_listing_users';
+
     /** @use HasFactory<\Database\Factories\JobListingsUserFactory> */
     use HasFactory;
     protected $fillable = [
@@ -28,6 +30,11 @@ class JobListingsUser  extends Authenticatable
     public function savedJobListings()
     {
         return $this->hasMany(SavedJob::class);
+    }
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class, 'user_id');
     }
 
     // Optional shortcut

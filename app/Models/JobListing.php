@@ -40,7 +40,7 @@ class JobListing extends Model
 
     public function employer()
     {
-        return $this->belongsTo(JobListingsUser::class, 'job_listings_user_id');
+        return $this->belongsTo(JobListingsUser::class, 'user_id');
     }
 
     public function category()
@@ -50,7 +50,7 @@ class JobListing extends Model
 
     public function applications()
     {
-        return $this->hasMany(Application::class);
+        return $this->hasMany(Application::class, 'job_id');
     }
 
 
@@ -80,5 +80,13 @@ class JobListing extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+
+    public function hasApplied(JobListingsUser $user)
+    {
+        return $this->applications()
+            ->where('user_id', $user->id)
+            ->exists();
     }
 }

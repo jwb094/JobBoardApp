@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Application extends Model
 {
+   // protected $table = 'Application';
     /** @use HasFactory<\Database\Factories\> */
     use HasFactory;
     protected $fillable = [
@@ -20,10 +21,10 @@ class Application extends Model
 
     public function jobListing(): BelongsTo
     {
-        return $this->belongsTo(related: JobListing::class, 'job_id');
+        return $this->belongsTo(JobListing::class, 'job_id');
     }
 
-    public function applicant(): BelongsTo
+    public function applicantUsers(): BelongsTo
     {
         return $this->belongsTo(JobListingsUser::class, 'user_id');
     }
