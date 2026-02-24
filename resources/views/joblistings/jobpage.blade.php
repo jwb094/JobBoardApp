@@ -14,7 +14,18 @@
                 <li class="flex flex-row |justify-start md:items-center | gap-x-1"><i class="fa-regular fa-clock"></i>
                     <p class="text-2xl  text-body">{{ $job->job_type }}</p>
                 </li>
+                @if (!empty($ $job->salary_min) && !empty($ $job->salary_max))
                 <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | "> <i class="fa-solid fa-money-bill"></i><span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">£{{ $job->salary_min }} - £{{ $job->salary_max }}</span></li>
+                @endif
+                @if (empty($ $job->salary_min) && empty($ $job->salary_max))
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | "> <i class="fa-solid fa-money-bill"></i><span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">No information recieved</li>
+                @endif
+                @if (empty($ $job->salary_min) && !empty($ $job->salary_max))
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | "> <i class="fa-solid fa-money-bill"></i><span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">Starting from £{{ $job->salary_min }}</span></li>
+                @endif
+                @if (!empty($ $job->salary_min) && empty($ $job->salary_max))
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | "> <i class="fa-solid fa-money-bill"></i><span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">sUp To £{{ $job->salary_min }}</span></li>
+                @endif
                 <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1"> <i class="fa-solid fa-location-arrow"></i>
                     <p class="text-2xl text-body">{{ $job->location }}</p>
                 </li>
@@ -40,13 +51,13 @@
                 <div class="mx-auto mb-6 max-w-3xl space-y-6 md:mb-12">
                     <h3>Job Description</h3>
                     <p class="text-base font-normal text-gray-500 dark:text-gray-400">
-                        {{ $job->description }}
+                        {!! $job->description !!}
                     </p>
 
 
-                    <h3>Job Description</h3>
+                    <h3>Skillset </h3>
                     <p class="text-base font-normal text-gray-500 dark:text-gray-400">
-                        {{ $job->skillset_About }}
+                        {!! $job->skillset_About !!}
                     </p>
 
                     <p class="text-base font-semibold text-gray-900 dark:text-white">Key Features and Benefits:</p>
@@ -77,11 +88,19 @@
                             Xcode and Affinity Photo to compile code in a fraction of the time or edit photos in real time. And it runs cool and quiet even while tackling these intense workloads. That's the power of hardware, software, and silicon - all designed together.
                         </li>
                     </ul> --}}
-                    {{ $job->benefits }}
+                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+
+                        {!! $job->benefits !!}
+                    </p>
                 </div>
                 <div class="mx-auto mb-6 max-w-3xl space-y-6 md:mb-12">
                     @if (!empty($user))
+                    @if (empty($hasApplied))
+                    <p>You have already applied for this job</p>
+                    @endif
+                    @if (empty($hasApplied))
                     <a href="/job/{{ $user->id}}/{{  $job->slug}}/apply">Apply</a>
+                    @endif
                     @endif
                     @if (empty($user))
                     <p>Please <a class="text-blue-500" href="{{  route('user-login-page')}}">login</a> Or <a class="text-blue-500" href=" {{  route('user-register-page')}}">Sign up</a> to apply</p>
