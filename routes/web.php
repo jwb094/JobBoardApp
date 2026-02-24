@@ -46,11 +46,23 @@ Route::post('/job/sumbit_application/{job_id}/{user_id}', [ApplicationController
 
 
 
-Route::post('/employer/signin', [JobListingsEmployer::class, 'signin'])->name('employer.login.page');
-Route::get('/employer/login', [JobListingsEmployer::class, 'login'])->name('employer.register.page');
+Route::get('/employer/signin', [JobListingsEmployer::class, 'signin'])->name('employer.login.page');
+Route::post('/employer/login', [JobListingsEmployer::class, 'login'])->name('employer.login');
 Route::get('/employer/register', [JobListingsEmployer::class, 'register'])->name('employer.register.page');
-Route::get('/employer/logout', [JobListingsEmployer::class, 'logout'])->name('logout')->middleware(AuthUser::class);
-Route::post('/user/create', [JobListingsEmployer::class, 'store']);
+Route::post('/employer/create', [JobListingsEmployer::class, 'store']);
+Route::get('/employer/logout', [JobListingsEmployer::class, 'logout'])->name('enployer.logout')->middleware(AuthUser::class);
+
+Route::get('/employer/dashboard', [JobListingsEmployer::class, 'index'])->name('employer.dashboard')->middleware(AuthUser::class);
+Route::get('/employer/new_job', [JobListingsEmployer::class, 'newjob'])->name('employer.newjobdesc.page')->middleware(AuthUser::class);
+Route::post('/employer/save_job', [JobListingsEmployer::class, 'create'])->name('employer.newjobdesc')->middleware(AuthUser::class);
+Route::get('/employer/edit_job/{jobDescId}', [JobListingsEmployer::class, 'edit_Job'])->name('employer.editjobdesc.page')->middleware(AuthUser::class);
+Route::put('/employer/update_job/{jobDescId}', [JobListingsEmployer::class, 'update'])->name('employer.updatejobdesc')->middleware(AuthUser::class);
+Route::get('employer/jobs_applicants', [JobListingsEmployer::class, 'applicantsAndJob'])->name('employer.applicantsAndJob.page')->middleware(AuthUser::class);
+Route::get('/employer/edit/{id}', [JobListingsEmployer::class, 'edit_profile'])->name('employer-profile-page')->middleware(AuthUser::class);
+
+
+Route::delete('employer/delete_user/{userId}', [JobListingsEmployer::class, 'destroy'])->middleware(AuthUser::class);
+Route::delete('employer/delete_job/{jobDescId}', [JobListingsEmployer::class, 'destroy_jobDesc'])->middleware(AuthUser::class);
 
 /*
 //->middleware(IsUser::class);
@@ -67,12 +79,8 @@ Route::resource('/user/edit', JobListingsEmployer::class);
 //  ->middleware(AuthUser::class, 'handle');
 //Route::resource('job-listings', JobListingController::class);
 
-Route::resource('/employer/login', JobListingsEmployer::class);
-Route::resource('/employer/dashboard', JobListingsEmployer::class);
-Route::resource('/employer/new', JobListingsEmployer::class);
-Route::resource('/employer/save', JobListingsEmployer::class);
-Route::resource('/employer/delete', JobListingsEmployer::class);
-Route::resource('/employer/edit', JobListingsEmployer::class);
+
+
 //->middleware(AuthUser::class, 'handle');
 Route::resource('/admin/login', JobListingsAdmin::class);
 Route::resource('/admin/dashboard', JobListingsEmployer::class);
