@@ -83,10 +83,11 @@ class JobListing extends Model
     }
 
 
-    public function hasApplied(JobListingsUser $user)
+    public function hasApplied(JobListingsUser $user, $job_id)
     {
         return $this->applications()
             ->where('user_id', $user->id)
+            ->where('job_id', $job_id)
             ->exists();
     }
 }
