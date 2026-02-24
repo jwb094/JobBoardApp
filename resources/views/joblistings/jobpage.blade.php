@@ -33,6 +33,31 @@
                     <i class="fa-solid fa-calendar"></i>
                     <p class="text-2xl  text-body">Job Posted :{{ $job->created_at->format('d.m.Y')}}</p>
                 </li>
+                @if (!empty($ $job->location))
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1">
+                    <i class="fa-solid fa-location-arrow"></i>
+                    <p class="text-2xl  text-body">Location : {{ $job->location}}</p>
+                </li>
+                @endif
+                @if (!empty($ $job->city))
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1">
+                    <i class="fa-solid fa-city"></i>
+                    <p class="text-2xl  text-body">City : {{ $job->city}}</p>
+                </li>
+                @endif
+                @if (!empty($ $job->address))
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1">
+                    <i class="fa-solid fa-city"></i>
+                    <p class="text-2xl  text-body">Address : {{ $job->address}}</p>
+                </li>
+                @endif
+                @if (!empty($ $job->post_code))
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1">
+                    <i class="fa-solid fa-map"></i>
+                    <p class="text-2xl  text-body">Post code : {{ $job->post_code}}</p>
+                </li>
+                @endif
+
 
                 <li class="flex flex-row | mt-1 | justify-end | gap-x-1">
                     <button class="bookmark-job-button" @if (empty(auth()->id())) disabled @endif @if (!empty(auth()->id())) data-user="{{ auth()->id()  }}" @endif data-job-id=" {{ $job->id }} " data-token="{{ csrf_token() }}">
