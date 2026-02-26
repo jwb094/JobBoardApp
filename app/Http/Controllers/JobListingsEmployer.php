@@ -369,6 +369,33 @@ class JobListingsEmployer extends Controller
         }
     }
 
+    public function update_profile(Request $request, string $id)
+    {
+        //dd($request->all());
+        $validated = $request->validate([
+            'first_name'   => 'required|string|max:255',
+            'last_name'    => 'required|string|max:255',
+            'email'        => 'required|string',
+            'password'     => 'required|string',
+
+        ]);
+
+
+
+        $updatedUserData =  $this->JobListingsUser->where('id', $id)->update($validated);
+
+
+        if (!$updatedUserData) {
+            return redirect('/employer/edit/' . $id)
+                ->with('status', true)
+                ->with('message', 'Profile Update unsuccessfully');
+        }
+
+        return redirect('/employer/dashboard')
+            ->with('status', true)
+            ->with('message', 'Profile Update successfully');
+    }
+
 
 
 

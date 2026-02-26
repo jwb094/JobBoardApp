@@ -59,6 +59,7 @@ Route::get('/employer/edit_job/{jobDescId}', [JobListingsEmployer::class, 'edit_
 Route::put('/employer/update_job/{jobDescId}', [JobListingsEmployer::class, 'update'])->name('employer.updatejobdesc')->middleware(AuthUser::class);
 Route::get('employer/jobs_applicants', [JobListingsEmployer::class, 'applicantsAndJob'])->name('employer.applicantsAndJob.page')->middleware(AuthUser::class);
 Route::get('/employer/edit/{id}', [JobListingsEmployer::class, 'edit_profile'])->name('employer-profile-page')->middleware(AuthUser::class);
+Route::put('/employer/update_profile/{id}', [JobListingsEmployer::class, 'update_profile'])->name('employer.updateprofile')->middleware(AuthUser::class);
 
 
 Route::delete('employer/delete_user/{userId}', [JobListingsEmployer::class, 'destroy'])->middleware(AuthUser::class);
