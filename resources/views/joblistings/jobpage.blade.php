@@ -14,16 +14,16 @@
                 <li class="flex flex-row |justify-start md:items-center | gap-x-1"><i class="fa-regular fa-clock"></i>
                     <p class="text-2xl  text-body">{{ $job->job_type }}</p>
                 </li>
-                @if (!empty($ $job->salary_min) && !empty($ $job->salary_max))
+                @if (!empty($ $job->salary_min) && !empty($ $job->salary_max)){{-- if salary_min && salary_max are not empty --}}
                 <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | "> <i class="fa-solid fa-money-bill"></i><span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">£{{ $job->salary_min }} - £{{ $job->salary_max }}</span></li>
                 @endif
-                @if (empty($ $job->salary_min) && empty($ $job->salary_max))
+                @if (empty($ $job->salary_min) && empty($ $job->salary_max)){{-- if salary_min  && salary_max are not empty --}}
                 <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | "> <i class="fa-solid fa-money-bill"></i><span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">No information recieved</li>
                 @endif
-                @if (empty($ $job->salary_min) && !empty($ $job->salary_max))
+                @if (empty($ $job->salary_min) && !empty($ $job->salary_max)){{-- if salary_min is empty && salary_max are not empty --}}
                 <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | "> <i class="fa-solid fa-money-bill"></i><span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">Starting from £{{ $job->salary_min }}</span></li>
                 @endif
-                @if (!empty($ $job->salary_min) && empty($ $job->salary_max))
+                @if (!empty($ $job->salary_min) && empty($ $job->salary_max)){{-- if salary_min is not empty && salary_max are is empty --}}
                 <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | "> <i class="fa-solid fa-money-bill"></i><span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">sUp To £{{ $job->salary_min }}</span></li>
                 @endif
                 <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1"> <i class="fa-solid fa-location-arrow"></i>
