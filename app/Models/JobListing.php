@@ -14,11 +14,12 @@ class JobListing extends Model
     /** @use HasFactory<\Database\Factories\JobsListingsFactory> */
     use hasFactory;
     protected $fillable = [
-        'job_listings_user_id',
+        'user_id',
         'category_id',
         'title',
         'slug',
         'description',
+        'company_background_info',
         'skillset_About',
         'benefits',
         'location',
@@ -27,6 +28,10 @@ class JobListing extends Model
         'salary_max',
         'status',
         'expires_at',
+        'post_code',
+        'address',
+        'company_id',
+        'city',
     ];
 
     protected $casts = [
@@ -35,7 +40,7 @@ class JobListing extends Model
 
     public function employer()
     {
-        return $this->belongsTo(JobListingsUser::class, 'job_listings_user_id');
+        return $this->belongsTo(JobListingsUser::class, 'user_id');
     }
 
     public function category()
@@ -45,7 +50,7 @@ class JobListing extends Model
 
     public function applications()
     {
-        return $this->hasMany(Application::class);
+        return $this->hasMany(Application::class, 'job_id');
     }
 
 
@@ -70,5 +75,19 @@ class JobListing extends Model
         }
         // dd(DB::getQueryLog());
         return $query->paginate(10);
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+
+    public function hasApplied(JobListingsUser $user, $job_id)
+    {
+        return $this->applications()
+            ->where('user_id', $user->id)
+            ->where('job_id', $job_id)
+            ->exists();
     }
 }

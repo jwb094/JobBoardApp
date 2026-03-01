@@ -11,7 +11,7 @@ class SavedJob extends Model
 
     protected $fillable = [
         'user_id',
-        'job_listing_id',
+        'job_id',
     ];
 
     public function user()

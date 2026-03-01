@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('job_listings_users', function (Blueprint $table) {
-
-            $table->string('password_hash')->nullable();
+        Schema::create('company', function (Blueprint $table) {
+            $table->id();
+            $table->string('company_name');
+            $table->integer('company_tel');
+            $table->string('company_size');
+            $table->timestamps();
         });
     }
 
@@ -22,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('job_listings_users', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('company');
     }
 };

@@ -1,29 +1,69 @@
 <x-layout>
+
     @section('title',$job->title ." Job Page")
     @section('content')
     <section class="bg-white dark:bg-gray-300 text-black">
         <div class="pt-24 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
             <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">{{ $job->title }}</h1>
 
-            <ul class="flex flex-col | gap-y-4 | mx-20">
-                <li class="flex flex-row | items-center | gap-x-1">
+            <ul class="flex flex-col | gap-y-4 | mx-4 md:mx-52">
+                <li class="flex flex-row | justify-start md:items-center | gap-x-1">
                     <i class="fa-solid fa-star"></i>
-                    <p class="text-body">{{ $job->category->name }}</p>
+                    <p class="text-2xl  text-body">{{ $job->category->name }}</p>
                 </li>
-                <li class="flex flex-row | items-center | gap-x-1"><i class="fa-regular fa-clock"></i>
-                    <p class="text-body">{{ $job->job_type }}</p>
+                <li class="flex flex-row |justify-start md:items-center | gap-x-1"><i class="fa-regular fa-clock"></i>
+                    <p class="text-2xl  text-body">{{ $job->job_type }}</p>
                 </li>
-                <li class="flex flex-row | mt-1 | items-center | gap-x-1"> <i class="fa-solid fa-money-bill"></i><span class="bg-success-soft text-fg-success-strong text-xs font-medium px-1.5 py-0.5 rounded bg-green-300">£{{ $job->salary_min }} - £{{ $job->salary_max }}</span></li>
-                <li class="flex flex-row | mt-1 | items-center | gap-x-1"> <i class="fa-solid fa-location-arrow"></i>
-                    <p class="text-body">{{ $job->location }}</p>
+                @if (!empty($ $job->salary_min) && !empty($ $job->salary_max)){{-- if salary_min && salary_max are not empty --}}
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | "> <i class="fa-solid fa-money-bill"></i><span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">£{{ $job->salary_min }} - £{{ $job->salary_max }}</span></li>
+                @endif
+                @if (empty($ $job->salary_min) && empty($ $job->salary_max)){{-- if salary_min  && salary_max are not empty --}}
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | "> <i class="fa-solid fa-money-bill"></i><span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">No information recieved</li>
+                @endif
+                @if (empty($ $job->salary_min) && !empty($ $job->salary_max)){{-- if salary_min is empty && salary_max are not empty --}}
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | "> <i class="fa-solid fa-money-bill"></i><span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">Starting from £{{ $job->salary_min }}</span></li>
+                @endif
+                @if (!empty($ $job->salary_min) && empty($ $job->salary_max)){{-- if salary_min is not empty && salary_max are is empty --}}
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | "> <i class="fa-solid fa-money-bill"></i><span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">sUp To £{{ $job->salary_min }}</span></li>
+                @endif
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1"> <i class="fa-solid fa-location-arrow"></i>
+                    <p class="text-2xl text-body">{{ $job->location }}</p>
                 </li>
-                <li class="flex flex-row | mt-1 | items-center | gap-x-1">
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1">
                     <i class="fa-solid fa-calendar"></i>
-                    <p class="text-body">Job Posted :{{ $job->created_at->format('d.m.Y')}}</p>
+                    <p class="text-2xl  text-body">Job Posted :{{ $job->created_at->format('d.m.Y')}}</p>
                 </li>
+                @if (!empty($ $job->location))
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1">
+                    <i class="fa-solid fa-location-arrow"></i>
+                    <p class="text-2xl  text-body">Location : {{ $job->location}}</p>
+                </li>
+                @endif
+                @if (!empty($ $job->city))
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1">
+                    <i class="fa-solid fa-city"></i>
+                    <p class="text-2xl  text-body">City : {{ $job->city}}</p>
+                </li>
+                @endif
+                @if (!empty($ $job->address))
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1">
+                    <i class="fa-solid fa-city"></i>
+                    <p class="text-2xl  text-body">Address : {{ $job->address}}</p>
+                </li>
+                @endif
+                @if (!empty($ $job->post_code))
+                <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1">
+                    <i class="fa-solid fa-map"></i>
+                    <p class="text-2xl  text-body">Post code : {{ $job->post_code}}</p>
+                </li>
+                @endif
+
 
                 <li class="flex flex-row | mt-1 | justify-end | gap-x-1">
-                    bookmark
+                    <button class="bookmark-job-button" @if (empty(auth()->id())) disabled @endif @if (!empty(auth()->id())) data-user="{{ auth()->id()  }}" @endif data-job-id=" {{ $job->id }} " data-token="{{ csrf_token() }}">
+                        <i class="bookmark | text-3xl |  @if (!empty($savedJobExists)) fa-solid @else fa-regular @endif fa-bookmark    |"></i>
+                    </button>
+                    <p class="bookmark-message"></p>
                 </li>
             </ul>
         </div>
@@ -36,13 +76,13 @@
                 <div class="mx-auto mb-6 max-w-3xl space-y-6 md:mb-12">
                     <h3>Job Description</h3>
                     <p class="text-base font-normal text-gray-500 dark:text-gray-400">
-                        {{ $job->description }}
+                        {!! $job->description !!}
                     </p>
 
 
-                    <h3>Job Description</h3>
+                    <h3>Skillset </h3>
                     <p class="text-base font-normal text-gray-500 dark:text-gray-400">
-                        {{ $job->skillset_About }}
+                        {!! $job->skillset_About !!}
                     </p>
 
                     <p class="text-base font-semibold text-gray-900 dark:text-white">Key Features and Benefits:</p>
@@ -73,16 +113,38 @@
                             Xcode and Affinity Photo to compile code in a fraction of the time or edit photos in real time. And it runs cool and quiet even while tackling these intense workloads. That's the power of hardware, software, and silicon - all designed together.
                         </li>
                     </ul> --}}
-                    {{ $job->benefits }}
+                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+
+                        {!! $job->benefits !!}
+                    </p>
                 </div>
                 <div class="mx-auto mb-6 max-w-3xl space-y-6 md:mb-12">
-                    <a href="">Apply</a>
-                    {{-- <p class="text-base font-normal text-gray-500 dark:text-gray-400">Connectivity includes two Thunderbolt / USB 4 ports and two USB 3 ports (all with a USB-C connector), a 3.5 mm headphone jack conveniently mounted on the left edge of the display, Wi-Fi 6 (802.11ax), and Bluetooth 5.0.</p>
+                    @if (!empty($user))
+                    @if (empty($hasApplied))
+                    <p>You have already applied for this job</p>
+                    @endif
+                    @if (empty($hasApplied))
+                    <a href="/job/{{ $user->id}}/{{  $job->slug}}/apply">Apply</a>
+                    @endif
+                    @endif
+                    @if (empty($user))
+                    <p>Please <a class="text-blue-500" href="{{  route('user-login-page')}}">login</a> Or <a class="text-blue-500" href=" {{  route('user-register-page')}}">Sign up</a> to apply</p>
+                    @endif
 
-                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">A-Grade/CR: iMacs are in 9/10 Cosmetic Condition and are 100% Fully Functional. iMacs will be shipped in generic packaging and will contain generic accessories. 90 Days Seller Warranty Included. iMacs may show signs of wear like scratches, scuffs and minor dents.</p>--}}
                 </div>
             </div>
         </div>
     </section>
     @endsection
+    @push('other-scripts')
+    <script>
+        console.log('do something in js')
+
+    </script>
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
+    <script src="{{ URL::asset('js/bookmark-job.js') }}"></script>
+    @endpush
 </x-layout>
+{{-- @section('footer-scripts')
+@include('scripts.bookmark-job')
+@endsection --}}

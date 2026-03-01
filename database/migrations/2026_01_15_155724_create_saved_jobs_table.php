@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('user_id')
-                ->constrained()
+                ->constrained('job_listings_users')
                 ->cascadeOnDelete();
 
             $table->foreignId('job_id')
-                ->constrained()
+                ->constrained('job_listings')
                 ->cascadeOnDelete();
 
             $table->timestamps();

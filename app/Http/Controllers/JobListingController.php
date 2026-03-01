@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\JobListing;
 use App\Models\Category;
+use App\Models\SavedJob;
 use Illuminate\Support\Str;
 
 class JobListingController extends Controller
@@ -12,14 +13,17 @@ class JobListingController extends Controller
 
     protected JobListing $jobListing;
     protected Category $categories;
-    public function __construct(JobListing $jobListingsModel, Category $categoryModel)
+
+    protected SavedJob $savedJob;
+    public function __construct(JobListing $jobListingsModel, Category $categoryModel, SavedJob $savedJobModel)
     {
         $this->jobListing = $jobListingsModel;
         $this->categories = $categoryModel;
+        $this->savedJob = $savedJobModel;
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of Job & filtered Search Jobs.
      */
     public function index(Request $request)
     {
@@ -47,11 +51,10 @@ class JobListingController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new Job.
      */
     public function create()
     {
-        //
         $categories = $this->categories::with('category')::all();
         return view('joblistings.create', compact('categories'));
     }
@@ -61,7 +64,6 @@ class JobListingController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $data = $request->validate([
             'category_id'   => 'required|exists:categories,id',
             'title'         => 'required|string|max:255',
@@ -89,25 +91,40 @@ class JobListingController extends Controller
      */
     public function show(string $id)
     {
-
+        //
+        $user = [];
+        $hasApplied = null;
+        $savedJobExists = [];
+        if (auth()->user()) {
+            $user = auth()->user();
+        }
         $job = $this->jobListing::findOrFail($id);
+        if ($user) {
+            $hasApplied = $this->jobListing->hasApplied($user->id, $id);
+        }
+        //dd($hasApplied);
+        if (!empty($user)) {
+            $savedJobExists = $this->savedJob::where('user_id', $user->id)
+                ->where('job_id', $job->id)
+                ->exists();
+        }
 
-        return view('joblistings.jobpage', ['job' => $job]);
+        return view('joblistings.jobpage', compact('job', 'user', 'savedJobExists', 'hasApplied'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show Job Details
      */
     public function edit(string $id)
     {
-        //
+
         $job = $this->jobListing::findOrFail($id);
         $categories = $this->categories::all();
         return view('job', ['job' => $job,  'categories' => $categories]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a Job Details.
      */
     public function update(Request $request, string $id)
     {
@@ -115,6 +132,8 @@ class JobListingController extends Controller
         $data = $request->validate([
             'category_id' => 'required|exists:categories,id',
             'title'       => 'required|string|max:255',
+            'company_background'       => 'required|string',
+            'address'       => 'required|string',
             'description'   => 'required|string',
             'skillset_About' => 'required|string',
             'benefits'      => 'required|string',
@@ -130,7 +149,7 @@ class JobListingController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove A Job.
      */
     public function destroy(string $id)
     {
@@ -138,5 +157,21 @@ class JobListingController extends Controller
         $jobDesc = $this->jobListing::find($id);
         $jobDesc->delete();
         return redirect('/dashboard');
+    }
+
+    /**
+     * Show Job Application form page
+     */
+    public function apply($id)
+    {
+        //
+        $user = [];
+        if (auth()->user()) {
+            $user = auth()->user();
+        }
+
+        $job = $this->jobListing::findOrFail($id);
+
+        return view('joblistings.job_application_form', ['job' => $job, 'user' => $user]);
     }
 }

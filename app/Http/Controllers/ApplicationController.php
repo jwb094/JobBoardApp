@@ -3,15 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\JobListing;
+use App\Models\JobListingsUser;
+use App\Models\Application;
+use App\Http\Requests;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Storage;
 
 class ApplicationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected JobListing $jobListing;
+    protected JobListingsUser $jobListingsUser;
+
+    protected Application $application;
+    public function __construct(JobListing $jobListingModel, JobListingsUser $jobListingsUserModel, Application $applicationModel)
     {
-        //
+
+        $this->jobListing = $jobListingModel;
+        $this->jobListingsUser = $jobListingsUserModel;
+        $this->application = $applicationModel;
     }
 
     /**
@@ -21,44 +31,50 @@ class ApplicationController extends Controller
     {
         //
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Request $request, $job_id, $userId)
     {
-        //
-    }
+        // if ($this->jobListing->where('job_id',  $job_id)->where('user_id', auth()->id())->exists()) {
+        //     return back()->with('error', 'You already applied.');
+        // }
+        // if ($jobListing->applications()
+        //     ->where('user_id', auth()->id())
+        //     ->exists()
+        // ) {
+        //     return back()->with('error', 'You already applied.');
+        // }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        //Create a folder for User applicant to store documents
+        $doesPathExists = public_path('uploads/' . auth()->user()->first_name . '-' . auth()->user()->last_name);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        $path = "";
+        if (Storage::exists($doesPathExists)) {
+            $path =  $doesPathExists;
+        }
+        //dd($path);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+        $data = $request->validate([
+            'job_id' => 'required|exists:job_listings,id',
+            'resume_path' => 'required',
+            'cover_letter' => 'required',
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        // 
+
+        //create datas array for sql query
+        $data['job_id'] = $job_id;
+        $data['user_id'] = $userId;
+        $data['resume_path'] = $path . '/' . $data['resume_path'];
+        $data['cover_letter'] = $path . '/' . $data['cover_letter'];
+        $data['status'] = 'Received/Submitted';
+
+
+        $updatedUserDocuments = $this->application::create($data);
+
+
+        if (!$updatedUserDocuments->id) {
+            return redirect(route('user.documents'))->with('success', false)->with('message', "uploads Documents failed")->with(compact($data));
+        }
+
+        return  redirect(route('user.dashboard'))->with('success', true)->with('message', "You have successfully completed your applicztion");
     }
 }
