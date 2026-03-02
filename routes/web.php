@@ -3,25 +3,19 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobListingController;
 use App\Http\Controllers\JobListingsEmployer;
-use App\Http\Controllers\JobListingsAdmin;
 use App\Http\Controllers\JobListingsUser;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\SavedJobListingController;
 use App\Http\Middleware\AuthUser;
-use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsUser;
 
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
 
 Route::get('/', [JobListingController::class, 'index'])->name('home');
 Route::get('/job/{id}/{slug}', [JobListingController::class, 'show']);
 Route::get('/job/{id}/{slug}/apply', [JobListingController::class, 'apply'])->middleware(IsUser::class);
 
-//Route::resource('/user', JobListingsUser::class);
 
 Route::get('/user/signin', [JobListingsUser::class, 'signin'])->name('user-login-page');
 Route::post('/user/login', [JobListingsUser::class, 'login']);
@@ -64,31 +58,3 @@ Route::put('/employer/update_profile/{id}', [JobListingsEmployer::class, 'update
 
 Route::delete('employer/delete_user/{userId}', [JobListingsEmployer::class, 'destroy'])->middleware(AuthUser::class);
 Route::delete('employer/delete_job/{jobDescId}', [JobListingsEmployer::class, 'destroy_jobDesc'])->middleware(AuthUser::class);
-
-/*
-//->middleware(IsUser::class);
-Route::resource('/saved-job', SavedJobListingController::class);
-Route::resource('/user/new', JobListingsEmployer::class);
-Route::resource('/user/save', JobListingsEmployer::class);
-Route::resource('/user/delete', JobListingsEmployer::class);
-Route::resource('/user/edit', JobListingsEmployer::class);
-
-// Route::get('/', [JobListingController::class, 'index']);
-// Route::get('/', [JobListingController::class, 'index']);
-
-//->middleware(['auth', 'employer']);
-//  ->middleware(AuthUser::class, 'handle');
-//Route::resource('job-listings', JobListingController::class);
-
-
-
-//->middleware(AuthUser::class, 'handle');
-Route::resource('/admin/login', JobListingsAdmin::class);
-Route::resource('/admin/dashboard', JobListingsEmployer::class);
-Route::resource('/admin/new', JobListingsAdmin::class);
-Route::resource('/admin/save', JobListingsAdmin::class);
-Route::resource('/admin/delete', JobListingsAdmin::class);
-Route::resource('/admin/edit', JobListingsAdmin::class);
-//->middleware(AuthUser::class, 'checkAdmin');
-Route::resource('/application', ApplicationController::class);
-*/
