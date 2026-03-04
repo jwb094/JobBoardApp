@@ -1,7 +1,6 @@
   /* @import "/flowbite/src/themes/default"; */
 
   footer {
-      position: absolute;
       bottom: 0;
       width: 100%;
   }
