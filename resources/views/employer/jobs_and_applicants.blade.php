@@ -1,4 +1,4 @@
-<x-layout>
+@extends('layouts.layout')
     @push('styles')
     @endpush
     @section('title',$companyName." Jobs & Applicants")
@@ -58,4 +58,3 @@
     @push('other-scripts')
     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
     @endpush
-</x-layout>

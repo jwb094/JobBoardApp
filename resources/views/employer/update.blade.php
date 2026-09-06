@@ -1,4 +1,4 @@
-<x-layout>
+@extends('layouts.layout')
     @section('title',ucfirst($user->first_name) ." ".ucfirst($user->last_name) ."Profile Details")
     @section('content')
 
@@ -54,4 +54,3 @@
 
     @endsection
 
-</x-layout>

@@ -47,10 +47,7 @@
                                <div class="py-6">
                                    <a href="{{ route('employer.dashboard') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Dashboard</a>
                                </div>
-                               @else
-                               <div class="py-6">
-                                   <a href="{{ route('user-login-page') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
-                               </div>
+
                                @endauth
 
                                @if(Auth::check() && auth()->user()->isApplicant())
@@ -63,6 +60,7 @@
                                @else
                                <div class="py-6">
                                    <a href="{{ route('user-login-page') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
+                                   <a href="{{ route('user-login-page') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Register</a>
                                </div>
                                @endauth
                            </div>

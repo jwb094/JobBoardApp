@@ -1,6 +1,5 @@
-<x-layout>
-
-    @section('title',$job->title ." Job Page")
+@extends('layouts.layout')
+@section('title',$job->title ." Job Page")
     @section('content')
     <section class="bg-white dark:bg-gray-300 text-black">
         <div class="pt-24 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
@@ -144,7 +143,7 @@
     <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
     <script src="{{ URL::asset('js/bookmark-job.js') }}"></script>
     @endpush
-</x-layout>
+
 {{-- @section('footer-scripts')
 @include('scripts.bookmark-job')
 @endsection --}}

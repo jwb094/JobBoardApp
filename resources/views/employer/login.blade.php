@@ -1,5 +1,5 @@
-<x-layout>
-    @section('title'," Emploiyer Login")
+@extends('layouts.layout')
+    @section('title'," Employer Login")
     @section('content')
 
     <div class="bg-white ">
@@ -43,5 +43,3 @@
 
 
     @endsection
-
-</x-layout>

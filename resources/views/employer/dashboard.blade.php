@@ -1,4 +1,4 @@
-<x-layout>
+@extends('layouts.layout')
     @section('title',$user->first_name." ". $user->last_name." Dashboard")
     @section('content')
 
@@ -62,4 +62,4 @@
 
     @endsection
 
-</x-layout>
+

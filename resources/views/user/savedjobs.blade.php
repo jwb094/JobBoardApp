@@ -1,4 +1,4 @@
-<x-layout>
+@extends('layouts.layout')
     @section('title','Saved Job List')
     @section('content')
     <!-- Include this script tag or install `@tailwindplus/elements` via npm: -->
@@ -32,4 +32,4 @@
 
     </div>
     @endsection
-</x-layout>
+

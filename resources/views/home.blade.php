@@ -1,4 +1,4 @@
-<x-layout>
+@extends('layouts.layout')
     @section('title','home')
     @section('content')
     <!-- Include this script tag or install `@tailwindplus/elements` via npm: -->
@@ -125,4 +125,4 @@
         {{ $jobListings->links() }}
     </div>
     @endsection
-</x-layout>
+

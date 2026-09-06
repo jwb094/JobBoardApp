@@ -1,4 +1,4 @@
-<x-layout>
+@extends('layouts.layout')
     @section('title',$job->title ." Job Application Page")
     @section('content')
     <section class="bg-white dark:bg-gray-300 text-black">
@@ -92,4 +92,3 @@
         </form>
     </section>
     @endsection
-</x-layout>

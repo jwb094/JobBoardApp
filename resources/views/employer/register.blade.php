@@ -1,4 +1,4 @@
-<x-layout>
+@extends('layouts.layout')
     @push('styles')
     <link rel="stylesheet" href=" {{ URL::asset('css/multi-step-form.css') }}">
     @endpush
@@ -96,4 +96,3 @@
     @push('other-scripts')
     <script src="{{ URL::asset('js/multi-step-form.js') }}"></script>
     @endpush
-</x-layout>

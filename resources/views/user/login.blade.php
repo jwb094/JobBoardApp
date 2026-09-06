@@ -1,4 +1,4 @@
-<x-layout>
+@extends('layouts.layout')
     @section('title'," Applicant Login")
     @section('content')
 
@@ -43,5 +43,3 @@
 
 
     @endsection
-
-</x-layout>
