@@ -59,8 +59,8 @@
                                </div>
                                @else
                                <div class="py-6">
-                                   <a href="{{ route('user-login-page') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
-                                   <a href="{{ route('user-login-page') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Register</a>
+                                   <a href="{{ route('user.login') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
+                                   <a href="{{ route('user.register') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Register</a>
                                </div>
                                @endauth
                            </div>
