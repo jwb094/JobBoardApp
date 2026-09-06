@@ -6,55 +6,71 @@
         <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">{{ $job->title }}</h1>
 
         <ul class="flex flex-col | gap-y-4 | mx-4 md:mx-52">
-            <li class="flex flex-row | justify-start md:items-center | gap-x-1">
+            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
                 <i class="fa-solid fa-star"></i>
                 <p class="text-2xl  text-body">{{ $job->category->name }}</p>
-            </li>
-            <li class="flex flex-row |justify-start md:items-center | gap-x-1"><i class="fa-regular fa-clock"></i>
+            </x-jobpage.list-item>
+            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
                 <p class="text-2xl  text-body">{{ $job->job_type }}</p>
-            </li>
-            @if (!empty($ $job->salary_min) && !empty($ $job->salary_max)){{-- if salary_min && salary_max are not empty --}}
-            <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | "> <i class="fa-solid fa-money-bill"></i><span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">£{{ $job->salary_min }} - £{{ $job->salary_max }}</span></li>
+            </x-jobpage.list-item>
+            @if (!empty($job->salary_min) && !empty($job->salary_max)){{-- if salary_min && salary_max are not empty --}}
+            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
+                <i class="fa-solid fa-money-bill"></i>
+                <span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">
+                    £{{ $job->salary_min }} - £{{ $job->salary_max }}</span>
+            </x-jobpage.list-item>
+
             @endif
-            @if (empty($ $job->salary_min) && empty($ $job->salary_max)){{-- if salary_min  && salary_max are not empty --}}
-            <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | "> <i class="fa-solid fa-money-bill"></i><span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">No information recieved</li>
+            @if (empty($job->salary_min) && empty($job->salary_max)){{-- if salary_min  && salary_max are not empty --}}
+            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
+                <i class="fa-solid fa-money-bill"></i>
+                <span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">
+                    No information recieved</span>
+            </x-jobpage.list-item>
             @endif
             @if (empty($ $job->salary_min) && !empty($ $job->salary_max)){{-- if salary_min is empty && salary_max are not empty --}}
-            <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | "> <i class="fa-solid fa-money-bill"></i><span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">Starting from £{{ $job->salary_min }}</span></li>
+            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
+                <i class="fa-solid fa-money-bill"></i>
+                <span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">
+                    Starting from £{{ $job->salary_min }}</span>
+            </x-jobpage.list-item>
             @endif
-            @if (!empty($ $job->salary_min) && empty($ $job->salary_max)){{-- if salary_min is not empty && salary_max are is empty --}}
-            <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | "> <i class="fa-solid fa-money-bill"></i><span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">sUp To £{{ $job->salary_min }}</span></li>
+            @if (!empty($job->salary_min) && empty($job->salary_max)){{-- if salary_min is not empty && salary_max are is empty --}}
+            {{-- <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | "> <i class="fa-solid fa-money-bill"></i><span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">sUp To £{{ $job->salary_min }}</span></li> --}}
+
+            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
+                <i class="fa-solid fa-money-bill"></i>
+                <span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">
+                    Up To £{{ $job->salary_min }}</span>
+            </x-jobpage.list-item>
             @endif
-            <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1"> <i class="fa-solid fa-location-arrow"></i>
-                <p class="text-2xl text-body">{{ $job->location }}</p>
-            </li>
-            <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1">
+            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
                 <i class="fa-solid fa-calendar"></i>
                 <p class="text-2xl  text-body">Job Posted :{{ $job->created_at->format('d.m.Y')}}</p>
-            </li>
-            @if (!empty($ $job->location))
-            <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1">
+            </x-jobpage.list-item>
+            @if (!empty($job->location))
+            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
                 <i class="fa-solid fa-location-arrow"></i>
                 <p class="text-2xl  text-body">Location : {{ $job->location}}</p>
-            </li>
+            </x-jobpage.list-item>
             @endif
-            @if (!empty($ $job->city))
-            <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1">
+            @if (!empty($job->city))
+            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
                 <i class="fa-solid fa-city"></i>
                 <p class="text-2xl  text-body">City : {{ $job->city}}</p>
-            </li>
+            </x-jobpage.list-item>
             @endif
-            @if (!empty($ $job->address))
-            <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1">
+            @if (!empty($job->address))
+            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
                 <i class="fa-solid fa-city"></i>
                 <p class="text-2xl  text-body">Address : {{ $job->address}}</p>
-            </li>
+            </x-jobpage.list-item>
             @endif
-            @if (!empty($ $job->post_code))
-            <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1">
+            @if (!empty($job->post_code))
+            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
                 <i class="fa-solid fa-map"></i>
                 <p class="text-2xl  text-body">Post code : {{ $job->post_code}}</p>
-            </li>
+            </x-jobpage.list-item>
             @endif
 
 
@@ -121,9 +137,8 @@
                 @if (!empty($user) && !empty($hasApplied))
                 <p>You have already applied for this job</p>
                 @endif
-                @if (!empty($user) &&  empty($hasApplied))
+                @if (!empty($user) && empty($hasApplied))
                 <a href="/job/{{ $job->id}}/{{  $job->slug}}/apply">Apply</a>
-
                 @endif
 
                 @if (empty($user))
