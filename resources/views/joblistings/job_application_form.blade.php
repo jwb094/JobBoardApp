@@ -57,7 +57,7 @@
                         <li class="flex flex-row | items-center | gap-x-1"><i class="fa-regular fa-clock"></i>
                             <p class="text-body">Cover Letter :</p>
 
-                            <input type="text" name="cover_letter" id="" value="{{ $user->cover_letter  }}">
+                            <input type="file" name="cover_letter" id="" value="{{ $user->cover_letter  }}">
                             {{-- <span>{{ $user->cover_letter  }}</span> --}}
                             {{-- @if (!empty($user)) --}}
                             {{-- <input type="file" name="CV" id="" @if (!empty($user->cv)) value="{{ $user->cv }}" @endif> --}}
@@ -66,7 +66,7 @@
                         <li class="flex flex-row | items-center | gap-x-1">
                             <i class="fa-solid fa-star"></i>
                             <p class="text-body"> CV :</p>
-                            <input type="text" name="resume_path" id="" value="{{ $user->cv  }}">
+                            <input type="file" name="resume_path" id="" value="{{ $user->cv  }}">
                             {{-- <span>{{ $user->cv }} </span> --}}
                             {{-- <input type="file" name="CV" id="" @if (!empty($user->cv)) value="{{ $user->cv }}" @endif> --}}
 
