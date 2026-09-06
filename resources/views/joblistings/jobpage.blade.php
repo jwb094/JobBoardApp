@@ -122,7 +122,7 @@
                 <p>You have already applied for this job</p>
                 @endif
                 @if (!empty($user) &&  empty($hasApplied))
-                <a href="/job/{{ $user->id}}/{{  $job->slug}}/apply">Apply</a>
+                <a href="/job/{{ $job->id}}/{{  $job->slug}}/apply">Apply</a>
 
                 @endif
 
