@@ -91,20 +91,24 @@ class JobListingController extends Controller
      */
     public function show(string $id)
     {
-        //
-        $user = [];
-        $hasApplied = null;
-        $savedJobExists = [];
-        if (auth()->user()) {
-            $user = auth()->user();
-        }
-        $job = $this->jobListing::findOrFail($id);
+
+
+        $user = auth()->user();
+
+
+        $job = $this->jobListing
+        ->with('company')
+        ->findOrFail($id);
+    
+        $hasApplied = false;
+        $savedJobExists = false;
+
+
         if ($user) {
             $hasApplied = $this->jobListing->hasApplied($user->id, $id);
-        }
-        //dd($hasApplied);
-        if (!empty($user)) {
-            $savedJobExists = $this->savedJob::where('user_id', $user->id)
+
+            $savedJobExists = $this->savedJob
+                ->where('user_id', $user->id)
                 ->where('job_id', $job->id)
                 ->exists();
         }
