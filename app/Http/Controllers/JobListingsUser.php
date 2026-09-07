@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CheckSignInUserRequest;
+use App\Http\Requests\CreateApplicantUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\JobListingsUser as JLUser;
@@ -117,14 +118,7 @@ class JobListingsUser extends Controller
         $loginCredentials = $request->validated();
 
         $authenciated =  $this->userAuthService->login($loginCredentials);
-        // $request->validate([
-        //     'email' => 'required',
-        //     'password' => 'required',
-        // ]);
-        //$credentials = $request->only('email', 'password');
 
-
-        // if (Auth::attempt($credentials)) {
          if ($authenciated) {
             return redirect()->intended(route('user.dashboard'))
                     ->with('success', "You have successfully logged in");
@@ -149,27 +143,13 @@ class JobListingsUser extends Controller
     /**
      * Store a new user applicant record
      */
-    public function store(Request $request)
+    public function store(CreateApplicantUserRequest $request)
     {
-        //
+        
+        $newApplicantUser = $this->userAuthService->register($request->validated());
 
-        $data = $request->validate([
-            'first_name'   => 'required|',
-            'last_name'    => 'required|string|max:255',
-            'email'   => 'required',
-            'password' => 'required',
-        ]);
 
-        // $data['user_id'] = auth()->id();
-        // $data['slug'] = Str::slug($data['title']);
-        //$data['password'] = Hash::make($request->password);
-        $data['password'] = Hash::make($request->password);
-        $data['role'] = 'applicant';
-        //dd($data);
-
-        $newUser = $this->JobListingsUser::create($data);
-
-        if (!$newUser->id) {
+        if (!$newApplicantUser->id) {
             return  redirect('/user/register')->wih('status', false)->with('message', "Registration failed, try again please");;
         }
         return  redirect('/user/signin')->with('status', true)->with('message', "Registration successfully");;
