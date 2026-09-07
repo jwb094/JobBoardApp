@@ -93,7 +93,7 @@ class JobListingsUser extends Controller
 
         $user = auth()->user();
 
-       // dd($user);
+        // dd($user);
 
         return view('user.user-documents', ['user' => $user]);
     }
@@ -158,15 +158,20 @@ class JobListingsUser extends Controller
     {
 
 
-        $validatedFormDetails = $request->validated();
+        $request->validated();
+
 
         $storedApplicantDocuments = $this->UserDocumentsService->uploadDocuments($request, auth()->user()->first_name, auth()->user()->last_name, (int) auth()->user()->id);
 
         if (!$storedApplicantDocuments) {
-            return redirect(route('user.documents'))->with('success', false)->with('message', "uploads Documents failed")->with(compact($data));
+            return redirect(route('user.documents'))
+            ->with('success', false)
+            ->with('message', "uploads Documents failed");
         }
 
-        return  redirect(route('user.dashboard'))->with('success', true)->with('message', "documents  uploaded succesfully");
+        return  redirect(route('user.dashboard'))
+        ->with('success', true)
+        ->with('message', "documents  uploaded succesfully");
     }
     /**
      * Sign in Page
