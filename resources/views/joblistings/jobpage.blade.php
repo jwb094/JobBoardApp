@@ -6,6 +6,12 @@
         <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">{{ $job->title }}</h1>
 
         <ul class="flex flex-col | gap-y-4 | mx-4 md:mx-52">
+
+            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
+                <i class="fa-regular fa-building"></i>
+                <p class="text-2xl  text-body"> {{ $job->company?->company_name ?? 'Company not available' }}</p>
+            </x-jobpage.list-item>
+
             <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
                 <i class="fa-solid fa-star"></i>
                 <p class="text-2xl  text-body">{{ $job->category->name }}</p>
@@ -19,7 +25,6 @@
                 <span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">
                     £{{ $job->salary_min }} - £{{ $job->salary_max }}</span>
             </x-jobpage.list-item>
-
             @endif
             @if (empty($job->salary_min) && empty($job->salary_max)){{-- if salary_min  && salary_max are not empty --}}
             <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
