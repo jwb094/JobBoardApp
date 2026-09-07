@@ -27,13 +27,13 @@
                     <thead class="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default">
                         <tr>
                             <th scope="col" class="px-6 py-3 font-medium">
-                                Product name
+                                Job Title
                             </th>
                             <th scope="col" class="px-6 py-3 font-medium">
-                                Color
+                                Applied Date 
                             </th>
                             <th scope="col" class="px-6 py-3 font-medium">
-                                Category
+                                Status
                             </th>
 
                         </tr>
