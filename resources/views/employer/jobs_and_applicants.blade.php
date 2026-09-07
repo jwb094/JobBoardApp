@@ -17,8 +17,8 @@
                     <h2 id="accordion-heading-{{ $sectionIndex }}">
                         <button type="button" class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 bg-gray-100 rounded-t-lg hover:bg-gray-200" data-accordion-target="#accordion-body-{{ $sectionIndex }}" aria-expanded="true" aria-controls="accordion-body-{{ $sectionIndex }}">
                             {{ $jobsAndApplicant->title }}
-                            <a class="w-40 px-2 | | text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm py-2" href="/employer/edit_job/{{ $jobsAndApplicant->id }}">Edit</a>
-                            <a class="w-40 px-2 | | text-white bg-red-800 hover:bg-red-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm py-2" href="/employer/delete_job/{{ $jobsAndApplicant->id }}">Delete</a>
+                            <a class="w-40 px-2 | | text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm py-2" href={{ route('employer.editjobdesc.page', $jobsAndApplicant->id) }}>Edit</a>
+                            <a class="w-40 px-2 | | text-white bg-red-800 hover:bg-red-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm py-2" href={{ route('employer.deletejob', $jobsAndApplicant->id) }}>Delete</a>
                             <svg data-accordion-icon class="w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
 
