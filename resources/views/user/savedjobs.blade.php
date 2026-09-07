@@ -20,10 +20,11 @@
             <h1>Saved Jobs</h1>
         </div>
         <div class="columns-1 pb-12">
-            @foreach ($savedJobList as $savedJob)
-            <a href="/job/{{ $savedJob->id }}/{{ $savedJob->slug }}" class="my-12 bg-neutral-primary-soft block  p-6 border border-default rounded-base shadow-xs hover:bg-neutral-secondary-medium">
-                <h5 class="mb-3 text-2xl font-semibold tracking-tight text-heading leading-8"> {{ $savedJob->jobListing->title }}</h5>
-                <p class="text-body">   {{ $savedJob->jobListing?->company?->company_name }}</p>
+            @foreach ($savedJobs as $savedJob)
+        
+            <a href="/job/{{ $savedJob->jobListing->id }}/{{ $savedJob->jobListing->slug }}" class="my-12 bg-neutral-primary-soft block  p-6 border border-default rounded-base shadow-xs hover:bg-neutral-secondary-medium">
+                <h3 class="mb-3 text-2xl font-semibold tracking-tight text-heading leading-8"> {{ $savedJob->jobListing->title }}</h3>
+                <h4 class="text-body">   {{ $savedJob->jobListing?->company?->company_name }}</h4>
             </a>
   
             @endforeach
