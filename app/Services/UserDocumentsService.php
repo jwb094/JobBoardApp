@@ -5,12 +5,13 @@ namespace App\Services;
 use App\Models\JobListingsUser;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+
 class UserDocumentsService
 {
 
 
     public function uploadDocuments(object $files, string $user_first_name, string $user_last_name, int $user_id)
-    {   
+    {
         $path = public_path('uploads/' . $user_first_name . '-' . $user_last_name);
 
 
@@ -34,24 +35,11 @@ class UserDocumentsService
     }
 
 
-    public function DeleteApplicantDocuments(string $userDocumentDirName){
+    public function DeleteApplicantDocuments(string $userDocumentDirName)
+    {
 
-    //   $path = 'uploads/' . $userDocumentDirName;
+        $path = public_path('uploads/' . $userDocumentDirName);
 
-    //     if (Storage::disk('public')->exists($path)) {
-    //         Storage::disk('public')->deleteDirectory($path);
-    //     }
-       $path = public_path('uploads/' . $userDocumentDirName);
-
-    //        dd([
-    //     'directory_name' => $userDocumentDirName,
-    //     'path' => $path,
-    //     'exists' => File::exists($path),
-    //     'is_directory' => File::isDirectory($path),
-    // ]);
-
-        // if (File::exists($path)) {
-            File::deleteDirectory($path);
-        // }
+        File::deleteDirectory($path);
     }
 }
