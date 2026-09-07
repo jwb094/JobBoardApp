@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CheckSignInUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\JobListingsUser as JLUser;
@@ -11,6 +12,7 @@ use App\Models\JobListing;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use App\Services\UserAuthService;
 
 class JobListingsUser extends Controller
 {
@@ -19,13 +21,16 @@ class JobListingsUser extends Controller
     protected SavedJob $savedJobListing;
     protected Application $application;
 
+    protected UserAuthService $userAuthService;
+
     protected JobListing $jobListing;
-    public function __construct(JLUser $jobListingsUserModel, SavedJob $savedJobListingModel, Application $applicationModel, JobListing $jobListingModel)
+    public function __construct(JLUser $jobListingsUserModel, SavedJob $savedJobListingModel, Application $applicationModel, JobListing $jobListingModel,UserAuthService $userAuthServices)
     {
         $this->JobListingsUser = $jobListingsUserModel;
         $this->savedJobListing = $savedJobListingModel;
         $this->application = $applicationModel;
         $this->jobListing = $jobListingModel;
+        $this->userAuthService = $userAuthServices;
     }
     /**
      * Display a listing of the resource.
@@ -77,10 +82,10 @@ class JobListingsUser extends Controller
         // foreach ($savedJobList as $key => $value) {
         //     $savedJobs[] = $this->jobListing::where('id', $value->job_id)->first();
         // }
-           $savedJobs = $this->savedJobListing
-        ::where('user_id', $id)
-        ->with('jobListing.company')
-        ->get();
+        $savedJobs = $this->savedJobListing
+            ::where('user_id', $id)
+            ->with('jobListing.company')
+            ->get();
 
         //dd($savedJobs);
         return view('user.savedjobs', compact('savedJobs'));
@@ -106,20 +111,27 @@ class JobListingsUser extends Controller
     // }
 
 
-    public function login(Request $request)
+    public function login(CheckSignInUserRequest $request)
     {
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-        $credentials = $request->only('email', 'password');
+
+        $loginCredentials = $request->validated();
+
+        $authenciated =  $this->userAuthService->login($loginCredentials);
+        // $request->validate([
+        //     'email' => 'required',
+        //     'password' => 'required',
+        // ]);
+        //$credentials = $request->only('email', 'password');
 
 
-        if (Auth::attempt($credentials)) {
-            return redirect()->intended(route('user.dashboard'))->with('success', "You have successfully logged in");
+        // if (Auth::attempt($credentials)) {
+         if ($authenciated) {
+            return redirect()->intended(route('user.dashboard'))
+                    ->with('success', "You have successfully logged in");
         }
 
-        return  redirect('/user/signin')->with('status', true)->with('message', "Registration unsuccessfully");;
+        return  redirect(route('user.login'))->with('status', true)
+                ->with('message', "Registration unsuccessfully");
     }
 
     /**
