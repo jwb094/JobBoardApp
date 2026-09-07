@@ -82,29 +82,17 @@ class JobListingsUser extends Controller
             ->with('jobListing.company')
             ->get();
 
-        //dd($savedJobs);
         return view('user.savedjobs', compact('savedJobs'));
     }
 
     public function documents($id)
     {
 
-
-
         $user = auth()->user();
-
-        // dd($user);
 
         return view('user.user-documents', ['user' => $user]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    // public function create()
-    // {
-    //     //
-    // }
 
 
     public function login(CheckSignInUserRequest $request)
@@ -193,9 +181,7 @@ class JobListingsUser extends Controller
      */
     public function edit(string $id)
     {
-        //
         $user = $this->JobListingsUser::findOrFail($id);
-        // dd($user);
         return view('user.update', ['user' => $user]);
     }
 
