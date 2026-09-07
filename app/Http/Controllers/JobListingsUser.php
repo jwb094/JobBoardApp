@@ -226,23 +226,14 @@ class JobListingsUser extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CreateApplicantUserRequest $request, string $id)
     {
         //
+        
+        $UpdatedApplicantUser = $this->userAuthService->update($request->validated(),(int)  $id);
 
-        $data = $request->validate([
-            'first_name'   => 'required|',
-            'last_name'    => 'required|string|max:255',
-            'email'   => 'required',
-            'password' => 'required',
-        ]);
 
-        $data['password'] = Hash::make($request->password);
-        $data['role'] = 'applicant';
-
-        $updatedUser =    $this->JobListingsUser::where('id', $id)->update($data);
-
-        if (!$updatedUser) {
+        if (!$UpdatedApplicantUser) {
             return redirect(route('user-update-page'))->with('success', false)->with('message', false)->with(compact($data));
         }
 
