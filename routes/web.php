@@ -57,7 +57,7 @@ Route::prefix('employer')->group(function () {
         Route::get('/dashboard', [JobListingsEmployer::class, 'index'])->name('employer.dashboard');
         Route::get('/new_job', [JobListingsEmployer::class, 'newjob'])->name('employer.newjobdesc.page');
         Route::post('/save_job', [JobListingsEmployer::class, 'create'])->name('employer.newjobdesc');
-        Route::get('/edit_job/{jobDescId}', [JobListingsEmployer::class, 'edit_Job'])->name('employer.editjobdesc.page');
+        Route::get('/edit_job/{jobDescId}', [JobListingsEmployer::class, 'edit_job'])->name('employer.editjobdesc.page');
         Route::put('/update_job/{jobDescId}', [JobListingsEmployer::class, 'update'])->name('employer.updatejobdesc');
         Route::get('/jobs_applicants', [JobListingsEmployer::class, 'applicantsAndJob'])->name('employer.applicantsAndJob.page');
         Route::get('/edit/{id}', [JobListingsEmployer::class, 'edit_profile'])->name('employer.profile.page');
@@ -65,6 +65,6 @@ Route::prefix('employer')->group(function () {
 
 
         Route::delete('/delete_user/{userId}', [JobListingsEmployer::class, 'destroy']);
-        Route::delete('/delete_job/{jobDescId}', [JobListingsEmployer::class, 'destroy_jobDesc']);
+        Route::delete('/delete_job/{jobDescId}', [JobListingsEmployer::class, 'destroy_jobDesc'])->name('employer.deletejob');
     });
 });
