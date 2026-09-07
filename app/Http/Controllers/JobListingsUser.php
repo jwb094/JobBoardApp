@@ -159,38 +159,9 @@ class JobListingsUser extends Controller
 
         $validatedFormDetails = $request->validated();
 
-        $storedApplicantDocuments = $this->UserDocumentsService->uploadDocuments($request,auth()->user()->first_name,auth()->user()->last_name,(int) auth()->user()->id);
-        /*
-        //Create a folder for User applicant to store documents
-        $path = public_path('uploads/' . auth()->user()->first_name . '-' . auth()->user()->last_name);
+        $storedApplicantDocuments = $this->UserDocumentsService->uploadDocuments($request, auth()->user()->first_name, auth()->user()->last_name, (int) auth()->user()->id);
 
-        if (!Storage::exists($path)) {
-            Storage::makeDirectory($path, 0777, true, true);
-        }
-
-        //Validate input fields
-        // $data = $request->validate([
-        //     'cover_letter' => 'file|mimes:pdf,doc,docx|max:2048',
-        //     'cv' => 'file|mimes:pdf,doc,docx|max:2048',
-        //     'portfolio_link' => 'nullable|string',
-        // ]);
-
-        //Capture the files and upload to DIR
-        $cover_letter = $request->file('cover_letter');
-        $cv = $request->file('cv');
-
-        $request->cover_letter->move($path, $cover_letter->getClientOriginalName());
-        $request->cv->move($path, $cv->getClientOriginalName());
-
-
-        $data['cover_letter'] = $cover_letter->getClientOriginalName();
-        $data['cv'] = $cv->getClientOriginalName();
-
-        //update USer Applicant record with documents 
-        $updatedUserDocuments =    $this->JobListingsUser::where('id', auth()->user()->id)->update($data);
-        */
-        // if (!$updatedUserDocuments) {
-         if (!$storedApplicantDocuments) {
+        if (!$storedApplicantDocuments) {
             return redirect(route('user.documents'))->with('success', false)->with('message', "uploads Documents failed")->with(compact($data));
         }
 
@@ -244,10 +215,14 @@ class JobListingsUser extends Controller
      */
     public function destroy(string $id)
     {
-        //
-        $user = $this->JobListingsUser::find($id);
-        //delete application from 
-        $user->delete();
-        return view('home');
+        $user = $this->JobListingsUser->find(auth()->user()->id);
+        $userDocumentsDir =  $user->first_name . '-' . $user->last_name;
+
+        $this->UserDocumentsService->DeleteApplicantDocuments($userDocumentsDir);
+
+        $this->userAuthService->deleteUser((int) auth()->user()->id);
+
+
+        return  redirect('/');
     }
 }
