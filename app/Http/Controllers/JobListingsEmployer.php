@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-
+use App\Services\EmployerService;
 use Illuminate\Support\Str;
 
 class JobListingsEmployer extends Controller
@@ -25,12 +25,15 @@ class JobListingsEmployer extends Controller
     protected JobListing $JobListing;
 
     protected Company $Company;
-    public function __construct(Category $categoryModel, JobListingsUser $jobListingsUserModel,  JobListing $jobListingModel, Company $companyModel)
+
+    protected  EmployerService $employerService;
+    public function __construct(Category $categoryModel, JobListingsUser $jobListingsUserModel,  JobListing $jobListingModel, Company $companyModel, EmployerService $employerService)
     {
         $this->JobListingsUser = $jobListingsUserModel;
         $this->Company =  $companyModel;
         $this->JobListing = $jobListingModel;
         $this->Category = $categoryModel;
+        $this->employerService = $employerService;
     }
 
     /** 
@@ -38,25 +41,20 @@ class JobListingsEmployer extends Controller
      */
     public function index()
     {
-        //  
-        $user = [];
-        if (auth()->user()) {
-            $user = auth()->user();
-        }
 
-        if ($user) {
-            $applicantCount =  $this->JobListing::where('company_id', '=', $user->company_id)
-                ->join('applications', 'job_listings.id', '=', 'applications.job_id')
-                ->count();
-            $jobCount =    $this->JobListing::where('company_id', '=', $user->company_id)->count();
-        }
 
-        //Get count of Job Created
+        $user = auth()->user();
+
+        $dashboardInfo = $this->employerService->dashboard($user);
+
 
         return view(
             'employer.dashboard',
-            compact('user', 'applicantCount', 'jobCount')
-
+            [
+                'user' => $user,
+                'jobCount' => $dashboardInfo['jobCount'],
+                'applicantCount' => $dashboardInfo['applicantCount']
+            ]
         );
     }
 
@@ -75,13 +73,13 @@ class JobListingsEmployer extends Controller
         // $job = $this->JobListing::findOrFail($id);
         // $categories = $this->Category::all();
 
-        
-          $job = $this->JobListing
-        ->where('id', $id)
-        ->where('user_id', auth()->id())
-        ->firstOrFail();
 
-    $categories = $this->Category::all();
+        $job = $this->JobListing
+            ->where('id', $id)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        $categories = $this->Category::all();
         // dd($job->expires_at->format('d/m/y'));
         // $job->expires_at = explode(" ", $job->expires_at);
         // dd($job->expires_at);
@@ -113,33 +111,16 @@ class JobListingsEmployer extends Controller
 
     public function applicantsAndJob()
     {
-        //
         $user = auth()->user();
 
 
-        // $jobsAndApplicants =    $this->JobListing::with("applications")
-        //     ->select("title", "id")
-        //     ->where('company_id', '=', $user->company_id)
-        //     ->get();
-        // $jobs = JobListing::where('company_id',   $user->company_id)
-        //     ->where('status', 'open')
-        //     ->with('applications')
-        //     ->get();
-        // $jobsAndApplicants = JobListing::where('company_id', $user->company_id)
-        //     ->where('status', 'open')
-        //     ->with([
-        //         'applications.applicantUsers'
-        //     ])
-        //     ->get();
-        $jobsAndApplicants = JobListing::where('company_id', $user->company_id)
-            ->where('status', 'open')
-            ->with('applications.applicantUsers')
-            ->get();
-        $companyName =   $this->Company::where("id", $user->company_id)->select("company_name")->get();
-        $companyName = json_decode($companyName, true);
-        $companyName = ucfirst($companyName[0]['company_name']);
-        //dd(vars: $companyName[0]['company_name']);
-        return view('employer.jobs_and_applicants', compact('jobsAndApplicants', 'companyName'));
+        $jobsAndApplicants = $this->employerService->getJobsAndApplicants($user);
+        $companyName = $this->employerService->getCompanyDetails($user);
+
+        return view(
+            'employer.jobs_and_applicants',
+            compact('jobsAndApplicants', 'companyName')
+        );
     }
 
     // public function jobDescs(string $id)
@@ -241,7 +222,7 @@ class JobListingsEmployer extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {   
+    {
         $user = auth()->user();
 
 
