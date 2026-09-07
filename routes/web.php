@@ -43,7 +43,7 @@ Route::prefix('/user')->group(function () {
 
 
 Route::post('/job/update_wishlist', [SavedJobListingController::class, 'update'])->middleware(IsUser::class);
-Route::post('/job/sumbit_application/{job_id}/{user_id}', [ApplicationController::class, 'store'])->middleware(IsUser::class);
+Route::post('/job/sumbit_application/{job_id}/{user_id}', [ApplicationController::class, 'store'])->name('job.apply')->middleware(IsUser::class);
 
 Route::prefix('employer')->group(function () {
 
