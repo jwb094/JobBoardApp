@@ -88,11 +88,12 @@ class JobListingsUser extends Controller
 
     public function documents($id)
     {
-        $user = [];
 
-        if (auth()->user()) {
-            $user = auth()->user();
-        }
+
+
+        $user = auth()->user();
+
+       // dd($user);
 
         return view('user.user-documents', ['user' => $user]);
     }
