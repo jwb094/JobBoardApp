@@ -83,7 +83,7 @@ class JobListingsUser extends Controller
         ->get();
 
         //dd($savedJobs);
-        return view('user.savedjobs', ['savedJobList' => $savedJobs]);
+        return view('user.savedjobs', compact('savedJobs'));
     }
 
     public function documents($id)
