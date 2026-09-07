@@ -34,8 +34,9 @@ Route::prefix('/user')->group(function () {
     Route::get('/{id}/documents', [JobListingsUser::class, 'documents'])->name('user.documents')->middleware(IsUser::class);
     Route::get('/{id}/savedjobs', [JobListingsUser::class, 'savedjobs'])->name('user.savedjobs')->middleware(IsUser::class);
     Route::post('/{id}/store_documents', [JobListingsUser::class, 'store_documents'])->name('user.store_documents')->middleware(IsUser::class);
-    Route::get('/edit/{user_id}', [JobListingsUser::class, 'edit'])->name('user.update.page')->middleware(IsUser::class);
-    Route::post('/update/{user_id}', [JobListingsUser::class, 'update'])->name('user.update')->middleware(IsUser::class);
+    Route::get('/edit/{jobListingsUser}', [JobListingsUser::class, 'edit'])->name('user.update.page')->middleware(IsUser::class);
+    Route::post('/update/{userId}', [JobListingsUser::class, 'update'])->name('user.update')->middleware(IsUser::class);
+    Route::delete('/delete/{userId}', [JobListingsUser::class, 'destroy'])->name('user.delete');
 });
 
 
@@ -64,7 +65,7 @@ Route::prefix('employer')->group(function () {
         Route::put('/update_profile/{id}', [JobListingsEmployer::class, 'update_profile'])->name('employer.updateprofile');
 
 
-        Route::delete('/delete_user/{userId}', [JobListingsEmployer::class, 'destroy']);
+    Route::delete('/delete/{userId}', [JobListingsEmployer::class, 'destroy'])->name('user.delete');
         Route::delete('/delete_job/{jobDescId}', [JobListingsEmployer::class, 'destroy_jobDesc'])->name('employer.deletejob');
     });
 });
