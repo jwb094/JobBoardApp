@@ -18,23 +18,23 @@
             <form method="GET" action="/">
                 <div class="flex justify-center | justify-center items-center gap-8">
                     <div class="grow-1">
-                        <x-form.label for="search"  class="block mb-2 text-sm font-medium text-gray-900"> 
+                        <x-form.label for="search" class="block mb-2 text-sm font-medium text-gray-900">
                             Search
                         </x-form.label>
                         <x-form.form-input type="text" id="search" name="search" value="{{ request('search') }}" class="block w-full px-3 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 shadow-sm placeholder-gray-400" placeholder="Search e.g. Manager"></x-form.form-input>
                     </div>
 
                     <div class="grow-1">
-                        <x-form.label for="category" class="block mt-2 text-sm font-medium text-gray-900"> Category</x-form.label>
+                        <x-form.label for="category" class="block mb-2 text-sm font-medium text-gray-900"> Category</x-form.label>
                         <x-form.form-select id="category" name="category" class="block w-full mt-2 px-3 py-2 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm" :categories="$categories"> </x-form.form-select>
                     </div>
                     <div class="grow-1">
-                        <button type="submit" class="mt-6 | text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5">
+                        <x-form.form-button type="submit" class="mt-6 | text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5">
                             Search
-                        </button>
+                        </x-form.form-button>
                     </div>
                     <div class="grow-1 mt-6">
-                        <a class="mt-6 |text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5" type="button" href="/">Reset</a>
+                        <a class="mt-6 |text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-3" type="button" href="/">Reset</a>
                     </div>
                 </div>
             </form>
@@ -45,31 +45,20 @@
                 <form method="GET" action="/">
                     <div class="columns-1">
 
-                        <label for="search" class="block mb-2 text-sm font-medium text-gray-900">
+                          <x-form.label for="search" class="block mb-2 text-sm font-medium text-gray-900">
                             Search
-                        </label>
-                        <input type="text" id="search" name="search" value="{{ request('search') }}" class="block w-full px-3 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 shadow-sm placeholder-gray-400" placeholder="Search e.g. Manager" />
+                        </x-form.label>
+                        <x-form.form-input type="text" id="search" name="search" value="{{ request('search') }}" class="block w-full px-3 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 shadow-sm placeholder-gray-400" placeholder="Search e.g. Manager"></x-form.form-input>
 
-                        <label for="category" class="block mt-4 mb-2 text-sm font-medium text-gray-900">
-                            Category
-                        </label>
-
-                        <select id="category" name="category" class="block w-full mt-2 px-3 py-2 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
-                            <option value="">All Categories</option>
-
-                            @foreach ($categories as $category)
-                            <option value="{{ $category->id }}" @selected(request('category')==$category->id)
-                                >
-                                {{ $category->name }}
-                            </option>
-                            @endforeach
-                        </select>
+                        <x-form.label for="category" class="block my-4 text-sm font-medium text-gray-900"> Category</x-form.label>
+                        <x-form.form-select id="category" name="category" class="block w-full mt-2 px-3 py-2 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm" :categories="$categories"> </x-form.form-select>
 
 
-                        <button type="submit" class="mt-6 | text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5">
+                
+                        <x-form.form-button type="submit" class="mt-6 | text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5">
                             Search
-                        </button>
-                        <a class="mt-6 |text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5" type="button" href="/">Reset</a>
+                        </x-form.form-button>
+                        <a class="mt-6 | text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-3" type="button" href="/">Reset</a>
 
 
 
