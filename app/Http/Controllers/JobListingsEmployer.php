@@ -70,10 +70,18 @@ class JobListingsEmployer extends Controller
         return view('employer.update', compact('user'));
     }
 
-    public function edit_Job(string $id)
+    public function edit_job(string $id)
     {
-        $job = $this->JobListing::findOrFail($id);
-        $categories = $this->Category::all();
+        // $job = $this->JobListing::findOrFail($id);
+        // $categories = $this->Category::all();
+
+        
+          $job = $this->JobListing
+        ->where('id', $id)
+        ->where('user_id', auth()->id())
+        ->firstOrFail();
+
+    $categories = $this->Category::all();
         // dd($job->expires_at->format('d/m/y'));
         // $job->expires_at = explode(" ", $job->expires_at);
         // dd($job->expires_at);
@@ -233,7 +241,7 @@ class JobListingsEmployer extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
+    {   
         $user = auth()->user();
 
 
