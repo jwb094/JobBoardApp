@@ -21,6 +21,6 @@ class SavedJob extends Model
 
     public function jobListing()
     {
-        return $this->belongsTo(JobListing::class);
+        return $this->belongsTo(JobListing::class, 'job_id');
     }
 }
