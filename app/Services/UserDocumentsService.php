@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\JobListingsUser;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\File;
 class UserDocumentsService
 {
 
@@ -31,5 +31,27 @@ class UserDocumentsService
         $updatedUserDocuments =   JobListingsUser::where('id', $user_id)->update($data);
 
         return $updatedUserDocuments;
+    }
+
+
+    public function DeleteApplicantDocuments(string $userDocumentDirName){
+
+    //   $path = 'uploads/' . $userDocumentDirName;
+
+    //     if (Storage::disk('public')->exists($path)) {
+    //         Storage::disk('public')->deleteDirectory($path);
+    //     }
+       $path = public_path('uploads/' . $userDocumentDirName);
+
+    //        dd([
+    //     'directory_name' => $userDocumentDirName,
+    //     'path' => $path,
+    //     'exists' => File::exists($path),
+    //     'is_directory' => File::isDirectory($path),
+    // ]);
+
+        // if (File::exists($path)) {
+            File::deleteDirectory($path);
+        // }
     }
 }
