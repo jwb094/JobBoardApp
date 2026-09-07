@@ -55,6 +55,16 @@
                                    <a href="{{ route('logout') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log out</a>
                                </div>
                                <div class="py-6">
+                                   <form action="{{ route('user.delete',auth()->user()->id) }}" method="post">
+                                       @csrf
+                                       @method('delete')
+                                       {{-- <a href="{{ route('user.delete',auth()->user()->id) }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Delete Account</a> --}}
+                                       <button type="submit" class="w-auto | mt-6 | text-white bg-red-500 hover:bg-green-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5">
+                                           Delete Account
+                                       </button>
+                                   </form>
+                               </div>
+                               <div class="py-6">
                                    <a href="{{ route('user.dashboard') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Dashboard</a>
                                </div>
                                @else
