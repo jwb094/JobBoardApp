@@ -57,7 +57,7 @@ class UserAuthService
     }
 
 
-    public function deleteUser($id)
+    public function deleteUser(int $id)
     {
 
         DB::transaction(function () use ($id) {
