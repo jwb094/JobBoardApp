@@ -69,14 +69,20 @@ class JobListingsUser extends Controller
         //dd($userApplications[0]->jobListing);
         return view('user.applications', ['user' => $user, 'userApplications' => $userApplications]);
     }
-    public function savedjobs($id)
+    public function savedjobs(int $id)
     {
-        $savedJobs = [];
-        $savedJobList = $this->savedJobListing::where('user_id', $id)->get();
+        // $savedJobs = [];
+        // $savedJobList = $this->savedJobListing::where('user_id', $id)->get();
 
-        foreach ($savedJobList as $key => $value) {
-            $savedJobs[] = $this->jobListing::where('id', $value->job_id)->first();
-        }
+        // foreach ($savedJobList as $key => $value) {
+        //     $savedJobs[] = $this->jobListing::where('id', $value->job_id)->first();
+        // }
+           $savedJobs = $this->savedJobListing
+        ::where('user_id', $id)
+        ->with('jobListing.company')
+        ->get();
+
+        //dd($savedJobs);
         return view('user.savedjobs', ['savedJobList' => $savedJobs]);
     }
 
