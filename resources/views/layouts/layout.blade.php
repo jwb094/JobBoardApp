@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title','Password Keeper')</title>
+    <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/app.css') }}">
     <link href=" {{ URL::asset('css/mycss.css') }}" rel="stylesheet">
