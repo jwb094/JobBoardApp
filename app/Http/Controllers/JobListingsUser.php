@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CheckSignInUserRequest;
 use App\Http\Requests\CreateApplicantUserRequest;
+use App\Http\Requests\StoreApplicantUserDocumentsRequest;
+use App\Services\UserDocumentsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\JobListingsUser as JLUser;
@@ -24,14 +26,24 @@ class JobListingsUser extends Controller
 
     protected UserAuthService $userAuthService;
 
+
+    protected UserDocumentsService $UserDocumentsService;
+
     protected JobListing $jobListing;
-    public function __construct(JLUser $jobListingsUserModel, SavedJob $savedJobListingModel, Application $applicationModel, JobListing $jobListingModel, UserAuthService $userAuthServices)
-    {
+    public function __construct(
+        JLUser $jobListingsUserModel,
+        SavedJob $savedJobListingModel,
+        Application $applicationModel,
+        JobListing $jobListingModel,
+        UserAuthService $userAuthServices,
+        UserDocumentsService $UserDocumentsService
+    ) {
         $this->JobListingsUser = $jobListingsUserModel;
         $this->savedJobListing = $savedJobListingModel;
         $this->application = $applicationModel;
         $this->jobListing = $jobListingModel;
         $this->userAuthService = $userAuthServices;
+        $this->UserDocumentsService = $UserDocumentsService;
     }
     /**
      * Display a listing of the resource.
@@ -141,23 +153,27 @@ class JobListingsUser extends Controller
     /**
      * Store documents.
      */
-    public function store_documents(Request $request)
+    public function store_documents(StoreApplicantUserDocumentsRequest $request)
     {
 
+
+        $validatedFormDetails = $request->validated();
+
+        $storedApplicantDocuments = $this->UserDocumentsService->uploadDocuments($request,auth()->user()->first_name,auth()->user()->last_name,(int) auth()->user()->id);
+        /*
         //Create a folder for User applicant to store documents
         $path = public_path('uploads/' . auth()->user()->first_name . '-' . auth()->user()->last_name);
 
         if (!Storage::exists($path)) {
-
             Storage::makeDirectory($path, 0777, true, true);
         }
 
         //Validate input fields
-        $data = $request->validate([
-            'cover_letter' => 'file|mimes:pdf,doc,docx|max:2048',
-            'cv' => 'file|mimes:pdf,doc,docx|max:2048',
-            'portfolio_link' => 'nullable|string',
-        ]);
+        // $data = $request->validate([
+        //     'cover_letter' => 'file|mimes:pdf,doc,docx|max:2048',
+        //     'cv' => 'file|mimes:pdf,doc,docx|max:2048',
+        //     'portfolio_link' => 'nullable|string',
+        // ]);
 
         //Capture the files and upload to DIR
         $cover_letter = $request->file('cover_letter');
@@ -172,8 +188,9 @@ class JobListingsUser extends Controller
 
         //update USer Applicant record with documents 
         $updatedUserDocuments =    $this->JobListingsUser::where('id', auth()->user()->id)->update($data);
-
-        if (!$updatedUserDocuments) {
+        */
+        // if (!$updatedUserDocuments) {
+         if (!$storedApplicantDocuments) {
             return redirect(route('user.documents'))->with('success', false)->with('message', "uploads Documents failed")->with(compact($data));
         }
 
