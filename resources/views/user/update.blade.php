@@ -17,7 +17,7 @@
         <div class="flex h-screen justify-center items-center relative isolate h-lvh   px-6  lg:px-8">
             <div class="w-96">
                 <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-black">New Applicant REgisteration</h2>
-                <form action="/user/update/{{ $user->id }}" method="POST">
+                <form action={{ route('user.update',$user->id) }} method="POST">
                     @csrf
                     <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <div class="sm:col-span-2">
@@ -34,7 +34,7 @@
                         </div>
                         <div class="sm:col-span-2">
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Password</label>
-                            <input value="{{ $user->password }}" type="text" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type your password" required="">
+                            <input value="{{ $user->password }}" type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type your password" required="">
                         </div>
 
 

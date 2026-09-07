@@ -17,7 +17,7 @@
     <div class="flex h-screen justify-center items-center relative isolate h-lvh   px-6  lg:px-8">
         <div class="w-96">
             <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-black">Your Documents</h2>
-            <form action="/user/{{ $user->id }}/store_documents" method="POST" enctype="multipart/form-data">
+            <form action={{ route('user.store_documents',$user->id) }} method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                     <div class="sm:col-span-2">
