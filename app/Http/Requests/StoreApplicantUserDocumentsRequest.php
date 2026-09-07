@@ -23,7 +23,7 @@ class StoreApplicantUserDocumentsRequest extends FormRequest
     {
         return [
             'cover_letter' => 'file|mimes:pdf,doc,docx|max:2048',
-            'cv' => 'file|mimes:pdf,doc,docx|max:2048',
+            'cv' => 'required|file|mimes:pdf,doc,docx|max:2048',
             'portfolio_link' => 'nullable|string',
         ];
     }
