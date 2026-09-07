@@ -25,7 +25,7 @@ class JobListingsUser extends Controller
     protected UserAuthService $userAuthService;
 
     protected JobListing $jobListing;
-    public function __construct(JLUser $jobListingsUserModel, SavedJob $savedJobListingModel, Application $applicationModel, JobListing $jobListingModel,UserAuthService $userAuthServices)
+    public function __construct(JLUser $jobListingsUserModel, SavedJob $savedJobListingModel, Application $applicationModel, JobListing $jobListingModel, UserAuthService $userAuthServices)
     {
         $this->JobListingsUser = $jobListingsUserModel;
         $this->savedJobListing = $savedJobListingModel;
@@ -38,51 +38,33 @@ class JobListingsUser extends Controller
      */
     public function index()
     {
-        $user = [];
-        $userSavedJobsCount = 0;
-        $userApplicationsCount = 0;
-        //
-        if (auth()->user()) {
-            $user = auth()->user();
-        }
+
+        $user = auth()->user();
 
 
-        if ($user) {
-            $userSavedJobsCount =  $this->savedJobListing::where('user_id', '=', $user->id)->count();
-            $userApplicationsCount =    $this->application::where('user_id', '=', $user->id)->count();
-        }
+        $dashboardInfo = $this->userAuthService->dashboard($user);
 
-        //dd($userSavedJobsCount);
         return view(
             'user.dashboard',
             [
                 'user' => $user,
-                'savedJobsCount' => $userSavedJobsCount,
-                'savedApplicationsCount' => $userApplicationsCount
+                'savedJobsCount' => $dashboardInfo['userSavedJobsCount'],
+                'savedApplicationsCount' => $dashboardInfo['userApplicationsCount']
             ]
         );
     }
 
     public function applications($id)
     {
-        $user = [];
 
-        if (auth()->user()) {
-            $user = auth()->user();
-        }
+        $user = auth()->user();
 
         $userApplications =    $this->application::with('jobListing')->where('user_id', $user->id)->get();
-        //dd($userApplications[0]->jobListing);
+
         return view('user.applications', ['user' => $user, 'userApplications' => $userApplications]);
     }
     public function savedjobs(int $id)
     {
-        // $savedJobs = [];
-        // $savedJobList = $this->savedJobListing::where('user_id', $id)->get();
-
-        // foreach ($savedJobList as $key => $value) {
-        //     $savedJobs[] = $this->jobListing::where('id', $value->job_id)->first();
-        // }
         $savedJobs = $this->savedJobListing
             ::where('user_id', $id)
             ->with('jobListing.company')
@@ -119,13 +101,13 @@ class JobListingsUser extends Controller
 
         $authenciated =  $this->userAuthService->login($loginCredentials);
 
-         if ($authenciated) {
+        if ($authenciated) {
             return redirect()->intended(route('user.dashboard'))
-                    ->with('success', "You have successfully logged in");
+                ->with('success', "You have successfully logged in");
         }
 
         return  redirect(route('user.login'))->with('status', true)
-                ->with('message', "Registration unsuccessfully");
+            ->with('message', "Registration unsuccessfully");
     }
 
     /**
@@ -145,7 +127,7 @@ class JobListingsUser extends Controller
      */
     public function store(CreateApplicantUserRequest $request)
     {
-        
+
         $newApplicantUser = $this->userAuthService->register($request->validated());
 
 
@@ -229,8 +211,8 @@ class JobListingsUser extends Controller
     public function update(CreateApplicantUserRequest $request, string $id)
     {
         //
-        
-        $UpdatedApplicantUser = $this->userAuthService->update($request->validated(),(int)  $id);
+
+        $UpdatedApplicantUser = $this->userAuthService->update($request->validated(), (int)  $id);
 
 
         if (!$UpdatedApplicantUser) {
