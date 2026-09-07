@@ -43,7 +43,7 @@
                         <div class="step-indicator">3</div>
 
                     </div>
-                    <form action="/employer/update_job/{{ $job->id }}" method="POST" id="multi-step">
+                    <form action="{{ route('employer.updatejobdesc',$job->id) }}" method="POST" id="multi-step">
                         @csrf
                         @method('PUT')
                         <div class="grid gap-4 sm:grid-cols-1 sm:gap-6">
