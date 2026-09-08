@@ -11,7 +11,7 @@ class CreateEmployerUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,19 +22,13 @@ class CreateEmployerUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-             'title'                     => 'required|string',
-            'description'               => 'required|string',
-            'company_background_info'   => 'required|string',
-            'skillset_About'            => 'required|string',
-            'benefits'                  => 'required|string',
-            'location'                  => 'required|string',
-            'category_id'               => 'required|exists:categories,id',
-            'city'                      => 'required|string',
-            'address'                   => 'required|string',
-            'post_code'                 => 'required|string',
-            'job_type'                  => 'required|string',
-            'status'                    => 'required|string',
-            'expires_at'                => 'required|date'
+            'first_name'   => 'required|string|max:255',
+            'last_name'    => 'required|string|max:255',
+            'email'        => 'required|string',
+            'password'     => 'required|string',
+            'company_name' => 'required|string|max:255',
+            'company_tel'  => 'required|string|max:255',
+            'company_size' => 'required|string|max:255'
         ];
     }
 }
