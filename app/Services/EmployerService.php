@@ -21,7 +21,23 @@ class  EmployerService
         ];
     }
 
+    public function newJobFormsValue()
+    {
 
+        $jobTypes = [
+            "Full-time",
+            "Part-time",
+            "Contract",
+            "Remote"
+        ];
+         $jobStatuses =["open"=>"Open",
+        "closed"=>"Closed"];
+
+        return [
+           "jobTypes" =>  $jobTypes,
+           "jobStatuses" => $jobStatuses
+        ];
+    }
 
     public function getJobsAndApplicants(object $user): mixed
     {
@@ -30,7 +46,7 @@ class  EmployerService
             ->where('status', 'open')
             ->with('applications.applicantUsers')
             ->get();
-
+        
         return $jobsAndApplicants;
     }
 
@@ -59,7 +75,7 @@ class  EmployerService
     }
 
 
-    public function editJob(array $editJobFormData,int $jobId ,object $user): mixed
+    public function editJob(array $editJobFormData, int $jobId, object $user): mixed
     {
 
         $editJobFormData['user_id'] = $user->id;
@@ -73,28 +89,31 @@ class  EmployerService
     }
 
 
-    public function login(){
-
-    }
+    public function login() {}
 
 
-    public function register(array $employerRegisteredDetails):mixed {
+    public function register(array $employerRegisteredDetails): mixed
+    {
 
-       DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
 
 
             $company = Company::create(
-                ['company_name' => $employerRegisteredDetails['company_name'], 
-                'company_tel' => $employerRegisteredDetails['company_tel'], 
-                'company_size'=> $employerRegisteredDetails['company_size']]
+                [
+                    'company_name' => $employerRegisteredDetails['company_name'],
+                    'company_tel' => $employerRegisteredDetails['company_tel'],
+                    'company_size' => $employerRegisteredDetails['company_size']
+                ]
             );
 
-            $userData = (['first_name' =>$employerRegisteredDetails['first_name'], 
-            'last_name' =>$employerRegisteredDetails['last_name'],
-             'email' =>$employerRegisteredDetails['email'],
-             'password' =>$employerRegisteredDetails['password']]);
+            $userData = ([
+                'first_name' => $employerRegisteredDetails['first_name'],
+                'last_name' => $employerRegisteredDetails['last_name'],
+                'email' => $employerRegisteredDetails['email'],
+                'password' => $employerRegisteredDetails['password']
+            ]);
 
             if (!empty($employerRegisteredDetails['password'])) {
                 $userData['password'] = Hash::make($employerRegisteredDetails['password']);
@@ -107,13 +126,12 @@ class  EmployerService
 
             DB::commit();
 
-            if($userData && $company){
-                   return [
+            if ($userData && $company) {
+                return [
                     'success' => true,
                     'message' => 'new Employer and Company was Registered successfully.'
                 ];
             }
-
         } catch (\Exception $e) {
 
             DB::rollBack();
@@ -123,10 +141,11 @@ class  EmployerService
     }
 
 
-    public function updateProfile(){
+    public function updateProfile()
+    {
 
 
 
-    //$updatedUserData =  $this->JobListingsUser->where('id', $id)->update($validated);
+        //$updatedUserData =  $this->JobListingsUser->where('id', $id)->update($validated);
     }
 }
