@@ -26,7 +26,7 @@
 
                     <div class="grow-1">
                         <x-form.label for="category" class="block mb-2 text-sm font-medium text-gray-900"> Category</x-form.label>
-                        <x-form.form-select id="category" name="category" class="block w-full mt-2 px-3 py-2 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm" :categories="$categories"> </x-form.form-select>
+                        <x-form.form-select-category id="category" name="category" class="block w-full mt-2 px-3 py-2 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm" :categories="$categories"> </x-form.form-select-category>
                     </div>
                     <div class="grow-1">
                         <x-form.form-button type="submit" class="mt-6 | text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5">
@@ -51,7 +51,7 @@
                         <x-form.form-input type="text" id="search" name="search" value="{{ request('search') }}" class="block w-full px-3 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 shadow-sm placeholder-gray-400" placeholder="Search e.g. Manager"></x-form.form-input>
 
                         <x-form.label for="category" class="block my-4 text-sm font-medium text-gray-900"> Category</x-form.label>
-                        <x-form.form-select id="category" name="category" class="block w-full mt-2 px-3 py-2 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm" :categories="$categories"> </x-form.form-select>
+                        <x-form.form-select-category id="category" name="category" class="block w-full mt-2 px-3 py-2 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm" :categories="$categories"> </x-form.form-select-category>
 
 
                 
