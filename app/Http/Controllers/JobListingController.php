@@ -38,26 +38,7 @@ class JobListingController extends Controller
 
        $jobs = $this->jobListingService->home($request);
 
-        // $categories = $this->categories::all();
-        // //dd($request->search);
-        // $query = JobListing::with('category', 'employer')
-        //     ->where('status', 'open');
-
-        // if (!empty($request->search)) {
-        //     // dd($request->search);
-        //     //$query->when($request->search, fn($q) => $q->orWhere('title', $request->search));
-        //      $query->Where('title', 'like', '%' . $request->search . '%');
-        // }
-
-        // if ($request->category) {
-        //     // $query->orWhere('category_id', 'like', '%' . $request->category_id . '%');
-        //     $query->when($request->category, fn($q) => $q->where('category_id', $request->category));
-        // }
-
-
-        // $jobListings = $query->latest()->paginate(10);
-
-        //dd($jobs);
+  
         return view('home', 
                 [
                     'categories' => $jobs['categories'], 
@@ -68,11 +49,11 @@ class JobListingController extends Controller
     /**
      * Show the form for creating a new Job.
      */
-    public function create()
-    {
-        $categories = $this->categories::with('category')::all();
-        return view('joblistings.create', compact('categories'));
-    }
+    // public function create()
+    // {
+    //     $categories = $this->categories::with('category')::all();
+    //     return view('joblistings.create', compact('categories'));
+    // }
 
     /**
      * Store a newly created Job
@@ -108,26 +89,21 @@ class JobListingController extends Controller
     {
 
 
-        $user = auth()->user();
+        $user_id = auth()->user()->id;
+        //dd($user);
+        $job = $this->jobListingService->getJobDesc( $user_id, $id);
 
 
-        $job = $this->jobListing
-            ->with('company')
-            ->findOrFail($id);
+        return view('joblistings.jobpage',
+        // compact('job', 'user', 'savedJobExists', 'hasApplied')
+         [
+            'job' => $job['job'], 
+            'user' => auth()->user(), 
+            'savedJobExists' => $job['savedJobExists'],
+            'hasApplied'=> $job['hasApplied']
 
-        $hasApplied = false;
-        $savedJobExists = false;
-
-
-        if ($user) {
-            $hasApplied = $this->jobListing->hasApplied($user->id, $id);
-            $savedJobExists = $this->savedJob
-                ->where('user_id', $user->id)
-                ->where('job_id', $job->id)
-                ->exists();
-        }
-
-        return view('joblistings.jobpage', compact('job', 'user', 'savedJobExists', 'hasApplied'));
+         ]
+         );
     }
 
     /**
