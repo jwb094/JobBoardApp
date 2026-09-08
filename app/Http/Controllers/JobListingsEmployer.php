@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreJobDescriptionRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\JobListingsUser;
@@ -177,36 +178,14 @@ class JobListingsEmployer extends Controller
     // }
 
 
-    public function create(Request $request)
+    public function create(StoreJobDescriptionRequest $request)
     {
         $user = auth()->user();
 
-        $validatedJobData = $request->validate([
-            'title'                     => 'required|string',
-            'description'               => 'required|string',
-            'company_background_info'   => 'required|string',
-            'skillset_About'            => 'required|string',
-            'benefits'                  => 'required|string',
-            'location'                  => 'required|string',
-            'category_id'               => 'required|exists:categories,id',
-            'city'                      => 'required|string',
-            'address'                   => 'required|string',
-            'post_code'                 => 'required|string',
-            'job_type'                  => 'required|string',
-            'status'                    => 'required|string',
-            'expires_at'                => 'required|date'
-        ]);
+        $validatedNewJobDetails = $request->validated();
+        $newJob = $this->employerService->newJob($validatedNewJobDetails,auth()->user());
 
-        $validatedJobData['user_id']    = $user->id;
-        $validatedJobData['company_id'] = $user->company_id;
-        $validatedJobData['salary_min'] = $validatedJobData['salary_min'] ?? null;
-        $validatedJobData['salary_max'] = $validatedJobData['salary_max'] ?? null;
-        $validatedJobData['expires_at'] = strtotime($request->expires_at);
-        $validatedJobData['slug']       = Str::slug($request->title) . '-' . rand(1000, 9999);
-
-        $newJobDesc = $this->JobListing::create($validatedJobData);
-
-        if (!$newJobDesc->id) {
+        if (!$newJob->id) {
             return redirect()
                 ->route('employer.newjobdesc.page')
                 ->with('status', false)
