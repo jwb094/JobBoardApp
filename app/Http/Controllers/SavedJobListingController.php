@@ -3,48 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\SavedJob;
+use App\Services\UserAuthService;
 use Illuminate\Http\Request;
 
 class SavedJobListingController extends Controller
 {
-    //
+    //  
+    protected UserAuthService $userAuthService;
 
+    public function __construct(UserAuthService $userAuthServices)
+    {
+        $this->userAuthService = $userAuthServices;
+    }
 
     public function update(Request $request)
     {
 
-        $request->validate([
-            'job_id' => 'required|exists:job_listings,id',
-        ]);
 
         $userId = auth()->id();
 
+        $savedJob = $this->userAuthService->userSavedJobs($request,$userId);
 
-
-        $savedJobExists = SavedJob::where('user_id', $userId)
-            ->where('job_id', $request->job_id)
-            ->exists();
-
-        if ($savedJobExists) {
-            SavedJob::where('user_id', $userId)
-                ->where('job_id', $request->job_id)
-                ->delete();
-
-            return response()->json([
-                'status' => true,
-                'message' => "removed Job from Saved Jobs List",
-            ]);
-        }
-
-        SavedJob::create([
-            'user_id' => $userId,
-            'job_id' => $request->job_id,
-        ]);
-
-        return response()->json([
-            'status' => true,
-            'message' => "Job added to saved jobs",
-        ]);
+        return $savedJob;
     }
 
 
