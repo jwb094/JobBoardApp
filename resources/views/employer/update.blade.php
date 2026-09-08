@@ -17,7 +17,7 @@
         <div class="flex h-screen justify-center items-center relative isolate h-lvh   px-6  lg:px-8">
             <div class="w-96">
                 <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-black">Update {{ ucfirst($user->first_name) ." ".ucfirst($user->last_name) }} Deatils</h2>
-                <form action="/employer/update_profile/{{ $user->id }}" method="POST">
+                <form action="{{  route('employer.updateprofile',$user->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
