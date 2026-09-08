@@ -30,7 +30,7 @@
                         <div class="step-indicator">2</div>
                         <div class="step-indicator">3</div>
                     </div>
-                    <form action="/employer/create" method="POST" id="multi-step">
+                    <form action="{{ route('employer.store') }}" method="POST" id="multi-step">
                         @csrf
                         <div class="grid gap-4 sm:grid-cols-1 sm:gap-6">
                             <div class="step active">
