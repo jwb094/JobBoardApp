@@ -1,9 +1,16 @@
-@props(['formdata'])
-@props(['fieldname'])
+@props([
+    'formdata',
+'fieldname',
+'recordFieldData' => null,])
 <select {{ $attributes }}>
 
     @foreach ($formdata as $key => $value)
-    <option value="{{ $value }}" @selected(old($fieldname) == $value)>
+
+    <option value="{{ strtolower($value) }}" 
+        
+    @selected(old($fieldname,ucfirst(strtolower($recordFieldData))) == strtolower($value))
+
+    >
         {{ $value }} 
     </option>
     @endforeach
