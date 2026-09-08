@@ -8,6 +8,7 @@ use App\Models\SavedJob;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UserAuthService
 {
@@ -67,5 +68,41 @@ class UserAuthService
 
             JobListingsUser::findOrFail($id)->delete();
         });
+    }
+
+    public function userSavedJobs(){
+        
+    }
+
+    public function createApplication(object $requestData ,string $jobId , string $userId , object $user){    
+
+        $doesPathExists = public_path('uploads/' . $user->first_name . '-' . $user->last_name);
+
+        $path = "";
+        if (Storage::exists($doesPathExists)) {
+            $path =  $doesPathExists;
+        }
+
+
+        $data = $requestData->validate([
+            'job_id' => 'required|exists:job_listings,id',
+            'resume_path' => 'required',
+            'cover_letter' => 'required',
+        ]);
+
+    
+
+        //create datas array for sql query
+        $data['job_id'] = $jobId;
+        $data['user_id'] = $userId;
+        $data['resume_path'] = $path . '/' . $data['resume_path'];
+        $data['cover_letter'] = $path . '/' . $data['cover_letter'];
+        $data['status'] = 'Received/Submitted';
+
+
+        $newApplicationCreated = Application::create($data);
+
+        return $newApplicationCreated;
+        
     }
 }

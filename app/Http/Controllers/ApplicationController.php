@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\UserAuthService;
 use Illuminate\Http\Request;
 use App\Models\JobListing;
 use App\Models\JobListingsUser;
@@ -15,14 +16,18 @@ class ApplicationController extends Controller
     protected JobListing $jobListing;
     protected JobListingsUser $jobListingsUser;
 
+    protected UserAuthService $userAuthServices;
     protected Application $application;
-    public function __construct(JobListing $jobListingModel, JobListingsUser $jobListingsUserModel, Application $applicationModel)
+    public function __construct(JobListing $jobListingModel, JobListingsUser $jobListingsUserModel, Application $applicationModel, UserAuthService $userAuthServices)
     {
 
         $this->jobListing = $jobListingModel;
         $this->jobListingsUser = $jobListingsUserModel;
         $this->application = $applicationModel;
+        $this->userAuthServices = $userAuthServices;
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -31,50 +36,24 @@ class ApplicationController extends Controller
     {
         //
     }
-    public function store(Request $request, $job_id, $userId)
+    public function store(Request $request,string $job_id,string $userId)
     {
-        // if ($this->jobListing->where('job_id',  $job_id)->where('user_id', auth()->id())->exists()) {
-        //     return back()->with('error', 'You already applied.');
-        // }
-        // if ($jobListing->applications()
-        //     ->where('user_id', auth()->id())
-        //     ->exists()
-        // ) {
-        //     return back()->with('error', 'You already applied.');
-        // }
 
-        //Create a folder for User applicant to store documents
-        $doesPathExists = public_path('uploads/' . auth()->user()->first_name . '-' . auth()->user()->last_name);
+        $user = auth()->user();
 
-        $path = "";
-        if (Storage::exists($doesPathExists)) {
-            $path =  $doesPathExists;
-        }
-        //dd($path);
-
-        $data = $request->validate([
-            'job_id' => 'required|exists:job_listings,id',
-            'resume_path' => 'required',
-            'cover_letter' => 'required',
-        ]);
-
-        // 
-
-        //create datas array for sql query
-        $data['job_id'] = $job_id;
-        $data['user_id'] = $userId;
-        $data['resume_path'] = $path . '/' . $data['resume_path'];
-        $data['cover_letter'] = $path . '/' . $data['cover_letter'];
-        $data['status'] = 'Received/Submitted';
+        $applicationCreated =  $this->userAuthServices->createApplication( $request,  $job_id,  $userId, $user);
 
 
-        $updatedUserDocuments = $this->application::create($data);
 
 
-        if (!$updatedUserDocuments->id) {
-            return redirect(route('user.documents'))->with('success', false)->with('message', "uploads Documents failed")->with(compact($data));
+        if (!$applicationCreated->id) {
+            return redirect(route('job.apply',['job_id' => $job_id, 'user_id' => $userId]))
+                ->with('success', false)
+                ->with('message', "uploads Documents failed")
+                ->with(compact($request));
         }
 
-        return  redirect(route('user.dashboard'))->with('success', true)->with('message', "You have successfully completed your applicztion");
+        return  redirect(route('user.dashboard'))
+        ->with('success', true)->with('message', "You have successfully completed your applicztion");
     }
 }
