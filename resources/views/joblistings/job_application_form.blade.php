@@ -1,15 +1,15 @@
 @extends('layouts.layout')
 @section('title',$job->title ." Job Application Page")
 @section('content')
-       @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul class="mb-0">
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul class="mb-0">
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 <section class="bg-white dark:bg-gray-300 text-black">
     <div class="pt-24 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
         <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">{{ $job->title }}</h1>
@@ -87,7 +87,14 @@
         </div>
     </div>
 </section>
-
+@if (empty($user->cover_letter) && empty($user->cv))
+<div class="mx-auto max-w-screen-xl px-4 lg:px-56 2xl:px-0">
+       <div class="mx-auto max-w-5xl">
+           <x-info-box role="alert" class="mt-3 relative flex w-full p-3 text-sm text-white bg-red-500 rounded-md"> Please Upload a CV and Cover  &nbsp;<a class="font-extrabold" href="{{ route('user.documents',$user->id) }}"> here </a> &nbsp; to Apply for this Role</x-info-box>
+       </div>
+</div>
+@endif
+@if (!empty($user->cover_letter) && !empty($user->cv))
 <section class=" bg-white py-8 antialiased dark:bg-gray-300 md:py-8 text-black">
     <form action={{ route('job.apply',['job_id' => $job->id, 'user_id' => $user->id]) }} method="POST" enctype="multipart/form-data">
         @csrf
@@ -122,4 +129,8 @@
         </div>
     </form>
 </section>
+@endif
+
+
+
 @endsection
