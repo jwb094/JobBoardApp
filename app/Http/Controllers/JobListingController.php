@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\JobListing;
 use App\Models\Category;
 use App\Models\SavedJob;
+use App\Services\JobListingService;
 use Illuminate\Support\Str;
 
 class JobListingController extends Controller
@@ -14,12 +15,19 @@ class JobListingController extends Controller
     protected JobListing $jobListing;
     protected Category $categories;
 
+    protected JobListingService $jobListingService;
+
     protected SavedJob $savedJob;
-    public function __construct(JobListing $jobListingsModel, Category $categoryModel, SavedJob $savedJobModel)
-    {
+    public function __construct(
+        JobListing $jobListingsModel,
+        Category $categoryModel,
+        SavedJob $savedJobModel,
+        JobListingService $jobListingService
+    ) {
         $this->jobListing = $jobListingsModel;
         $this->categories = $categoryModel;
         $this->savedJob = $savedJobModel;
+        $this->jobListingService = $jobListingService;
     }
 
     /**
@@ -27,27 +35,34 @@ class JobListingController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = $this->categories::all();
-        //dd($request->search);
-        $query = JobListing::with('category', 'employer')
-            ->where('status', 'open');
 
-        if (!empty($request->search)) {
-            // dd($request->search);
-            $query->when($request->search, fn($q) => $q->orWhere('title', $request->search));
-            // $query->Where('title', 'like', '%' . $request->search . '%');
-        }
+       $jobs = $this->jobListingService->home($request);
 
-        if ($request->category) {
-            // $query->orWhere('category_id', 'like', '%' . $request->category_id . '%');
-            $query->when($request->category, fn($q) => $q->where('category_id', $request->category));
-        }
+        // $categories = $this->categories::all();
+        // //dd($request->search);
+        // $query = JobListing::with('category', 'employer')
+        //     ->where('status', 'open');
+
+        // if (!empty($request->search)) {
+        //     // dd($request->search);
+        //     //$query->when($request->search, fn($q) => $q->orWhere('title', $request->search));
+        //      $query->Where('title', 'like', '%' . $request->search . '%');
+        // }
+
+        // if ($request->category) {
+        //     // $query->orWhere('category_id', 'like', '%' . $request->category_id . '%');
+        //     $query->when($request->category, fn($q) => $q->where('category_id', $request->category));
+        // }
 
 
-        $jobListings = $query->latest()->paginate(10);
+        // $jobListings = $query->latest()->paginate(10);
 
-        //dd($jobListings);
-        return view('home', ['categories' => $categories, 'jobListings' => $jobListings]);
+        //dd($jobs);
+        return view('home', 
+                [
+                    'categories' => $jobs['categories'], 
+                    'jobListings' => $jobs['jobListings']
+                ]);
     }
 
     /**
@@ -97,16 +112,15 @@ class JobListingController extends Controller
 
 
         $job = $this->jobListing
-        ->with('company')
-        ->findOrFail($id);
-    
+            ->with('company')
+            ->findOrFail($id);
+
         $hasApplied = false;
         $savedJobExists = false;
 
 
         if ($user) {
             $hasApplied = $this->jobListing->hasApplied($user->id, $id);
-
             $savedJobExists = $this->savedJob
                 ->where('user_id', $user->id)
                 ->where('job_id', $job->id)
@@ -119,49 +133,49 @@ class JobListingController extends Controller
     /**
      * Show Job Details
      */
-    public function edit(string $id)
-    {
+    // public function edit(string $id)
+    // {
 
-        $job = $this->jobListing::findOrFail($id);
-        $categories = $this->categories::all();
-        return view('job', ['job' => $job,  'categories' => $categories]);
-    }
+    //     $job = $this->jobListing::findOrFail($id);
+    //     $categories = $this->categories::all();
+    //     return view('job', ['job' => $job,  'categories' => $categories]);
+    // }
 
     /**
      * Update a Job Details.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-        $data = $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'title'       => 'required|string|max:255',
-            'company_background'       => 'required|string',
-            'address'       => 'required|string',
-            'description'   => 'required|string',
-            'skillset_About' => 'required|string',
-            'benefits'      => 'required|string',
-            'location'    => 'required|string',
-            'job_type'    => 'required',
-            'salary_min'  => 'nullable|integer',
-            'salary_max'  => 'nullable|integer',
-            'expires_at'  => 'nullable|date',
-        ]);
+    // public function update(Request $request, string $id)
+    // {
+    //     //
+    //     $data = $request->validate([
+    //         'category_id' => 'required|exists:categories,id',
+    //         'title'       => 'required|string|max:255',
+    //         'company_background'       => 'required|string',
+    //         'address'       => 'required|string',
+    //         'description'   => 'required|string',
+    //         'skillset_About' => 'required|string',
+    //         'benefits'      => 'required|string',
+    //         'location'    => 'required|string',
+    //         'job_type'    => 'required',
+    //         'salary_min'  => 'nullable|integer',
+    //         'salary_max'  => 'nullable|integer',
+    //         'expires_at'  => 'nullable|date',
+    //     ]);
 
 
-        return view('job_listings.dashboard', compact('jobDesc'));
-    }
+    //     return view('job_listings.dashboard', compact('jobDesc'));
+    // }
 
     /**
      * Remove A Job.
      */
-    public function destroy(string $id)
-    {
-        //
-        $jobDesc = $this->jobListing::find($id);
-        $jobDesc->delete();
-        return redirect('/dashboard');
-    }
+    // public function destroy(string $id)
+    // {
+    //     //
+    //     $jobDesc = $this->jobListing::find($id);
+    //     $jobDesc->delete();
+    //     return redirect('/dashboard');
+    // }
 
     /**
      * Show Job Application form page
