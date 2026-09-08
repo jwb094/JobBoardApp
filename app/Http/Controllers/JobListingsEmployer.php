@@ -55,7 +55,7 @@ class JobListingsEmployer extends Controller
         $user = auth()->user();
 
         $dashboardInfo = $this->employerService->dashboard($user);
-
+        
 
         return view(
             'employer.dashboard',
@@ -87,13 +87,20 @@ class JobListingsEmployer extends Controller
             ->firstOrFail();
 
         $categories = $this->Category::all();
+    $formfieldsData = $this->employerService->newJobFormsValue();
         // dd($job->expires_at->format('d/m/y'));
         // $job->expires_at = explode(" ", $job->expires_at);
         // dd($job->expires_at);
 
         // $job->expires_at = $job->expires_at->format('d/m/y');
         // dd($job);
-        return view('employer.edit_job', compact('job', 'categories'));
+        return view('employer.edit_job',
+         //compact('job', 'categories')
+             ["job" => $job,
+        "categories"=> $categories,
+        "jobTypes" =>  $formfieldsData['jobTypes'],
+        "jobStatuses" =>  $formfieldsData['jobStatuses']
+        ]);
     }
 
     public function register()
@@ -104,8 +111,14 @@ class JobListingsEmployer extends Controller
     public function newjob()
     {
         $categories = $this->Category::all();
-
-        return view('employer.new_job', compact('categories'));
+        $formfieldsData = $this->employerService->newJobFormsValue();
+        //dd($formfieldsData);
+        return view('employer.new_job',
+        ["categories"=> $categories,
+        "jobTypes" =>  $formfieldsData['jobTypes'],
+        "jobStatuses" =>  $formfieldsData['jobStatuses'],
+        ]
+        );
     }
 
     /**
