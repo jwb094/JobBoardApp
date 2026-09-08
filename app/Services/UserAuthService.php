@@ -70,7 +70,42 @@ class UserAuthService
         });
     }
 
-    public function userSavedJobs(){
+    public function userSavedJobs(object $request,string $userid){
+
+
+
+        $request->validate([
+            'job_id' => 'required|exists:job_listings,id',
+        ]);
+
+    
+
+
+
+        $savedJobExists = SavedJob::where('user_id', $userid)
+            ->where('job_id', $request->job_id)
+            ->exists();
+
+        if ($savedJobExists) {
+            SavedJob::where('user_id', $userid)
+                ->where('job_id', $request->job_id)
+                ->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => "removed Job from Saved Jobs List",
+            ]);
+        }
+
+        SavedJob::create([
+            'user_id' => $userid,
+            'job_id' => $request->job_id,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => "Job added to saved jobs",
+        ]);
         
     }
 
