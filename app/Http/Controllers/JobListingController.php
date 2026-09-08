@@ -54,9 +54,11 @@ class JobListingController extends Controller
      */
     public function show(string $id)
     {
-
-
-        $user_id = auth()->user()->id;
+        $user_id = "";
+        if( auth()->user()){
+            $user_id = auth()->user()->id;
+        }
+      
         $job = $this->jobListingService->getJobDesc( $user_id, $id);
 
 
