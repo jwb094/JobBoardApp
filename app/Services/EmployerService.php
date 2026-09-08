@@ -140,12 +140,4 @@ class  EmployerService
         }
     }
 
-
-    public function updateProfile()
-    {
-
-
-
-        //$updatedUserData =  $this->JobListingsUser->where('id', $id)->update($validated);
-    }
 }

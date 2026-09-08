@@ -55,7 +55,7 @@ class JobListingsEmployer extends Controller
         $user = auth()->user();
 
         $dashboardInfo = $this->employerService->dashboard($user);
-        
+
 
         return view(
             'employer.dashboard',
@@ -87,20 +87,17 @@ class JobListingsEmployer extends Controller
             ->firstOrFail();
 
         $categories = $this->Category::all();
-    $formfieldsData = $this->employerService->newJobFormsValue();
-        // dd($job->expires_at->format('d/m/y'));
-        // $job->expires_at = explode(" ", $job->expires_at);
-        // dd($job->expires_at);
+        $formfieldsData = $this->employerService->newJobFormsValue();
 
-        // $job->expires_at = $job->expires_at->format('d/m/y');
-        // dd($job);
-        return view('employer.edit_job',
-         //compact('job', 'categories')
-             ["job" => $job,
-        "categories"=> $categories,
-        "jobTypes" =>  $formfieldsData['jobTypes'],
-        "jobStatuses" =>  $formfieldsData['jobStatuses']
-        ]);
+        return view(
+            'employer.edit_job',
+            [
+                "job" => $job,
+                "categories" => $categories,
+                "jobTypes" =>  $formfieldsData['jobTypes'],
+                "jobStatuses" =>  $formfieldsData['jobStatuses']
+            ]
+        );
     }
 
     public function register()
@@ -112,12 +109,13 @@ class JobListingsEmployer extends Controller
     {
         $categories = $this->Category::all();
         $formfieldsData = $this->employerService->newJobFormsValue();
-        //dd($formfieldsData);
-        return view('employer.new_job',
-        ["categories"=> $categories,
-        "jobTypes" =>  $formfieldsData['jobTypes'],
-        "jobStatuses" =>  $formfieldsData['jobStatuses'],
-        ]
+        return view(
+            'employer.new_job',
+            [
+                "categories" => $categories,
+                "jobTypes" =>  $formfieldsData['jobTypes'],
+                "jobStatuses" =>  $formfieldsData['jobStatuses'],
+            ]
         );
     }
 
@@ -191,8 +189,8 @@ class JobListingsEmployer extends Controller
         $validatedEmployerDetails = $request->validated();
 
         $newEmployer = $this->employerService->register($validatedEmployerDetails);
-        
-        if($newEmployer["success"] === true){
+
+        if ($newEmployer["success"] === true) {
             return redirect('/employer/signin')
                 ->with('status', true)
                 ->with('message', 'Registration successfully');
@@ -210,7 +208,7 @@ class JobListingsEmployer extends Controller
         $updatedApplicantUser = $this->userAuthService->update($request->validated(), (int)  $id, $type = "employer");
 
         if (!$updatedApplicantUser) {
-            return redirect(route('employer.profile.page',$id))
+            return redirect(route('employer.profile.page', $id))
                 ->with('status', true)
                 ->with('message', 'Profile Update unsuccessfully');
         }
