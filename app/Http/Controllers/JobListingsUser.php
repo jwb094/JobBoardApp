@@ -192,7 +192,7 @@ class JobListingsUser extends Controller
     {
         //
 
-        $UpdatedApplicantUser = $this->userAuthService->update($request->validated(), (int)  $id);
+        $UpdatedApplicantUser = $this->userAuthService->update($request->validated(), (int)  $id,$type = "applicant");
 
 
         if (!$UpdatedApplicantUser) {
