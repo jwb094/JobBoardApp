@@ -16,7 +16,7 @@
         @endif
         <div class="flex h-screen justify-center items-center relative isolate h-lvh   px-6  lg:px-8">
             <div class="w-96">
-                <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-black">New Applicant REgisteration</h2>
+                <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-black">Update Applicant Details</h2>
                 <form action={{ route('user.update',$user->id) }} method="POST">
                     @csrf
                     <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
