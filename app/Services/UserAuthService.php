@@ -34,13 +34,14 @@ class UserAuthService
     }
 
 
-    public function update(array $updatedUserData, int $updatedUserDataId): JobListingsUser
+    public function update(array $updatedUserData, int $updatedUserDataId,string $userType): JobListingsUser
     {
 
         $updatedUser = JobListingsUser::findOrFail($updatedUserDataId);
 
         $updatedUserData['password'] = Hash::make($updatedUserData['password']);
-        $updatedUserData['role'] = 'applicant';
+        // $updatedUserData['role'] = 'applicant';
+             $updatedUserData['role'] = $userType;
 
         $updatedUser->update($updatedUserData);
 
@@ -48,7 +49,7 @@ class UserAuthService
     }
 
 
-    public function dashboard(object $applicantUser)
+    public function dashboard(object $applicantUser): array
     {
         return [
             "userSavedJobsCount" =>  SavedJob::where('user_id', '=', $applicantUser->id)->count(),
