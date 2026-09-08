@@ -27,6 +27,4 @@ class SavedJobListingController extends Controller
         return $savedJob;
     }
 
-
-    public function remove() {}
 }
