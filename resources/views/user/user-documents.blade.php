@@ -1,55 +1,60 @@
 @extends('layouts.layout')
-@section('title',$user->first_name ." ".$user->last_name ." Documents Hub")
+@section('title', $user->first_name . ' ' . $user->last_name . ' Documents Hub')
 @section('content')
+<main class="documents-page">
+    <section class="documents-card">
+        <header class="documents-header">
+            <span class="documents-icon"><i class="fa-solid fa-folder-open" aria-hidden="true"></i></span>
+            <p class="dashboard-eyebrow">Applicant profile</p>
+            <h1>Your documents</h1>
+            <p>Keep your application materials up to date and ready to share with employers.</p>
+        </header>
 
-<div class="bg-white ">
+        @if ($errors->any())
+            <ul class="auth-errors" role="alert">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        @endif
 
+        <form action="{{ route('user.store_documents', $user->id) }}" method="POST" enctype="multipart/form-data" class="documents-form">
+            @csrf
 
-    @if ($errors->any())
-    <div class="mb-4 text-red-600">
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
-    <div class="flex h-screen justify-center items-center relative isolate h-lvh   px-6  lg:px-8">
-        <div class="w-96">
-            <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-black">Your Documents</h2>
-            <form action={{ route('user.store_documents',$user->id) }} method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-                    <div class="sm:col-span-2">
-                        <x-form.label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cover Letter</x-form.label>
-                        <x-form.form-input value="{{ $user->cover_letter }}" type="file" name="cover_letter" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="enter your portfolio link"></x-form.form-input>
-                        <x-info-box role="alert" class="mt-3 relative flex w-full p-3 text-sm text-white bg-slate-800 rounded-md"> Current CV :{{ $user->cover_letter }} </x-info-box>
-                    </div>
-                    <div class="sm:col-span-2">
-                        <x-form.label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">CV</x-form.label>
-                        <x-form.form-input value="{{ $user->cv }}" type="file" name="cv" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="enter your portfolio link"></x-form.form-input>
-                        <x-info-box role="alert" class="mt-3 relative flex w-full p-3 text-sm text-white bg-slate-800 rounded-md"> Current Cover Letter : {{ $user->cover_letter }} </x-info-box>
-                    </div>
-                </div>
-                <div class="sm:col-span-2 mt-6">
-                    <x-form.label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Portfolio Link</x-form.label>
-                    <x-form.form-input type="text" name="portfolio_link" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="enter your portfolio link"></x-form.form-input>
-                    <x-info-box role="alert" class="mt-3 relative flex w-full p-3 text-sm text-white bg-slate-800 rounded-md"> Current Cover Letter : {{ $user->portfolio_link ?? "N/A" }} </x-info-box>
-                </div>
+            <div class="document-field">
+                <label for="cover_letter">Cover letter</label>
+                <input type="file" name="cover_letter" id="cover_letter">
+                <p class="document-current">
+                    <i class="fa-regular fa-file-lines" aria-hidden="true"></i>
+                    Current cover letter:
+                    <strong>{{ $user->cover_letter ?: 'Not uploaded' }}</strong>
+                </p>
+            </div>
 
+            <div class="document-field">
+                <label for="cv">CV</label>
+                <input type="file" name="cv" id="cv">
+                <p class="document-current">
+                    <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+                    Current CV:
+                    <strong>{{ $user->cv ?: 'Not uploaded' }}</strong>
+                </p>
+            </div>
 
+            <div class="document-field">
+                <label for="portfolio_link">Portfolio link <span>(optional)</span></label>
+                <input type="url" name="portfolio_link" id="portfolio_link" value="{{ old('portfolio_link', $user->portfolio_link) }}" placeholder="https://your-portfolio.com">
+                <p class="document-current">
+                    <i class="fa-solid fa-link" aria-hidden="true"></i>
+                    Add a link to your portfolio or professional work.
+                </p>
+            </div>
 
-                <button type="submit" class="w-96 | mt-6 | text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5">
-                    Upload
-                </button>
-
-            </form>
-        </div>
-
-    </div>
-</div>
-
-
-
-
+            <button type="submit" class="auth-submit documents-submit">
+                Save documents
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </button>
+        </form>
+    </section>
+</main>
 @endsection

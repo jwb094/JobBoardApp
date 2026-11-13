@@ -1,36 +1,41 @@
 @extends('layouts.layout')
-    @section('title','Saved Job List')
-    @section('content')
-    <!-- Include this script tag or install `@tailwindplus/elements` via npm: -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script> -->
-    <div class="bg-white">
-
-
-
-
-
-        <div aria-hidden="true" class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]">
-            <div style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)" class="relative left-[calc(50%+3rem)] aspect-1155/678 w-144.5 -translate-x-1/2 bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-288.75"></div>
+@section('title', 'Saved Jobs')
+@section('content')
+<main class="saved-jobs-page">
+    <header class="saved-jobs-header">
+        <div>
+            <p class="dashboard-eyebrow">Your shortlist</p>
+            <h1>Saved jobs</h1>
+            <p>Keep the opportunities you’re interested in close at hand.</p>
         </div>
-    </div>
-    </div>
+        <span class="applications-count">
+            <i class="fa-solid fa-bookmark" aria-hidden="true"></i>
+            {{ $savedJobs->count() }} {{ \Illuminate\Support\Str::plural('saved job', $savedJobs->count()) }}
+        </span>
+    </header>
 
-    <div class="relative isolate px-6 lg:px-24 | xs:mx-24 md:mx-64 md:px-128">
-        <div class="columns-1 pt-12">
-            <h1>Saved Jobs</h1>
-        </div>
-        <div class="columns-1 pb-12">
+    @if ($savedJobs->isEmpty())
+        <section class="applications-empty">
+            <span class="applications-empty-icon"><i class="fa-regular fa-bookmark" aria-hidden="true"></i></span>
+            <h2>No saved jobs yet</h2>
+            <p>Save roles that catch your eye and they’ll be waiting for you here.</p>
+            <a href="/" class="applications-browse-link">Explore open jobs <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </section>
+    @else
+        <section class="saved-jobs-grid" aria-label="Your saved jobs">
             @foreach ($savedJobs as $savedJob)
-        
-            <a href="/job/{{ $savedJob->jobListing->id }}/{{ $savedJob->jobListing->slug }}" class="my-12 bg-neutral-primary-soft block  p-6 border border-default rounded-base shadow-xs hover:bg-neutral-secondary-medium">
-                <h3 class="mb-3 text-2xl font-semibold tracking-tight text-heading leading-8"> {{ $savedJob->jobListing->title }}</h3>
-                <h4 class="text-body">   {{ $savedJob->jobListing?->company?->company_name }}</h4>
-            </a>
-  
+                <a href="/job/{{ $savedJob->jobListing->id }}/{{ $savedJob->jobListing->slug }}" class="saved-job-card">
+                    <span class="saved-job-icon"><i class="fa-solid fa-briefcase" aria-hidden="true"></i></span>
+                    <span class="saved-job-content">
+                        <span class="saved-job-title">{{ $savedJob->jobListing->title }}</span>
+                        @if ($savedJob->jobListing?->company?->company_name)
+                            <span class="saved-job-company">{{ $savedJob->jobListing->company->company_name }}</span>
+                        @endif
+                    </span>
+                    <i class="fa-solid fa-arrow-right saved-job-arrow" aria-hidden="true"></i>
+                </a>
             @endforeach
-        </div>
-
-
-    </div>
-    @endsection
-
+        </section>
+    @endif
+</main>
+@endsection
