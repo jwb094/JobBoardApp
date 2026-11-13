@@ -10,6 +10,7 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+/* Shared colour tokens and page defaults. */
 :root {
     --job-bg: #f4f7fb;
     --job-panel: rgba(255, 255, 255, 0.8);
@@ -109,6 +110,7 @@ body {
     outline-offset: 3px;
 }
 
+/* Public job search, listing cards, and job detail page. */
 .home-page {
     padding: 2.5rem 1.25rem 4rem;
 }
@@ -994,6 +996,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    /* Respect system preferences by removing non-essential motion. */
     .site-footer__top-link {
         transition: none;
     }
@@ -1054,6 +1057,7 @@ body {
     }
 }
 
+/* Shared sign-in, registration, and validation styles. */
 .auth__card {
     border-color: rgba(148, 163, 184, 0.2);
     background: rgba(255, 255, 255, 0.92);
@@ -1298,6 +1302,7 @@ body {
     }
 }
 
+/* Job application form and its job summary. */
 .application-page {
     max-width: 1200px;
     margin: 2rem auto 4rem;
@@ -1516,6 +1521,7 @@ body {
     }
 }
 
+/* Applicant dashboard cards and account overview. */
 .applicant-dashboard__welcome {
     display: flex;
     justify-content: space-between;
@@ -1699,6 +1705,7 @@ body {
     }
 }
 
+/* Employer dashboard and its job and applicant metrics. */
 .employer-dashboard {
     max-width: 1200px;
     min-height: calc(100svh - 220px);
@@ -1761,6 +1768,7 @@ body {
     }
 }
 
+/* Employer job list, applicant rows, and listing controls. */
 .employer-jobs-page {
     max-width: 1120px;
     min-height: calc(100svh - 220px);
@@ -1973,6 +1981,7 @@ body {
     color: #b91c1c;
 }
 
+/* Multi-step job listing form. */
 .job-form-page {
     min-height: calc(100svh - 150px);
     box-sizing: border-box;
@@ -2210,6 +2219,7 @@ body {
     }
 }
 
+/* Applicant application history and saved-job cards. */
 .applications-page {
     max-width: 1120px;
     min-height: calc(100svh - 220px);
@@ -2606,6 +2616,7 @@ body {
     }
 }
 
+/* Applicant CV and cover-letter upload form. */
 .documents-page {
     min-height: calc(100svh - 150px);
     box-sizing: border-box;
@@ -2759,6 +2770,7 @@ body {
     }
 }
 
+/* Alternate employer job and job-form component styles. */
 .employer-jobs__header {
     border: 1px solid rgba(148, 163, 184, 0.22);
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(239, 246, 255, 0.82));
@@ -3191,6 +3203,7 @@ body {
     }
 }
 
+/* Shared typography and responsive styles for account pages. */
 .auth__title {
     margin: 0;
     color: var(--job-heading);
@@ -3803,6 +3816,7 @@ body {
     }
 }
 
+/* Legacy dashboard class names retained by the employer dashboard view. */
 .dashboard-eyebrow {
     margin: 0 0 0.6rem;
     color: var(--job-primary);
