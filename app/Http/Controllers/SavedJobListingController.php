@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class SavedJobListingController extends Controller
 {
-    //  
     protected UserAuthService $userAuthService;
 
     public function __construct(UserAuthService $userAuthServices)

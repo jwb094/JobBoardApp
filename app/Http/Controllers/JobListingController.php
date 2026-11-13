@@ -75,7 +75,6 @@ class JobListingController extends Controller
 
     public function apply(string $id)
     {
-        //
         $user = [];
         if (auth()->user()) {
             $user = auth()->user();

@@ -170,7 +170,7 @@ class JobListingsUser extends Controller
     }
 
 
-    // Register PAge
+    /** Show the applicant registration page. */
     public function register()
     {
         return view('user.register');
@@ -190,8 +190,6 @@ class JobListingsUser extends Controller
      */
     public function update(CreateApplicantUserRequest $request, string $id)
     {
-        //
-
         $UpdatedApplicantUser = $this->userAuthService->update($request->validated(), (int)  $id,$type = "applicant");
 
 
@@ -210,6 +208,7 @@ class JobListingsUser extends Controller
         $user = $this->JobListingsUser->find(auth()->user()->id);
         $userDocumentsDir =  $user->first_name . '-' . $user->last_name;
 
+        // Remove uploaded files before deleting the applicant account.
         $this->UserDocumentsService->DeleteApplicantDocuments($userDocumentsDir);
 
         $this->userAuthService->deleteUser((int) auth()->user()->id);

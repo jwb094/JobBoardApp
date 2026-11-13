@@ -34,7 +34,6 @@ class ApplicationController extends Controller
      */
     public function create()
     {
-        //
     }
     public function store(Request $request,string $job_id,string $userId)
     {

@@ -19,7 +19,6 @@ class JobListingsAdmin extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -27,7 +26,6 @@ class JobListingsAdmin extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -35,7 +33,6 @@ class JobListingsAdmin extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
@@ -43,7 +40,6 @@ class JobListingsAdmin extends Controller
      */
     public function show(string $id)
     {
-        //
     }
 
     /**
@@ -51,7 +47,6 @@ class JobListingsAdmin extends Controller
      */
     public function edit(string $id)
     {
-        //
     }
 
     /**
@@ -59,7 +54,6 @@ class JobListingsAdmin extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
     }
 
     /**
@@ -67,6 +61,5 @@ class JobListingsAdmin extends Controller
      */
     public function destroy(string $id)
     {
-        //
     }
 }

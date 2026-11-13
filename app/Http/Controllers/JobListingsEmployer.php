@@ -246,7 +246,6 @@ class JobListingsEmployer extends Controller
 
     public function destroy(string $id)
     {
-        //
         $user = $this->JobListingsUser::find($id);
 
         $user->delete();
