@@ -1,47 +1,56 @@
 @extends('layouts.layout')
-@section('title',$user->first_name." ". $user->last_name." Dashboard")
+@section('title', $user->first_name . ' ' . $user->last_name . ' Dashboard')
 @section('content')
+<main class="employer-dashboard">
+    <section class="dashboard-welcome">
+        <div class="dashboard-welcome-copy">
+            <p class="dashboard-eyebrow">Employer dashboard</p>
+            <h1>Welcome back, {{ $user->first_name }}</h1>
+            <p>Manage your company profile, track applicants, and keep your hiring moving.</p>
+        </div>
+        <a href="{{ route('employer.profile.page', $user->id) }}" class="dashboard-profile-link">
+            <i class="fa-solid fa-building-user" aria-hidden="true"></i>
+            Update profile
+            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        </a>
+    </section>
 
-<div class="bg-white ">
-    <div class=" h-screen relative isolate h-lvh   px-6  lg:px-8">
-
-
-        <section class="bg-neutral-primary">
-            <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
-                <div class="bg-neutral-secondary-soft border border-default rounded-base p-8 md:p-12 mb-8">
-                    <h1 class="text-heading tracking-tighter text-3xl md:text-5xl font-bold my-6"> Personal Details</h1>
-                    <a href={{ route('employer.profile.page',$user->id) }} type="button" class="inline-flex items-center justify-center text-black bg-brand hover:bg-brand-strong box-border border border-transparent focus:ring-4 focus:ring-brand-medium shadow-xs font-medium rounded-base text-base px-5 py-3 focus:outline-none">
-                        Update your Personal Details
-                        <svg class="w-4 h-4 ms-1.5 -me-0.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4" /></svg>
-                    </a>
-                </div>
-                <div class="grid md:grid-cols-2 gap-8">
-
-                    <x-dashboard.card class="bg-neutral-secondary-soft border border-default rounded-xl p-8 md:p-12 flex flex-col" cardTitle="Jobs & Applications">
-                        <p class=" font-normal text-body mb-4">No. of jobs {{ $jobCount }}</p>
-
-
-                        <p class=" font-normal text-body mb-4"> No.Of Applicants {{ $applicantCount }}</p>
-
-
-                        <a href=" {{ route('employer.applicantsAndJob.page') }}" class="text-fg-brand hover:underline font-medium text-lg inline-flex items-center">View Jobs & Applications
-                            <svg class="w-6 h-6 rtl:rotate-180 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4" /></svg>
-                        </a>
-                    </x-dashboard.card>
-                    <x-dashboard.card class="bg-neutral-secondary-soft border border-default rounded-xl p-8 md:p-12 flex flex-col" cardTitle="New Job">
-                        <a href="{{ route('employer.newjobdesc.page') }}" class="text-fg-brand hover:underline font-medium text-lg inline-flex items-center">Create a new posting
-                            <svg class="w-6 h-6 rtl:rotate-180 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4" /></svg>
-                        </a>
-                    </x-dashboard.card>
-
-                </div>
+    <section class="dashboard-section" aria-labelledby="employer-tools-title">
+        <div class="dashboard-section-heading">
+            <div>
+                <p class="dashboard-eyebrow">Hiring workspace</p>
+                <h2 id="employer-tools-title">Manage your hiring</h2>
             </div>
-        </section>
+        </div>
 
-    </div>
-</div>
+        <div class="employer-dashboard-grid">
+            <x-dashboard.card class="dashboard-card" cardTitle="Jobs &amp; applications">
+                <span class="dashboard-card-icon"><i class="fa-solid fa-briefcase" aria-hidden="true"></i></span>
+                <div class="employer-metrics">
+                    <div class="employer-metric">
+                        <strong>{{ $jobCount }}</strong>
+                        <span>{{ \Illuminate\Support\Str::plural('job', $jobCount) }} posted</span>
+                    </div>
+                    <div class="employer-metric">
+                        <strong>{{ $applicantCount }}</strong>
+                        <span>{{ \Illuminate\Support\Str::plural('applicant', $applicantCount) }}</span>
+                    </div>
+                </div>
+                <a href="{{ route('employer.applicantsAndJob.page') }}" class="dashboard-card-link">
+                    View jobs &amp; applications
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </a>
+            </x-dashboard.card>
 
+            <x-dashboard.card class="dashboard-card employer-create-card" cardTitle="New job">
+                <span class="dashboard-card-icon"><i class="fa-solid fa-circle-plus" aria-hidden="true"></i></span>
+                <p>Have a role to fill? Create a posting and connect with your next great hire.</p>
+                <a href="{{ route('employer.newjobdesc.page') }}" class="dashboard-card-link">
+                    Create a new posting
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </a>
+            </x-dashboard.card>
+        </div>
+    </section>
+</main>
 @endsection
