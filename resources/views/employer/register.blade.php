@@ -11,16 +11,16 @@
 
         <x-auth.errors />
 
-        <div id="form-container" class="employer-registration">
-            <div id="steps-bar" aria-label="Registration steps">
-                <span class="step-indicator active" aria-label="Step 1">1</span>
-                <span class="step-indicator" aria-label="Step 2">2</span>
-                <span class="step-indicator" aria-label="Step 3">3</span>
+        <div id="form-container" class="employer-registration rounded-2xl p-4 sm:p-6">
+            <div id="steps-bar" class="employer-registration__steps flex justify-between" aria-label="Registration steps">
+                <span class="step-indicator employer-registration__step-indicator active" aria-label="Step 1">1</span>
+                <span class="step-indicator employer-registration__step-indicator" aria-label="Step 2">2</span>
+                <span class="step-indicator employer-registration__step-indicator" aria-label="Step 3">3</span>
             </div>
 
-            <form action="{{ route('employer.store') }}" method="POST" id="multi-step" class="auth__form flex flex-col gap-4">
+            <form action="{{ route('employer.store') }}" method="POST" id="multi-step" class="employer-registration__form auth__form flex flex-col gap-4">
                 @csrf
-                <div class="step active">
+                <section class="step employer-registration__panel active" aria-label="Company information">
                     <h3>Company information</h3>
                     <x-auth.field
                         name="company_name"
@@ -42,10 +42,10 @@
                             <option value="50 - 100" @selected(old('company_size') === '50 - 100')>50 - 100</option>
                             <option value="100+" @selected(old('company_size') === '100+')>100+</option>
                         </select>
-                    </main>
-                </div>
+                    </div>
+                </section>
 
-                <div class="step">
+                <section class="step employer-registration__panel" aria-label="Personal details">
                     <h3>Personal details</h3>
                     <x-auth.field
                         name="first_name"
@@ -57,9 +57,9 @@
                         label="Last name"
                         placeholder="Type your last name"
                     />
-                </div>
+                </section>
 
-                <div class="step">
+                <section class="step employer-registration__panel" aria-label="Account details">
                     <h3>Account details</h3>
                     <x-auth.field
                         name="email"
@@ -75,9 +75,9 @@
                         placeholder="Create a password"
                         autocomplete="new-password"
                     />
-                </div>
+                </section>
 
-                <div class="auth-step-actions">
+                <div class="employer-registration__actions auth-step-actions flex gap-3">
                     <button type="button" class="auth-step-button auth-step-button--secondary" id="previousBtn" onclick="prevStep()" disabled>Previous</button>
                     <button type="button" class="auth-step-button" id="nextBtn" onclick="nextStep()">Next</button>
                     <button type="submit" class="auth-step-button auth-step-button--submit" id="submitBtn" style="display: none;">Create account</button>
@@ -85,7 +85,7 @@
             </form>
         </div>
     </section>
-</div>
+</main>
 @endsection
 @push('other-scripts')
 <script src="{{ URL::asset('js/multi-step-form.js') }}"></script>
