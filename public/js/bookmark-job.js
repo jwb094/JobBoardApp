@@ -30,6 +30,12 @@ $(".bookmark-job-button").click(function (event) {
             console.log(";:");
             icon.classList.toggle("fa-regular");
             icon.classList.toggle("fa-solid");
+            const isSaved = icon.classList.contains("fa-solid");
+            $btn.find("span").first().text(isSaved ? "Saved" : "Save job");
+            $btn.attr(
+                "aria-label",
+                isSaved ? "Remove job from saved jobs" : "Save job",
+            );
 
             // }
             // if (result.message === "removed Job from Saved Jobs List") {
