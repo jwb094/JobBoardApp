@@ -24,6 +24,7 @@ return new class extends Migration
 
             $table->timestamps();
 
+            // A user can save a given job only once.
             $table->unique(['user_id', 'job_id']);
         });
     }

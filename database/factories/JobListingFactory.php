@@ -148,12 +148,11 @@ class JobListingFactory extends Factory
             "API Engineer"
         ];
 
-        // Pick a random employer from the DB
+        // Employers and categories must be seeded before this factory is used.
         $employer = JobListingsUser::where('role', 'employer')->inRandomOrder()->first();
 
         $title = $this->faker->unique()->randomElement($jobTitles);
 
-        // Pick a random category from the DB
         $category = Category::inRandomOrder()->first();
 
 

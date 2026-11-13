@@ -13,8 +13,9 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
+        // Clear categories before rebuilding the sample category set.
         Category::truncate();
-        // // 2️⃣ Categories
+
         $categories = Category::factory()
             ->count(20)
             ->create();

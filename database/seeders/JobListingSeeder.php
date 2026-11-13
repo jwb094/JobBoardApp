@@ -17,11 +17,9 @@ class JobListingSeeder extends Seeder
     public function run(): void
     {
 
-        // 🔹 Truncate table first for SQLite safety
-        // \App\Models\JobListing::truncate();
+        // Rebuild the sample listings; employers and categories must already exist.
         JobListing::truncate();
 
-        // 3️⃣ Job Listings (Employers + Categories must exist)
         $JobListing = JobListing::factory()
             ->count(60)
             ->create();
