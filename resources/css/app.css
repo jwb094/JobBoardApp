@@ -33,6 +33,82 @@ body {
     color: var(--job-heading);
 }
 
+.site-footer {
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(148, 163, 184, 0.2);
+    background:
+        radial-gradient(circle at 50% 0, rgba(99, 102, 241, 0.1), transparent 45%),
+        rgba(255, 255, 255, 0.86);
+    backdrop-filter: blur(14px);
+}
+
+.site-footer::before {
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    width: min(14rem, 45vw);
+    height: 2px;
+    background: linear-gradient(90deg, var(--job-primary), var(--job-accent));
+    content: '';
+    transform: translateX(-50%);
+}
+
+.site-footer__inner {
+    min-height: 5.25rem;
+}
+
+.site-footer__brand {
+    color: var(--job-heading);
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    text-decoration: none;
+}
+
+.site-footer__brand-icon {
+    display: inline-flex;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.7rem;
+    background: rgba(79, 70, 229, 0.09);
+    color: var(--job-primary);
+    font-size: 0.8rem;
+}
+
+.site-footer__copyright {
+    margin: 0;
+    color: var(--job-muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.site-footer__top-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--job-primary-dark);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.site-footer__top-link:hover {
+    color: var(--job-primary);
+    transform: translateY(-1px);
+}
+
+.site-footer__brand:focus-visible,
+.site-footer__top-link:focus-visible {
+    border-radius: 0.3rem;
+    outline: 3px solid rgba(59, 130, 246, 0.45);
+    outline-offset: 3px;
+}
+
 .home-page {
     padding: 2.5rem 1.25rem 4rem;
 }
@@ -918,6 +994,10 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .site-footer__top-link {
+        transition: none;
+    }
+
     .job-card,
     .job-card::before,
     .job-card__link,

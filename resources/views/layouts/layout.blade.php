@@ -10,9 +10,11 @@
     @stack('styles')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body id="top" class="app-shell flex min-h-screen flex-col">
     @include('include.header')
-    @yield('content')
+    <div class="app-shell__content flex-1">
+        @yield('content')
+    </div>
     @include('include.footer')
 </body>
 </html>
