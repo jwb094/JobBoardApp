@@ -10,6 +10,7 @@ This project is designed as a practical Laravel application for exploring recrui
 
 * [About](#-about)
 * [Features](#-features)
+* [Application Preview](#-application-preview)
 * [Technology Stack](#-technology-stack)
 * [Application Structure](#-application-structure)
 * [Database Structure](#-database-structure)
@@ -75,6 +76,24 @@ The project is being used as a portfolio and learning application to build exper
 * Edit and remove job listings
 * Manage employer profile details
 * Review applicants connected to posted roles
+
+---
+
+## 🖥️ Application Preview
+
+The screenshots below show the public job search, applicant dashboard, and employer workflows.
+
+| Job search | Mobile job search |
+| --- | --- |
+| ![JobBoardApp homepage and job listings](docs/images/jobboardApp-screenshot-01.png) | ![Job search on a mobile screen](docs/images/jobboardApp-screenshot-02.png) |
+
+| Applicant dashboard | Employer jobs and applicants |
+| --- | --- |
+| ![Applicant dashboard with applications and saved jobs](docs/images/jobboardApp-screenshot-06.png) | ![Employer workspace showing jobs and applicants](docs/images/jobboardApp-screenshot-07.png) |
+
+| Create a job listing | Employer registration |
+| --- | --- |
+| ![Employer multi-step job creation form](docs/images/jobboardApp-screenshot-08.png) | ![Employer company registration form](docs/images/jobboardApp-screenshot-10.png) |
 
 ---
 
