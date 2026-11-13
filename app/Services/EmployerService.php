@@ -94,7 +94,8 @@ class  EmployerService
 
     public function register(array $employerRegisteredDetails): mixed
     {
-
+        // Keep the company and its first employer account in one transaction so
+        // a failed account creation cannot leave an unowned company behind.
         DB::beginTransaction();
 
         try {

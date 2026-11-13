@@ -85,6 +85,7 @@ class JobListing extends Model
 
     public function hasApplied(int $userId, int $job_id): bool
     {
+        // Used by the detail page to show whether this user has applied.
         return Application::where('user_id', $userId)
             ->where('job_id', $job_id)
             ->exists();

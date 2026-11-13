@@ -12,6 +12,7 @@ class UserDocumentsService
 
     public function uploadDocuments(object $files, string $user_first_name, string $user_last_name, int $user_id)
     {
+        // Keep each applicant's uploaded CV and cover letter together by name.
         $path = public_path('uploads/' . $user_first_name . '-' . $user_last_name);
 
 
@@ -38,6 +39,7 @@ class UserDocumentsService
     public function DeleteApplicantDocuments(string $userDocumentDirName)
     {
 
+        // Remove the applicant's uploaded files when their account is deleted.
         $path = public_path('uploads/' . $userDocumentDirName);
 
         File::deleteDirectory($path);

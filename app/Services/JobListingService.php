@@ -51,7 +51,7 @@ class JobListingService
         $hasApplied = false;
         $savedJobExists = false;
 
-
+        // These flags drive the apply and save controls on the job detail page.
         if ($user) {
             $hasApplied = $this->jobListing->hasApplied($user, $id);
             $savedJobExists = $this->savedJob

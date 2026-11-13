@@ -16,6 +16,7 @@ class UserAuthService
     public function register(array $userData): JobListingsUser
     {
         $userData['password'] = Hash::make($userData['password']);
+        // Public sign-up always creates an applicant account.
         $userData['role'] = 'applicant';
 
         //dd($userData);
@@ -62,6 +63,7 @@ class UserAuthService
     public function deleteUser(int $id)
     {
 
+        // Remove dependent applications before deleting the applicant record.
         DB::transaction(function () use ($id) {
 
             Application::where('user_id', $id)->delete();
@@ -87,6 +89,7 @@ class UserAuthService
             ->exists();
 
         if ($savedJobExists) {
+            // This endpoint toggles a saved job: a second request removes it.
             SavedJob::where('user_id', $userid)
                 ->where('job_id', $request->job_id)
                 ->delete();
@@ -111,6 +114,7 @@ class UserAuthService
 
     public function createApplication(object $requestData ,string $jobId , string $userId , object $user){    
 
+        // Applications refer to documents already uploaded to the applicant's folder.
         $doesPathExists = public_path('uploads/' . $user->first_name . '-' . $user->last_name);
 
         $path = "";
