@@ -21,9 +21,9 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        // $admin = JobListingsUser::factory()->admin()->create([
-        //     'email' => 'admin@example.com',
-        // ]);
+        $admin = JobListingsUser::factory()->admin()->create([
+            'email' => 'admin@example.com',
+        ]);
 
         $employers = JobListingsUser::factory()
             ->employer()
