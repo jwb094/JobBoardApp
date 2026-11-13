@@ -1,3 +1,10 @@
+   @php
+       $isUserLoginPage = request()->routeIs('user.login');
+       $isUserRegisterPage = request()->routeIs('user.register');
+       $isEmployerLoginPage = request()->routeIs('employer.login.page');
+       $isEmployerRegisterPage = request()->routeIs('employer.register.page');
+   @endphp
+
    <header class="relative inset-x-0 top-0 z-50">
        <nav aria-label="Global" class="flex items-center justify-between p-6 lg:px-8">
            <div class="flex lg:flex-1">
@@ -33,46 +40,52 @@
                        <div class="mt-6 flow-root">
                            <div class="-my-6 divide-y divide-gray-500/10">
 
-                               @if (!request()->routeIs('employer.*') && !(Auth::check() && auth()->user()->isEmployer()))
-                               <div class="py-6">
-                                   <a href="{{ route('employer.login.page') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Employer Sign In</a>
-                                   <a href="{{ route('employer.register.page') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Employer Register</a>
-                               </div>
-                               @endif
-
-                               @if(Auth::check() && auth()->user()->isEmployer())
-                               <div class="py-6">
-                                   <a href="/employer/logout" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log out</a>
-                               </div>
-                               <div class="py-6">
-                                   <a href="{{ route('employer.dashboard') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Dashboard</a>
-                               </div>
-
-                               @endauth
-
-                               @if(Auth::check() && auth()->user()->isApplicant())
-                               <div class="py-6">
-                                   <a href="{{ route('logout') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log out</a>
-                               </div>
-                               <div class="py-6">
-                                   <form action="{{ route('user.delete',auth()->user()->id) }}" method="post">
-                                       @csrf
-                                       @method('delete')
-                                       {{-- <a href="{{ route('user.delete',auth()->user()->id) }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Delete Account</a> --}}
-                                       <button type="submit" class="w-auto | mt-6 | text-white bg-red-500 hover:bg-green-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5">
-                                           Delete Account
-                                       </button>
-                                   </form>
-                               </div>
-                               <div class="py-6">
-                                   <a href="{{ route('user.dashboard') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Dashboard</a>
-                               </div>
+                               @if (Auth::check() && auth()->user()->isEmployer())
+                                   <div class="py-6">
+                                       <a href="/employer/logout" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log out</a>
+                                   </div>
+                                   <div class="py-6">
+                                       <a href="{{ route('employer.dashboard') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Dashboard</a>
+                                   </div>
+                               @elseif (Auth::check() && auth()->user()->isApplicant())
+                                   <div class="py-6">
+                                       <a href="{{ route('logout') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log out</a>
+                                   </div>
+                                   <div class="py-6">
+                                       <form action="{{ route('user.delete', auth()->user()->id) }}" method="post">
+                                           @csrf
+                                           @method('delete')
+                                           <button type="submit" class="w-auto | mt-6 | text-white bg-red-500 hover:bg-green-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5">
+                                               Delete Account
+                                           </button>
+                                       </form>
+                                   </div>
+                                   <div class="py-6">
+                                       <a href="{{ route('user.dashboard') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Dashboard</a>
+                                   </div>
                                @else
-                               <div class="py-6">
-                                   <a href="{{ route('user.login') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
-                                   <a href="{{ route('user.register') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Register</a>
-                               </div>
-                               @endauth
+                                   @if (!$isEmployerLoginPage && !$isEmployerRegisterPage)
+                                       <div class="py-6">
+                                           @if (!$isUserLoginPage)
+                                               <a href="{{ route('user.login') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
+                                           @endif
+                                           @if (!$isUserRegisterPage)
+                                               <a href="{{ route('user.register') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Register</a>
+                                           @endif
+                                       </div>
+                                   @endif
+
+                                   @if (!$isUserLoginPage && !$isUserRegisterPage)
+                                       <div class="py-6">
+                                           @if (!$isEmployerLoginPage)
+                                               <a href="{{ route('employer.login.page') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Employer Sign In</a>
+                                           @endif
+                                           @if (!$isEmployerRegisterPage)
+                                               <a href="{{ route('employer.register.page') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Employer Register</a>
+                                           @endif
+                                       </div>
+                                   @endif
+                               @endif
                            </div>
                        </div>
                    </el-dialog-panel>
