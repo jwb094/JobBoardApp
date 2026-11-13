@@ -25,7 +25,7 @@
 
         <div class="employer-dashboard-grid">
             <x-dashboard.card class="dashboard-card" cardTitle="Jobs &amp; applications">
-                <span class="dashboard-card-icon"><i class="fa-solid fa-briefcase" aria-hidden="true"></i></span>
+                <span class="dashboard-card__icon"><i class="fa-solid fa-briefcase" aria-hidden="true"></i></span>
                 <div class="employer-metrics">
                     <div class="employer-metric">
                         <strong>{{ $jobCount }}</strong>
@@ -36,16 +36,16 @@
                         <span>{{ \Illuminate\Support\Str::plural('applicant', $applicantCount) }}</span>
                     </div>
                 </div>
-                <a href="{{ route('employer.applicantsAndJob.page') }}" class="dashboard-card-link">
+                <a href="{{ route('employer.applicantsAndJob.page') }}" class="dashboard-card__link">
                     View jobs &amp; applications
                     <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                 </a>
             </x-dashboard.card>
 
             <x-dashboard.card class="dashboard-card employer-create-card" cardTitle="New job">
-                <span class="dashboard-card-icon"><i class="fa-solid fa-circle-plus" aria-hidden="true"></i></span>
+                <span class="dashboard-card__icon"><i class="fa-solid fa-circle-plus" aria-hidden="true"></i></span>
                 <p>Have a role to fill? Create a posting and connect with your next great hire.</p>
-                <a href="{{ route('employer.newjobdesc.page') }}" class="dashboard-card-link">
+                <a href="{{ route('employer.newjobdesc.page') }}" class="dashboard-card__link">
                     Create a new posting
                     <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                 </a>

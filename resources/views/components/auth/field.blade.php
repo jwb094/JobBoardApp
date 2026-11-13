@@ -8,8 +8,8 @@
     'autocomplete' => null,
 ])
 
-<div class="auth-field">
-    <label for="{{ $name }}">{{ $label }}</label>
+<div class="auth__field flex flex-col gap-2">
+    <label class="auth__label" for="{{ $name }}">{{ $label }}</label>
     <input
         type="{{ $type }}"
         name="{{ $name }}"
@@ -18,6 +18,6 @@
         value="{{ $type === 'password' ? '' : old($name, $value) }}"
         @if ($autocomplete) autocomplete="{{ $autocomplete }}" @endif
         @if ($required) required @endif
-        {{ $attributes }}
+        {{ $attributes->class(['auth__input']) }}
     >
 </div>

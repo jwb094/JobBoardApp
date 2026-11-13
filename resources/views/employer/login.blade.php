@@ -1,17 +1,17 @@
 @extends('layouts.layout')
 @section('title', 'Employer Login')
 @section('content')
-<div class="auth-page">
-    <section class="auth-card">
-        <header class="auth-header">
-            <p class="dashboard-eyebrow">Employer portal</p>
-            <h2>Welcome back</h2>
-            <p>Sign in to manage your company’s hiring.</p>
+<main class="auth flex min-h-[calc(100svh-150px)] items-center justify-center px-4 py-8">
+    <section class="auth__card w-full max-w-md rounded-3xl border p-6 shadow-xl sm:p-8">
+        <header class="auth__header mb-6 text-center">
+            <p class="auth__eyebrow">Employer portal</p>
+            <h1 class="auth__title">Welcome back</h1>
+            <p class="auth__description">Sign in to manage your company’s hiring.</p>
         </header>
 
         <x-auth.errors />
 
-        <form action="/employer/login" method="POST" class="auth-form">
+        <form action="/employer/login" method="POST" class="auth__form flex flex-col gap-4">
             @csrf
             <x-auth.field
                 name="email"
@@ -29,8 +29,8 @@
                 autocomplete="current-password"
                 required
             />
-            <button type="submit" class="auth-submit">Login</button>
+            <button type="submit" class="auth__submit mt-2 w-full rounded-xl px-5 py-3 font-bold">Login</button>
         </form>
     </section>
-</div>
+</main>
 @endsection

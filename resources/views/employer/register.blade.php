@@ -1,12 +1,12 @@
 @extends('layouts.layout')
 @section('title', 'Employer Registration')
 @section('content')
-<div class="auth-page auth-page--registration">
-    <section class="auth-card auth-card--wide">
-        <header class="auth-header">
-            <p class="dashboard-eyebrow">Employer portal</p>
-            <h2>Create your company profile</h2>
-            <p>Set up your organization and hiring account in a few steps.</p>
+<main class="auth auth--registration flex min-h-[calc(100svh-150px)] items-center justify-center px-4 py-8">
+    <section class="auth__card auth__card--wide w-full max-w-2xl rounded-3xl border p-6 shadow-xl sm:p-8">
+        <header class="auth__header mb-6 text-center">
+            <p class="auth__eyebrow">Employer portal</p>
+            <h1 class="auth__title">Create your company profile</h1>
+            <p class="auth__description">Set up your organization and hiring account in a few steps.</p>
         </header>
 
         <x-auth.errors />
@@ -18,7 +18,7 @@
                 <span class="step-indicator" aria-label="Step 3">3</span>
             </div>
 
-            <form action="{{ route('employer.store') }}" method="POST" id="multi-step" class="auth-form">
+            <form action="{{ route('employer.store') }}" method="POST" id="multi-step" class="auth__form flex flex-col gap-4">
                 @csrf
                 <div class="step active">
                     <h3>Company information</h3>
@@ -33,16 +33,16 @@
                         type="tel"
                         placeholder="Type your company telephone number"
                     />
-                    <div class="auth-field">
-                        <label for="company_size">Company size</label>
-                        <select name="company_size" id="company_size">
+                    <div class="auth__field flex flex-col gap-2">
+                        <label class="auth__label" for="company_size">Company size</label>
+                        <select class="auth__input" name="company_size" id="company_size">
                             <option value="1 - 10" @selected(old('company_size') === '1 - 10')>1 - 10</option>
                             <option value="10 - 25" @selected(old('company_size') === '10 - 25')>10 - 25</option>
                             <option value="25 - 50" @selected(old('company_size') === '25 - 50')>25 - 50</option>
                             <option value="50 - 100" @selected(old('company_size') === '50 - 100')>50 - 100</option>
                             <option value="100+" @selected(old('company_size') === '100+')>100+</option>
                         </select>
-                    </div>
+                    </main>
                 </div>
 
                 <div class="step">

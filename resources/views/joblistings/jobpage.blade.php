@@ -1,143 +1,139 @@
 @extends('layouts.layout')
-@section('title',$job->title ." Job Page")
+@section('title', $job->title . ' Job Page')
 @section('content')
-<section class="bg-white dark:bg-gray-300 text-black">
-    <div class="pt-24 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
-        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">{{ $job->title }}</h1>
+<main class="job-detail mx-auto flex min-h-[calc(100svh-180px)] max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 lg:py-12">
+    <section class="job-detail__hero rounded-3xl p-5 sm:p-8 lg:p-10" aria-labelledby="job-title">
+        <div class="job-detail__hero-heading">
+            <p class="job-detail__eyebrow"><i class="fa-solid fa-sparkles" aria-hidden="true"></i> Career opportunity</p>
+            <h1 id="job-title" class="job-detail__title">{{ $job->title }}</h1>
+            <p class="job-detail__company">
+                <i class="fa-regular fa-building" aria-hidden="true"></i>
+                {{ $job->company?->company_name ?? 'Company not available' }}
+            </p>
+        </div>
 
-        <ul class="flex flex-col mt-24 | gap-y-4 | mx-4 md:mx-52">
-
-            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
-                <i class="fa-regular fa-building"></i>
-                <p class="text-2xl  text-body"> {{ $job->company?->company_name ?? 'Company not available' }}</p>
-            </x-jobpage.list-item>
-
-            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
-                <i class="fa-solid fa-star"></i>
-                <p class="text-2xl  text-body">{{ $job->category->name }}</p>
-            </x-jobpage.list-item>
-            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
-                <p class="text-2xl  text-body">{{ $job->job_type }}</p>
-            </x-jobpage.list-item>
-            @if (!empty($job->salary_min) && !empty($job->salary_max)){{-- if salary_min && salary_max are not empty --}}
-            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
-                <i class="fa-solid fa-money-bill"></i>
-                <span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">
-                    £{{ $job->salary_min }} - £{{ $job->salary_max }}</span>
-            </x-jobpage.list-item>
-            @endif
-            @if (empty($job->salary_min) && empty($job->salary_max)){{-- if salary_min  && salary_max are not empty --}}
-            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
-                <i class="fa-solid fa-money-bill"></i>
-                <span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">
-                    No information recieved</span>
-            </x-jobpage.list-item>
-            @endif
-            @if (empty($ $job->salary_min) && !empty($ $job->salary_max)){{-- if salary_min is empty && salary_max are not empty --}}
-            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
-                <i class="fa-solid fa-money-bill"></i>
-                <span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">
-                    Starting from £{{ $job->salary_min }}</span>
-            </x-jobpage.list-item>
-            @endif
-            @if (!empty($job->salary_min) && empty($job->salary_max)){{-- if salary_min is not empty && salary_max are is empty --}}
-            {{-- <li class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | "> <i class="fa-solid fa-money-bill"></i><span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">sUp To £{{ $job->salary_min }}</span></li> --}}
-
-            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
-                <i class="fa-solid fa-money-bill"></i>
-                <span class="text-2xl | bg-success-soft text-fg-success-strong font-medium px-1.5 py-0.5 rounded bg-green-300">
-                    Up To £{{ $job->salary_min }}</span>
-            </x-jobpage.list-item>
-            @endif
-            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
-                <i class="fa-solid fa-calendar"></i>
-                <p class="text-2xl  text-body">Job Posted :{{ $job->created_at->format('d.m.Y')}}</p>
-            </x-jobpage.list-item>
+        <dl class="job-detail__meta grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            <div class="job-detail__meta-item">
+                <dt><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Category</dt>
+                <dd>{{ $job->category->name }}</dd>
+            </div>
+            <div class="job-detail__meta-item">
+                <dt><i class="fa-solid fa-briefcase" aria-hidden="true"></i> Job type</dt>
+                <dd>{{ $job->job_type }}</dd>
+            </div>
+            <div class="job-detail__meta-item">
+                <dt><i class="fa-solid fa-money-bill-wave" aria-hidden="true"></i> Salary</dt>
+                <dd>
+                    @if (!empty($job->salary_min) && !empty($job->salary_max))
+                        <span class="job-detail__salary">£{{ $job->salary_min }} – £{{ $job->salary_max }}</span>
+                    @elseif (!empty($job->salary_min))
+                        <span class="job-detail__salary">From £{{ $job->salary_min }}</span>
+                    @elseif (!empty($job->salary_max))
+                        <span class="job-detail__salary">Up to £{{ $job->salary_max }}</span>
+                    @else
+                        <span class="job-detail__salary job-detail__salary--muted">Salary not listed</span>
+                    @endif
+                </dd>
+            </div>
+            <div class="job-detail__meta-item">
+                <dt><i class="fa-regular fa-calendar" aria-hidden="true"></i> Posted</dt>
+                <dd>{{ $job->created_at->format('d.m.Y') }}</dd>
+            </div>
             @if (!empty($job->location))
-            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
-                <i class="fa-solid fa-location-arrow"></i>
-                <p class="text-2xl  text-body">Location : {{ $job->location}}</p>
-            </x-jobpage.list-item>
+                <div class="job-detail__meta-item">
+                    <dt><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Location</dt>
+                    <dd>{{ $job->location }}</dd>
+                </div>
             @endif
             @if (!empty($job->city))
-            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
-                <i class="fa-solid fa-city"></i>
-                <p class="text-2xl  text-body">City : {{ $job->city}}</p>
-            </x-jobpage.list-item>
+                <div class="job-detail__meta-item">
+                    <dt><i class="fa-solid fa-city" aria-hidden="true"></i> City</dt>
+                    <dd>{{ $job->city }}</dd>
+                </div>
             @endif
             @if (!empty($job->address))
-            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
-                <i class="fa-solid fa-city"></i>
-                <p class="text-2xl  text-body">Address : {{ $job->address}}</p>
-            </x-jobpage.list-item>
+                <div class="job-detail__meta-item">
+                    <dt><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Address</dt>
+                    <dd>{{ $job->address }}</dd>
+                </div>
             @endif
             @if (!empty($job->post_code))
-            <x-jobpage.list-item class="flex flex-row | mt-1 | justify-start md:items-center | gap-x-1 | ">
-                <i class="fa-solid fa-map"></i>
-                <p class="text-2xl  text-body">Post code : {{ $job->post_code}}</p>
-            </x-jobpage.list-item>
+                <div class="job-detail__meta-item">
+                    <dt><i class="fa-solid fa-map" aria-hidden="true"></i> Post code</dt>
+                    <dd>{{ $job->post_code }}</dd>
+                </div>
             @endif
+        </dl>
 
-
-            <li class="flex flex-row | mt-1 | justify-end | gap-x-1">
-                <button class="bookmark-job-button" @if (empty(auth()->id())) disabled @endif @if (!empty(auth()->id())) data-user="{{ auth()->id()  }}" @endif data-job-id=" {{ $job->id }} " data-token="{{ csrf_token() }}">
-                    <i class="bookmark | text-3xl |  @if (!empty($savedJobExists)) fa-solid @else fa-regular @endif fa-bookmark    |"></i>
+        <div class="job-detail__bookmark-row flex flex-wrap items-center justify-between gap-3">
+            <p class="job-detail__bookmark-hint">Save this role to revisit it later.</p>
+            <div class="job-detail__bookmark-control">
+                <button
+                    type="button"
+                    class="job-detail__bookmark-button bookmark-job-button"
+                    @disabled(empty(auth()->id()))
+                    @if (!empty(auth()->id())) data-user-id="{{ auth()->id() }}" @endif
+                    data-job-id="{{ $job->id }}"
+                    data-token="{{ csrf_token() }}"
+                    aria-label="{{ !empty($savedJobExists) ? 'Remove job from saved jobs' : 'Save job' }}"
+                    title="{{ empty(auth()->id()) ? 'Log in to save this job' : (!empty($savedJobExists) ? 'Remove saved job' : 'Save job') }}"
+                >
+                    <i class="bookmark fa-bookmark {{ !empty($savedJobExists) ? 'fa-solid' : 'fa-regular' }}" aria-hidden="true"></i>
+                    <span>{{ !empty($savedJobExists) ? 'Saved' : 'Save job' }}</span>
                 </button>
-                <p class="bookmark-message"></p>
-            </li>
-        </ul>
-    </div>
-</section>
-<section class="bg-white py-8 antialiased dark:bg-gray-300 md:py-16 text-black">
-    <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-        <div class="mx-auto max-w-5xl">
-
-
-            <div class="mx-auto mb-6 max-w-3xl space-y-6 md:mb-12">
-                <h3 class="text-2xl font-semibold text-black">Job Description</h3>
-                <p class="text-2xl font-normal text-black">
-                    {!! $job->description !!}
-                </p>
-
-
-                <h3 class="text-2xl font-semibold text-black  "> Skillset </h3>
-                <p class="text-2xl font-normal text-black">
-                    {!! $job->skillset_About !!}
-                </p>
-
-                <h3 class="text-2xl font-semibold text-black  "> Key Features and Benefits:</h3>
-
-                <p class="text-2xl font-normal text-black ">
-
-                    {!! $job->benefits !!}
-                </p>
-            </div>
-            <div class="mx-auto mb-6 max-w-3xl space-y-6 md:mb-12">
-                @if (!empty($user) && !empty($hasApplied))
-                <p>You have already applied for this job</p>
-                @endif
-                @if (!empty($user) && empty($hasApplied))
-                <a class="mt-6 | text-white bg-green-800 hover:bg-green-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5" href="/job/{{ $job->id}}/{{  $job->slug}}/apply">Apply</a>
-                @endif
-
-                @if (empty($user))
-                <p>Please <a class="text-blue-500" href="{{  route('user.login')}}">login</a> Or <a class="text-blue-500" href=" {{  route('user.register')}}">Sign up</a> to apply</p>
-                @endif
-
+                <p class="bookmark-message job-detail__bookmark-message" aria-live="polite"></p>
             </div>
         </div>
+    </section>
+
+    <div class="job-detail__body grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
+        <article class="job-detail__description-card rounded-3xl p-5 sm:p-8">
+            <section class="job-detail__section">
+                <p class="job-detail__section-eyebrow">The role</p>
+                <h2 class="job-detail__section-title">Job description</h2>
+                <div class="job-detail__rich-text">{!! $job->description !!}</div>
+            </section>
+
+            <section class="job-detail__section">
+                <p class="job-detail__section-eyebrow">What you bring</p>
+                <h2 class="job-detail__section-title">Skills and experience</h2>
+                <div class="job-detail__rich-text">{!! $job->skillset_About !!}</div>
+            </section>
+
+            <section class="job-detail__section">
+                <p class="job-detail__section-eyebrow">Why join</p>
+                <h2 class="job-detail__section-title">Key features and benefits</h2>
+                <div class="job-detail__rich-text">{!! $job->benefits !!}</div>
+            </section>
+        </article>
+
+        <aside class="job-detail__apply-card rounded-3xl p-5 sm:p-6">
+            <span class="job-detail__apply-icon" aria-hidden="true"><i class="fa-solid fa-paper-plane"></i></span>
+            <h2 class="job-detail__apply-title">Interested in this role?</h2>
+            <p class="job-detail__apply-description">Take the next step and send in your application.</p>
+
+            @if (!empty($user) && !empty($hasApplied))
+                <p class="job-detail__applied" role="status">
+                    <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                    You have already applied for this job.
+                </p>
+            @elseif (!empty($user))
+                <a class="job-detail__apply-button mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 font-bold" href="/job/{{ $job->id }}/{{ $job->slug }}/apply">
+                    Apply for this job
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </a>
+            @else
+                <p class="job-detail__login-prompt">
+                    <a href="{{ route('user.login') }}">Log in</a> or
+                    <a href="{{ route('user.register') }}">create an account</a>
+                    to apply.
+                </p>
+            @endif
+        </aside>
     </div>
-</section>
+</main>
 @endsection
 @push('other-scripts')
-<script>
-    console.log('do something in js')
-
-</script>
 <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
 <script src="{{ URL::asset('js/bookmark-job.js') }}"></script>
 @endpush
-
-{{-- @section('footer-scripts')
-@include('scripts.bookmark-job')
-@endsection --}}
